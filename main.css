@@ -77,18 +77,25 @@ ul {
 }
     .main-menu {
         height: 100%;
-        background-color: #bbb;
+        background-color: #fff;
         flex: 1 0 100px;
     }
     .main-menu .item{
         cursor: pointer;
         padding: 10px;
         color: #000;
-        background-color: #eee;
+        background-color: #fff;
         border-bottom: 1px solid #aaa;
     }
-    .main-menu .item:hover{
-        background-color: #ddd;
+    .main-menu .item:hover {
+        color: #115cd6;
+    }
+    .main-menu .item.selected{
+        color: #115cd6;
+        background-color: #eee;
+    }
+    .main-menu .item-menu:hover {
+        color: #000;
     }
         .main-menu .item i{
             width: 15px;
@@ -107,15 +114,21 @@ ul {
         .main-menu .item-menu:hover > ul{
             display: block;
         }
-            .item-menu > ul li {
+            .main-menu .item-menu > ul li {
                 cursor: pointer;
                 padding: 10px;
+                color: #aaa;
             }
-            .item-menu > ul li:hover {
+            .main-menu .item-menu > ul li:hover {
+                color: #555;
+            }
+            .main-menu .item-menu > ul .selected {
+                color: #115cd6;
                 background-color: #eee;
+                margin-right: -10px;
             }
     .main-content {
         height: 100%;
-        background-color: #555;
+        background-color: #eee;
         flex: 5 0 200px;
     }
