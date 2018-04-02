@@ -1,10 +1,15 @@
 body {
-    margin: 0px;
+    margin: 0;
     height: 100%;
     width: 100%;
     font-family: "Helvetica";
     font-size: 16px;
     overflow: hidden;
+}
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 .m-l-5 {
     margin-left: 5px;
@@ -39,60 +44,78 @@ body {
     top: 0px;
     left: 0px;
 }
-.main-header .company-info{
-    float: left;
-    margin: 0px 10px;
-}
-.main-header .company-info img{
-    height: 30px;
-    width: 70px;
-    padding: 8px 0px;
-}
-.main-header .company-info div{
-    padding: 16px 0px;
-    margin: 0px 10px;
-    float: right;
-    color: #fff;
-    font-weight: bold;
-}
-.main-header .user-info{
-    background-color: #fff;
-    float: right;
-    width: 40px;
-    height: 40px;
-    margin: 5px 15px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-}
-.main-header .user-info div{
-    font-weight: bold;
-    color: #000;
-    flex: 1 0 100%;
-    text-align: center;
-}
+    .main-header .company-info{
+        float: left;
+        margin: 0px 15px;
+        line-height: 50px;
+        color: #fff;
+        font-weight: bold;
+    }
+    .main-header .company-info img{
+        height: 30px;
+        width: 70px;
+        float: left;
+        padding: 8px 0px;
+        margin-right: 15px;
+    }
+    .main-header .user-info{
+        background-color: #fff;
+        float: right;
+        width: 35px;
+        height: 35px;
+        margin: 7.5px 15px;
+        border-radius: 100%;
+        text-align: center;
+        font-weight: bold;
+        line-height: 35px;
+    }
 .container {
     height: 1000px;
     padding-top: 50px;
     background-color: #f00;
     display: flex;
 }
-.main-menu {
-    height: 100%;
-    background-color: #ddd;
-    flex: 1 0 100px;
-}
-.main-menu .item{
-    max-height: 40px;
-    max-width: 100%;
-    padding: 10px;
-    padding: 10px;
-    color: #000;
-    background-color: #eee;
-    border-bottom: 1px solid #cdc;
-}
-.main-content {
-    height: 100%;
-    background-color: #555;
-    flex: 5 0 200px;
-}
+    .main-menu {
+        height: 100%;
+        background-color: #bbb;
+        flex: 1 0 100px;
+    }
+    .main-menu .item{
+        cursor: pointer;
+        padding: 10px;
+        color: #000;
+        background-color: #eee;
+        border-bottom: 1px solid #aaa;
+    }
+    .main-menu .item:hover{
+        background-color: #ddd;
+    }
+        .main-menu .item i{
+            width: 15px;
+            margin: 0px 15px 0px 5px;
+            text-align: center;
+        }
+
+    .main-menu .item.item-menu{
+        cursor: default;
+    }
+        .main-menu .item-menu > ul {
+            display: none;
+            margin-left:5px;
+            margin-top: 10px;
+        }
+        .main-menu .item-menu:hover > ul{
+            display: block;
+        }
+            .item-menu > ul li {
+                cursor: pointer;
+                padding: 10px;
+            }
+            .item-menu > ul li:hover {
+                background-color: #eee;
+            }
+    .main-content {
+        height: 100%;
+        background-color: #555;
+        flex: 5 0 200px;
+    }
