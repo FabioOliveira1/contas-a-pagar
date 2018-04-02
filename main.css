@@ -1,0 +1,98 @@
+body {
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+    font-family: "Helvetica";
+    font-size: 16px;
+    overflow: hidden;
+}
+.m-l-5 {
+    margin-left: 5px;
+}
+.m-r-5 {
+    margin-right: 5px;
+}
+.m-l-10 {
+    margin-left: 10px;
+}
+.m-r-10 {
+    margin-right: 10px;
+}
+.m-l-15 {
+    margin-left: 15px;
+}
+.m-r-15 {
+    margin-right: 15px;
+}
+.m-l-20 {
+    margin-left: 20px;
+}
+.m-r-20 {
+    margin-right: 20px;
+}
+.main-header {
+    max-height: 50px;
+    overflow: hidden;
+    width: 100%;
+    background-color: #103570;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+}
+.main-header .company-info{
+    float: left;
+    margin: 0px 10px;
+}
+.main-header .company-info img{
+    height: 30px;
+    width: 70px;
+    padding: 8px 0px;
+}
+.main-header .company-info div{
+    padding: 16px 0px;
+    margin: 0px 10px;
+    float: right;
+    color: #fff;
+    font-weight: bold;
+}
+.main-header .user-info{
+    background-color: #fff;
+    float: right;
+    width: 40px;
+    height: 40px;
+    margin: 5px 15px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+}
+.main-header .user-info div{
+    font-weight: bold;
+    color: #000;
+    flex: 1 0 100%;
+    text-align: center;
+}
+.container {
+    height: 1000px;
+    padding-top: 50px;
+    background-color: #f00;
+    display: flex;
+}
+.main-menu {
+    height: 100%;
+    background-color: #ddd;
+    flex: 1 0 100px;
+}
+.main-menu .item{
+    max-height: 40px;
+    max-width: 100%;
+    padding: 10px;
+    padding: 10px;
+    color: #000;
+    background-color: #eee;
+    border-bottom: 1px solid #cdc;
+}
+.main-content {
+    height: 100%;
+    background-color: #555;
+    flex: 5 0 200px;
+}
