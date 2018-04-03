@@ -1,0 +1,42 @@
+.dashboard {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	align-content: flex-start;
+}
+	.dashboard .card {
+		max-height: 75px;
+		flex: 1 0 300px;
+		max-width: 300px;
+		margin: 10px;
+		background-color: #fff;
+	}
+		.dashboard .card div {
+			height: 75px;
+			line-height: 75px;
+		}
+		.dashboard .card .label {
+			padding-left: 20px;
+			float: left;
+			text-align: left;
+			font-size: 20px;
+			width: 66%;
+		}
+		.dashboard .card .value {
+			float: right;
+			text-align: center;
+			width: 33%;
+			font-weight: bold;
+			font-size: 30px;
+			background-color: #f4f8fb;
+		}
+		.dashboard .card.danger .value {
+			color: #ed0418;
+		}
+		.dashboard .card.warning .value {
+			color: #ffbd4a;
+		}
+		.dashboard .card.success .value {
+			color: #5fbeaa;
+		}

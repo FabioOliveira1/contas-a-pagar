@@ -1,3 +1,6 @@
+* {
+    box-sizing: border-box;
+}
 body {
     margin: 0;
     height: 100%;
@@ -35,6 +38,14 @@ ul {
 .m-r-20 {
     margin-right: 20px;
 }
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s; 
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
 .main-header {
     max-height: 50px;
     overflow: hidden;
@@ -52,10 +63,9 @@ ul {
         font-weight: bold;
     }
     .main-header .company-info img{
-        height: 30px;
-        width: 70px;
+        max-height: 45px;
+        padding: 5px 0;
         float: left;
-        padding: 8px 0px;
         margin-right: 15px;
     }
     .main-header .user-info{
@@ -131,4 +141,6 @@ ul {
         height: 100%;
         background-color: #eee;
         flex: 5 0 200px;
+        display: flex;
+        padding: 10px;
     }

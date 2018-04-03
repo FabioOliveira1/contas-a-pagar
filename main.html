@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Contas a pagar</title>
     <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="components/dashboard/dashboard.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
@@ -22,56 +23,52 @@
         <aside class="main-menu">
             <ul>
                 <li class="item selected">
+                    <i class="fa fa-trello"></i> Dashboard
+                </li>
+                <li class="item">
                     <i class="fa fa-handshake-o"></i> Renegociação
                 </li>
                 <li class="item">
                     <i class="fa fa-calculator"></i> Simulação
                 </li>
-                <li class="item item-menu">
+                <li class="item">
                     <i class="fa fa-list-alt"></i> Contas
-
-                    <ul class="sub-menu">
-                        <li>Buscar</li>
-                        <li>Incluir</li>
-                        <li>Pagar</li>
-                    </ul>
                 </li>
-                <li class="item item-menu">
+                <li class="item">
                     <i class="fa fa-object-group"></i> Grupo de contas
-
-                    <ul class="sub-menu">
-                        <li>Buscar</li>
-                        <li>Incluir</li>
-                    </ul>
                 </li>
-                <li class="item item-menu">
+                <li class="item">
                     <i class="fa fa-truck"></i> Fornecedores
-
-                    <ul class="sub-menu">
-                        <li class="selected">Buscar</li>
-                        <li>Incluir</li>
-                    </ul>
                 </li>
-                <li class="item item-menu">
+                <li class="item">
                     <i class="fa fa-exclamation"></i> Tipos de riscos
-
-                    <ul class="sub-menu">
-                        <li>Buscar</li>
-                        <li>Incluir</li>
-                    </ul>
                 </li>
                 <li class="item item-menu">
                     <i class="fa fa-bar-chart"></i> Relatórios
 
                     <ul class="sub-menu">
-                        <li>Buscar</li>
-                        <li>Incluir</li>
+                        <li>Contas</li>
+                        <li>Juros</li>
+                        <li>Fornecedores</li>
                     </ul>
                 </li>
             </ul>
         </aside>
         <section class="main-content">
-            
+            <div class="dashboard">
+                <div class="card danger">
+                    <div class="label">Contas vencidas</div>
+                    <div class="value">2</div>
+                </div>
+                <div class="card warning">
+                    <div class="label">Contas a pagar</div>
+                    <div class="value">10</div>
+                </div>
+                <div class="card success">
+                    <div class="label">Contas pagas</div>
+                    <div class="value">15</div>
+                </div>
+            </div>
         </section>
     </div>
 
