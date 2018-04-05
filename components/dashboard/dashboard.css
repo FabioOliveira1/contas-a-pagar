@@ -33,15 +33,6 @@
 			font-size: 30px;
 			background-color: #f4f8fb;
 		}
-		.dashboard .top .card.danger .value {
-			color: #ed0418;
-		}
-		.dashboard .top .card.warning .value {
-			color: #ffbd4a;
-		}
-		.dashboard .top .card.success .value {
-			color: #5fbeaa;
-		}
 .dashboard .content{
 	display: flex;
 	flex-wrap: wrap;
@@ -59,13 +50,11 @@
 			text-align: center;
 			font-weight: bold;
 			font-size: 30px;
-			/*background-color: #f4f8fb;*/
 			line-height: 80px;
 		}
 		.dashboard .content .card .label {
 			text-align: center;
 			font-size: 20px;
-			/*background-color: #f4f8fb;*/
 			line-height: 40px;
 		}
 		.dashboard .content .card .description {

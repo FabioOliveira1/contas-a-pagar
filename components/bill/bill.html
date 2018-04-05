@@ -1,0 +1,238 @@
+<template>
+    <div class="main-theme">
+        <!-- Filters -->
+        <div class="filters card row hidden">
+            <div class="col-md-12 m-b-20">
+                <label>Pesquisa livre</label>
+                <input type="text" class="form-control" placeholder="Busque por nome de fornecedor, usuário ou email e pressione enter" />
+            </div>
+            <div class="col-md-6 m-b-20">
+                <label>Grupo de contas</label>
+                <select class="form-control">
+                    <option value="" disabled selected>Selecione o grupo</option>
+                    <option value="1">Insumos</option>
+                    <option value="2">Água e Luz</option>
+                </select>
+            </div>
+            <div class="col-md-6 m-b-20">
+                <label>Risco</label>
+                <select class="form-control">
+                    <option value="" disabled selected>Selecione o risco</option>
+                    <option value="1">Alto</option>
+                    <option value="2">Médio</option>
+                    <option value="3">Baixo</option>
+                </select>
+            </div>
+            <div class="col-md-6 m-b-20">
+                <label>Data de emissão</label>
+                <div class="input-group">
+                    <input type="date" class="form-control">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input type="date" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-6 m-b-20">
+                <label>Data de vencimento</label>
+                <div class="input-group">
+                    <input type="date" class="form-control">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input type="date" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-6 m-b-20">
+                <label>Data de pagamento</label>
+                <div class="input-group">
+                    <input type="date" class="form-control">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input type="date" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-6 m-b-20">
+                <label>Data de baixa</label>
+                <div class="input-group">
+                    <input type="date" class="form-control">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input type="date" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-12 m-b-10">
+                    <hr>
+                <div class="col-md-6 text-left">
+                    <button class="btn btn-info m-r-15"><i class="fa fa-usd"></i> Pagar Contas</button>
+                </div>
+                <div class="col-md-6 text-right">
+                    <button class="btn btn-success m-r-15"><i class="fa fa-plus"></i> Criar</button>
+                    <button class="btn btn-primary"><i class="fa fa-search"></i> Filtrar</button>
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- Create -->
+        <div class="filters card row">
+            <div class="col-md-12">
+                <div class="col-md-4 m-b-20">
+                    <label>Descrição</label>
+                    <input type="text" class="form-control" placeholder="Descrição da conta" />
+                </div>
+                <div class="col-md-4 m-b-20">
+                    <label>Fornecedor</label>
+                    <select class="form-control">
+                        <option value="" disabled selected>Selecione o fornecedor</option>
+                        <option value="1">Papeis Silva</option>
+                        <option value="2">Toners Ramos</option>
+                        <option value="3">Chapas Alejo</option>
+                    </select>
+                </div>
+                <div class="col-md-4 m-b-20">
+                    <label>Grupo de contas</label>
+                    <select class="form-control">
+                        <option value="" disabled selected>Selecione o grupo</option>
+                        <option value="1">Insumos</option>
+                        <option value="2">Água e Luz</option>
+                    </select>
+                </div>
+                <div class="col-md-3 m-b-20">
+                    <label>Data de emissão</label>
+                    <input type="date" class="form-control">
+                </div>
+                <div class="col-md-3 m-b-20">
+                    <label>Data de vencimento</label>
+                    <input type="date" class="form-control">
+                </div> 
+                <div class="col-md-3 m-b-20">
+                    <label>Data de pagamento</label>
+                    <input type="date" class="form-control">
+                </div>
+                <div class="col-md-3 m-b-20">
+                    <label>Data de baixa</label>
+                    <input type="date" class="form-control">
+                </div> 
+                <div class="col-md-4 m-b-20">
+                    <label>Valor a pagar</label>
+                    <input type="text" class="form-control" placeholder="R$ 0,00">
+                </div>
+                <div class="col-md-4 m-b-20">
+                    <label>Multa</label>
+                    <input type="text" class="form-control" placeholder="0%">
+                </div>
+                <div class="col-md-4 m-b-20">
+                    <label>Juros</label>
+                    <input type="text" class="form-control" placeholder="0%">
+                </div>
+                <div class="col-md-6 m-b-20">
+                    <label>Anexos</label>
+                    <input type="file" class="form-control" placeholder="Selecione um anexo">
+                </div>
+                <div class="col-md-6 m-b-20">
+                    <label>Adicionais</label>
+                    <textarea class="form-control" rows="5"></textarea>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <hr>
+                <div class="col-md-6 m-b-20 text-left">
+                    <button class="btn btn-default">Cancelar</button>
+                </div>
+
+                <div class="col-md-6 m-b-20 text-right">
+                    <button class="btn btn-success m-r-15"><i class="fa fa-check"></i> Salvar</button>
+                </div>
+            </div>
+            
+        </div>
+
+
+        <!-- List content -->
+        <div class="list-item card row">
+            <div class="row">
+                <div class="col-md-3">
+                    <label><i class="fa fa-list-alt"></i> Conta</label>
+                    <div class="value m-l-15"> Compra de insumos</div>
+                </div>
+                <div class="col-md-3">
+                    <label><i class="fa fa-object-group"></i> Grupo de contas</label>
+                    <div class="value m-l-15">Matéria prima</div>
+                </div>
+                <div class="col-md-3">
+                    <label><i class="fa fa-truck"></i> Fornecedor</label>
+                    <div class="value m-l-15"> Papeis Silva</div>
+                </div>
+                <div class="col-md-2">
+                    <label><i class="fa fa-money-o"></i> Valor</label>
+                    <div class="value m-l-15">R$ 1500,00</div>
+                </div>
+                <div class="col-md-1 text-right">
+                    <button class="btn btn-warning"><i class="fa fa-pencil"></i></button>
+                    <button class="btn btn-danger"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label><i class="fa fa-calendar"></i> Data de emissão</label>
+                    <div class="value m-l-15"> 10/04/2018</div>
+                </div>
+                <div class="col-md-3">
+                    <label><i class="fa fa-calendar"></i> Data de vencimento</label>
+                    <div class="value m-l-15"> 06/05/2018</div>
+                </div>
+                <div class="col-md-3">
+                    <label><i class="fa fa-calendar"></i> Data de pagamento</label>
+                    <div class="value m-l-15"> --</div>
+                </div>
+                <div class="col-md-2">
+                    <label><i class="fa fa-calendar"></i> Data de baixa</label>
+                    <div class="value m-l-15"> --</div>
+                </div>
+                <div class="col-md-1 warning">
+                    <strong>Em aberto</strong>
+                </div>
+            </div>
+        </div>
+        <div class="list-item card row">
+            <div class="row">
+                <div class="col-md-3">
+                    <label><i class="fa fa-list-alt"></i> Conta</label>
+                    <div class="value m-l-15"> Compra escritório</div>
+                </div>
+                <div class="col-md-3">
+                    <label><i class="fa fa-object-group"></i> Grupo de contas</label>
+                    <div class="value m-l-15">Escritório</div>
+                </div>
+                <div class="col-md-3">
+                    <label><i class="fa fa-truck"></i> Fornecedor</label>
+                    <div class="value m-l-15"> Papelaria Coruja</div>
+                </div>
+                <div class="col-md-2">
+                    <label><i class="fa fa-money-o"></i> Valor</label>
+                    <div class="value m-l-15">R$ 540,00</div>
+                </div>
+                <div class="col-md-1 text-right">
+                    <button class="btn btn-warning"><i class="fa fa-pencil"></i></button>
+                    <button class="btn btn-danger"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label><i class="fa fa-calendar"></i> Data de emissão</label>
+                    <div class="value m-l-15"> 03/4/2018</div>
+                </div>
+                <div class="col-md-3">
+                    <label><i class="fa fa-calendar"></i> Data de vencimento</label>
+                    <div class="value m-l-15"> 29/04/2018</div>
+                </div>
+                <div class="col-md-3">
+                    <label><i class="fa fa-calendar"></i> Data de pagamento</label>
+                    <div class="value m-l-15"> 10/04/2018</div>
+                </div>
+                <div class="col-md-2">
+                    <label><i class="fa fa-calendar"></i> Data de baixa</label>
+                    <div class="value m-l-15"> 15/04/2018</div>
+                </div>
+                <div class="col-md-1 success">
+                    <strong>Paga</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

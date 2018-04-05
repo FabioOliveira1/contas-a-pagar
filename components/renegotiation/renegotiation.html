@@ -1,0 +1,256 @@
+<template>
+	<div class="main-theme">
+        <!-- Filters -->
+        <div class="filters card row hidden">
+            <div class="col-md-6 m-b-20">
+                <label>Pesquisa livre</label>
+                <input type="text" class="form-control" placeholder="Busque por nome de fornecedor, usuário ou email e pressione enter" />
+            </div>
+            <div class="col-md-6 m-b-20">
+                <label>Status</label>
+                <select class="form-control">
+                    <option value="" disabled selected>Selecione o status</option>
+                    <option value="open">Em aberto</option>
+                    <option value="denied">Recusada</option>
+                    <option value="approved">Aprovada</option>
+                </select>
+            </div>
+            <div class="col-md-6 m-b-20">
+                <label>Data de emissão</label>
+                <div class="input-group">
+                    <input type="date" class="form-control">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input type="date" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-6 m-b-20">
+                <label>Data de resposta</label>
+                <div class="input-group">
+                    <input type="date" class="form-control">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input type="date" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-12 m-b-20 text-right">
+                <hr>
+                <button class="btn btn-success m-r-15"><i class="fa fa-plus"></i> Criar</button>
+                <button class="btn btn-primary"><i class="fa fa-search"></i> Filtrar</button>
+            </div>
+            
+        </div>
+
+        <!-- Create -->
+        <div class="filters card row">
+            <div class="col-md-12">
+            <div class="col-md-6 m-b-20">
+                <label>Fornecedor</label>
+                <select class="form-control">
+                    <option value="" disabled selected>Selecione o fornecedor</option>
+                    <option value="1">Papeis Silva</option>
+                    <option value="2">Toners Ramos</option>
+                    <option value="3">Chapas Alejo</option>
+                </select>
+            </div>
+            <div class="col-md-6 m-b-20">
+                <label>Conta</label>
+                <select class="form-control">
+                    <option value="" disabled selected>Selecione a conta</option>
+                    <option value="1">Compra de chapas</option>
+                    <option value="2">Compra de insumos</option>
+                    <option value="3">Toners preto e branco</option>
+                </select>
+            </div>
+            <div class="col-md-6 m-b-20">
+                <label>Data de emissão</label>
+                <input type="date" class="form-control" disabled>
+            </div>
+            <div class="col-md-6 m-b-20">
+                <label>Data de vencimento</label>
+                <input type="date" class="form-control" disabled>
+            </div>
+            <div class="col-md-4 m-b-20">
+                <label>Valor a pagar</label>
+                <input type="text" class="form-control" disabled placeholder="R$ 0,00">
+            </div>
+            <div class="col-md-4 m-b-20">
+                <label>Multa</label>
+                <input type="text" class="form-control" disabled placeholder="0%">
+            </div>
+            <div class="col-md-4 m-b-20">
+                <label>Juros</label>
+                <input type="text" class="form-control" disabled placeholder="0%">
+            </div>
+        </div>
+            <div class="col-md-12">
+                <hr>
+                <div class="col-md-6 m-b-20">
+                    <label>Data de vencimento proposta</label>
+                    <input type="date" class="form-control">
+                </div>
+                <div class="col-md-6 m-b-20">
+                    <label>Valor a pagar proposto</label>
+                    <input type="text" class="form-control" placeholder="R$ 0,00">
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                
+                <div class="col-md-12 m-b-20">
+                    <label>Assunto</label>
+                    <input type="text" class="form-control"/>
+                </div>
+                <div class="col-md-12 m-b-20">
+                    <label>Conteúdo do email</label>
+                    <textarea class="form-control" rows="5"></textarea>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <hr>
+            <div class="col-md-6 m-b-20 text-left">
+                <button class="btn btn-default">Cancelar</button>
+            </div>
+
+            <div class="col-md-6 m-b-20 text-right">
+                <button class="btn btn-success m-r-15"><i class="fa fa-paper-plane"></i> Enviar</button>
+            </div>
+        </div>
+            
+        </div>
+
+
+        <!-- List content -->
+        <div class="list-item card row">
+            <div class="row">
+                <div class="col-md-3">
+                    <label><i class="fa fa-truck"></i> Fornecedor</label>
+                    <div class="value m-l-15"> Papeis Silva</div>
+                </div>
+                <div class="col-md-3">
+                    <label><i class="fa fa-user"></i> Usuário</label>
+                    <div class="value m-l-15">Marcos Oliveira</div>
+                </div>
+                <div class="col-md-3">
+                    <label><i class="fa fa-calendar"></i> Data de criação</label>
+                    <div class="value m-l-15"> 10/03/2018</div>
+                </div>
+                <div class="col-md-2 warning">
+                    <label><i class="fa fa-minus"></i> Status</label>
+                    <div class="value m-l-15">Em aberto</div>
+                </div>
+                <div class="col-md-1 text-right">
+                    <button class="btn btn-warning"><i class="fa fa-pencil"></i></button>
+                    <button class="btn btn-danger"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label><i class="fa fa-list-alt"></i> Conta</label>
+                    <div class="value m-l-15"> Compra de insumos</div>
+                </div>
+                <div class="col-md-3">
+                    <label><i class="fa fa-object-group"></i> Grupo de contas</label>
+                    <div class="value m-l-15">Matéria prima</div>
+                </div>
+                <div class="col-md-3">
+                    <label><i class="fa fa-calendar"></i> Data de vencimento sugerida</label>
+                    <div class="value m-l-15"> 29/03/2018</div>
+                </div>
+                <div class="col-md-2">
+                    <label><i class="fa fa-money-o"></i> Valor sugerido</label>
+                    <div class="value m-l-15">R$ 1500,00</div>
+                </div>
+                <div class="col-md-1 text-right">
+                </div>
+            </div>
+        </div>
+        <div class="list-item card row">
+            <div class="row">
+                <div class="col-md-3">
+                    <label><i class="fa fa-truck"></i> Fornecedor</label>
+                    <div class="value m-l-15"> Chapas Alejo</div>
+                </div>
+                <div class="col-md-3">
+                    <label><i class="fa fa-user"></i> Usuário</label>
+                    <div class="value m-l-15">Marcos Oliveira</div>
+                </div>
+                <div class="col-md-3">
+                    <label><i class="fa fa-calendar"></i> Data de criação</label>
+                    <div class="value m-l-15"> 15/02/2018</div>
+                </div>
+                <div class="col-md-2 danger">
+                    <label><i class="fa fa-thumbs-o-down"></i> Status</label>
+                    <div class="value m-l-15">Recusado</div>
+                </div>
+                <div class="col-md-1 text-right">
+                    <button class="btn btn-warning"><i class="fa fa-pencil"></i></button>
+                    <button class="btn btn-danger"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label><i class="fa fa-list-alt"></i> Conta</label>
+                    <div class="value m-l-15"> Chapas de impressao</div>
+                </div>
+                <div class="col-md-3">
+                    <label><i class="fa fa-object-group"></i> Grupo de contas</label>
+                    <div class="value m-l-15">Matéria prima</div>
+                </div>
+                <div class="col-md-3">
+                    <label><i class="fa fa-calendar"></i> Data de vencimento sugerida</label>
+                    <div class="value m-l-15"> 26/02/2018</div>
+                </div>
+                <div class="col-md-2">
+                    <label><i class="fa fa-money-o"></i> Valor sugerido</label>
+                    <div class="value m-l-15">R$ 1000,00</div>
+                </div>
+                <div class="col-md-1 text-right">
+                </div>
+            </div>
+        </div>
+        <div class="list-item card row">
+            <div class="row">
+                <div class="col-md-3">
+                    <label><i class="fa fa-truck"></i> Fornecedor</label>
+                    <div class="value m-l-15"> Toners Ramos</div>
+                </div>
+                <div class="col-md-3">
+                    <label><i class="fa fa-user"></i> Usuário</label>
+                    <div class="value m-l-15">Carlos Botelho</div>
+                </div>
+                <div class="col-md-3">
+                    <label><i class="fa fa-calendar"></i> Data de criação</label>
+                    <div class="value m-l-15"> 19/01/2018</div>
+                </div>
+                <div class="col-md-2 success">
+                    <label><i class="fa fa-thumbs-o-up"></i> Status</label>
+                    <div class="value m-l-15">Aceito</div>
+                </div>
+                <div class="col-md-1 text-right">
+                    <button class="btn btn-warning"><i class="fa fa-pencil"></i></button>
+                    <button class="btn btn-danger"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label><i class="fa fa-list-alt"></i> Conta</label>
+                    <div class="value m-l-15">Toners coloridos</div>
+                </div>
+                <div class="col-md-3">
+                    <label><i class="fa fa-object-group"></i> Grupo de contas</label>
+                    <div class="value m-l-15">Insumos</div>
+                </div>
+                <div class="col-md-3">
+                    <label><i class="fa fa-calendar"></i> Data de vencimento sugerida</label>
+                    <div class="value m-l-15"> 15/02/2018</div>
+                </div>
+                <div class="col-md-2">
+                    <label><i class="fa fa-money-o"></i> Valor sugerido</label>
+                    <div class="value m-l-15">R$ 1200,00</div>
+                </div>
+                <div class="col-md-1 text-right">
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
