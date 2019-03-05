@@ -3,8 +3,8 @@
     <!-- Form -->
     <v-card flex>
       <v-card-title>
-        <h1 class="f-size-20 w-100">Novo</h1>
-        <p>Formulário para criar uma renegociação</p>
+        <h1 class="f-size-20 w-100">{{ this.record.id ? 'Editar': 'Novo' }}</h1>
+        <p>Formulário de renegociação</p>
       </v-card-title>
       <v-card-text class="p-t-0">
         <v-form @submit.prevent="doFilter" ref="form">
