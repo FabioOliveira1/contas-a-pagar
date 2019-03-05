@@ -39,50 +39,17 @@
                 label="Status"
               ></v-select>
             </v-flex>
-            <!-- <v-combobox
-              v-model="filters<v-select
-                v-model="filters.status"
-                :items="options.status"
-                item-value="id"
-                item-text="nome"
-                label="Status"
-              ></v-select>
-              :items="options.<v-select
-                v-model="filters.status"
-                :items="options.status"
-                item-value="id"
-                item-text="nome"
-                label="Status"
-              ></v-select>
-              item-text="nome"<v-select
-                v-model="filters.status"
-                :items="options.status"
-                item-value="id"
-                item-text="nome"
-                label="Status"
-              ></v-select>
-              label="Escola"
-              :disabled="!filters.franchise || !!filters.cnpj"
-              :loading="isSchoolLoading"
-              clearable
-              :rules="[v => !!v || !!this.filters.cnpj || 'A escola não pode estar vazia se o CNPJ estiver']"
-              required
-            ></v-combobox>
-            <v-text-field
-              v-model="filters.cnpj"
-              :counter="14"
-              label="CNPJ"
-              :disabled="!!filters.school && !!filters.school._id"
-              :rules="[v => !!v || !!this.filters.school || 'O CNPJ não pode estar vazio se a escola estiver', v => !v && !!this.filters.school || !!v && v.length === 14 || 'CNPJ inválido']"
-              mask="##.###.###/####-##"
-              required
-              clearable
-            ></v-text-field> -->
           </v-layout>
 
           <div class="m-t-10 text-right w-100">
-            <v-btn color="#004973" dark type="submit"><span class="f-bold m-r-10">Filtrar</span> <i
-              class="fa fa-search"></i></v-btn>
+            <v-btn color="success" class="m-r-20 white--text" dark :to="{ name: 'renegociation.create' }">
+              <span class="f-bold m-r-10">Novo</span>
+              <i class="fa fa-plus"></i>
+            </v-btn>
+            <v-btn color="#004973" dark type="submit">
+              <span class="f-bold m-r-10">Filtrar</span>
+              <i class="fa fa-search"></i>
+            </v-btn>
           </div>
         </v-form>
       </v-card-text>

@@ -9,7 +9,7 @@ export default [
     children: [
       {
         path: '',
-        name: 'renegociation.index',
+        name: 'renegociation',
         component: List,
         meta: {
           title: 'M2 Print | Renegociação',
@@ -22,7 +22,7 @@ export default [
       {
         path: '/criar',
         name: 'renegociation.create',
-        component: List,
+        component: Form,
         meta: {
           title: 'M2 Print | Renegociação',
           header: {
@@ -34,7 +34,7 @@ export default [
       {
         path: '/editar',
         name: 'renegociation.edit',
-        component: List,
+        component: Form,
         meta: {
           title: 'M2 Print | Renegociação',
           header: {

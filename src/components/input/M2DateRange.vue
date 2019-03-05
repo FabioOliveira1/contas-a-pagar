@@ -76,13 +76,13 @@ export default {
   },
   watch: {
     dateFrom (val) {
-      this.$emit({
+      this.$emit('input', {
         from: val,
         to: this.dateTo
       })
     },
     dateTo (val) {
-      this.$emit({
+      this.$emit('input', {
         from: this.dateFrom,
         to: val
       })

@@ -14,7 +14,7 @@
     <template v-slot:activator="{ on }">
       <v-text-field
         v-model="date"
-        label="Picker in menu"
+        :label="label"
         prepend-icon="event"
         readonly
         v-on="on"
@@ -30,12 +30,21 @@
 
 <script>
 export default {
+  props: {
+    label: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
       date: new Date().toISOString().substr(0, 10),
-      menu: false,
-      modal: false,
-      menu2: false
+      menu: false
+    }
+  },
+  watch: {
+    date (val) {
+      this.$emit('input', val)
     }
   }
 }
