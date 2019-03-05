@@ -1,7 +1,7 @@
 <template>
   <v-layout class="minimal" align-center justify-center>
     <v-card elevation-3 class="w-80">
-      <v-card-media
+      <v-img
         src="@/assets/images/logo1.png"
         alt="M2 Print logo"
         max-height="100px"
