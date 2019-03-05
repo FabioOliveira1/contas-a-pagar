@@ -1,0 +1,248 @@
+/*=======================================================================================
+    Text helpers
+  =====================================================================================*/
+
+.f-bold {
+    font-weight: bold;
+}
+
+.f-normal {
+    font-weight: normal;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-justify {
+    text-align: justify;
+}
+
+.title-case::first-letter {
+    text-transform: uppercase;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.lowercase {
+    text-transform: lowercase;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+@for $i from 10 through 48 {
+    .f-size-#{$i} {
+        font-size: #{$i}px;
+    }
+}
+
+/*=======================================================================================
+    Element positioning helpers
+  =====================================================================================*/
+
+@for $i from 0 through 6 {
+  .m-b-#{$i*5} {
+    margin-bottom: #{$i*5}px !important;
+  }
+  .m-t-#{$i*5} {
+    margin-top: #{$i*5}px !important;
+  }
+  .m-r-#{$i*5} {
+    margin-right: #{$i*5}px !important;
+  }
+  .m-l-#{$i*5} {
+    margin-left: #{$i*5}px !important;
+  }
+  .m-#{$i*5} {
+    margin: #{$i*5}px !important;
+  }
+  .p-b-#{$i*5} {
+    padding-bottom: #{$i*5}px !important;
+  }
+  .p-t-#{$i*5} {
+    padding-top: #{$i*5}px !important;
+  }
+  .p-r-#{$i*5} {
+    padding-right: #{$i*5}px !important;
+  }
+  .p-l-#{$i*5} {
+    padding-left: #{$i*5}px !important;
+  }
+  .p-#{$i*5} {
+    padding: #{$i*5}px !important;
+  }
+} 
+
+/*=======================================================================================
+    Element sizing helpers
+  =====================================================================================*/
+
+.w-100 {
+  width: 100% !important;
+}
+
+.w-80 {
+  width: 80% !important;
+}
+
+.min-w-60 {
+  width: 60px !important;
+}
+.min-w-80 {
+  width: 80px !important;
+}
+.min-w-100 {
+  width: 100px !important;
+}
+.min-w-120 {
+  width: 120px !important;
+}
+.min-w-140 {
+  width: 140px !important;
+}
+.min-w-160 {
+  width: 160px !important;
+}
+.min-w-180 {
+  width: 180px !important;
+}
+.min-w-200 {
+  width: 200px !important;
+}
+
+/*=======================================================================================
+    Highlighted lements
+  =====================================================================================*/
+
+/* Badge */
+.badge {
+  display: inline-block;
+  min-width: 10px;
+  padding: 3px 7px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  color: $white;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  background-color: $gray4;
+  border-radius: 10px;
+  margin-left: 7px;
+}
+
+*[disabled] > span.badge {
+  background-color: $gray2;
+}
+
+/* ElementFlag */
+.flag {
+  position: absolute;
+  padding: 10px;
+  background-color: $gray4;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &.top {
+    top: 0;
+  }
+  &.right {
+    right: 0;
+    margin-right: 10px; 
+  }
+
+  span {
+    color: $white;
+  }
+}
+
+/* Circle */
+.circle-list {
+  > span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      opacity: .80;
+    }
+  }
+  .circle {
+    font-weight: bold;
+    color: $white;
+    padding: 10px;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+}
+
+/* Pointer */
+.pointer {
+  cursor: pointer!important;
+
+  &:hover {
+    opacity: .70!important;
+  }
+}
+
+/* Cursor default */
+.cursor-default {
+  cursor: default!important;
+}
+
+/*=======================================================================================
+    Animations
+  =====================================================================================*/
+
+.rotate {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-360deg); }
+}
+
+/*=======================================================================================
+    Transitions
+  =====================================================================================*/
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active em versões anteriores a 2.1.8 */ {
+  opacity: 0;
+}
+.slide-fade-enter-active {
+  transition: all .8s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s;
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active em versões anteriores a 2.1.8 */ {
+  margin-left: -80px;
+}
+
+@media (min-width: 1024px) {
+  .slide-fade-enter, .slide-fade-leave-to
+  /* .slide-fade-leave-active em versões anteriores a 2.1.8 */ {
+    margin-left: -230px;
+  }
+}

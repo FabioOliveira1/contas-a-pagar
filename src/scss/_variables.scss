@@ -1,0 +1,31 @@
+/*=======================================================================================
+    Default colors
+  =====================================================================================*/
+$success: #00a859;
+$danger: #db4639;
+$danger-darken-2: #d32f2f;
+$warning: #ffd600;
+$white: #fff;
+$gray1: #e9ecf3;
+$gray2: #c8c8c8;
+$gray3: #8c959e;
+$gray4: #686868;
+$green: #00a859;
+$green2: #018d4c;
+$blue: #0077bd;
+$blue2: #02649c;
+$blue3: #004973;
+$yellow: #fbb12f;
+$yellow2: #e79c19;
+$red: #cf3034;
+$red2: #a5161b;
+$purple: #7b1fa2;
+$purple2: #69158d;
+$orange: #ff6905;
+$orange2: #d65703;
+
+/*=======================================================================================
+    Css effects
+  =====================================================================================*/
+
+%transition-fx{-webkit-transition: all .5s ease; -moz-transition: all .5s ease; -o-transition: all .5s ease;  transition: all .5s ease;}
