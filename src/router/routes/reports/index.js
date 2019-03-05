@@ -1,10 +1,10 @@
-import Home from '@/views/Home.vue'
+import Main from '@/views/Main.vue'
 
 export default [
   {
     path: '/relatorios',
     name: 'reports',
-    component: Home,
+    component: Main,
     meta: {
       title: 'M2 Print | Relatórios',
       header: {

@@ -1,4 +1,4 @@
-import Home from '@/views/Home.vue'
+import Main from '@/views/Main.vue'
 
 import renegociation from '@/router/routes/renegociation'
 import simulation from '@/router/routes/simulation'
@@ -18,7 +18,7 @@ export default [
   {
     path: '/home',
     name: 'home',
-    component: Home,
+    component: Main,
     meta: {
       title: 'M2 Print | Dashboard',
       header: {

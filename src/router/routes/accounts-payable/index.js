@@ -1,10 +1,10 @@
-import Home from '@/views/Home.vue'
+import Main from '@/views/Main.vue'
 
 export default [
   {
     path: '/contas-a-pagar',
     name: 'accounts-payable',
-    component: Home,
+    component: Main,
     meta: {
       title: 'M2 Print | Contas a pagar',
       header: {

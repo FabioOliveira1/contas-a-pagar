@@ -1,10 +1,10 @@
-import Home from '@/views/Home.vue'
+import Main from '@/views/Main.vue'
 
 export default [
   {
     path: '/fornecedores',
     name: 'suppliers',
-    component: Home,
+    component: Main,
     meta: {
       title: 'M2 Print | Fornecedores',
       header: {

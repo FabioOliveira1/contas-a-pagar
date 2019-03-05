@@ -570,3 +570,12 @@ header.header {
 
   /* --- Cards Search - End --- */ 
 }
+/* M2- Date Range */
+.m2-date-range {
+  &__label {
+    color: #959595;
+    position: absolute;
+    font-size: 16px;
+    font-weight: 600;
+  }
+}
