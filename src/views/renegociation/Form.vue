@@ -1,14 +1,18 @@
 <template>
   <section>
+
     <!-- Form -->
     <v-card flex>
+
       <v-card-title>
         <h1 class="f-size-20 w-100">{{ this.record.id ? 'Editar': 'Novo' }}</h1>
         <p>Formulário de renegociação</p>
       </v-card-title>
+
       <v-card-text class="p-t-0">
         <v-form @submit.prevent="doFilter" ref="form">
           <v-layout wrap>
+
             <v-flex sm12 md6 lg4>
               <v-combobox v-model="supplierCombo"
                 :rules="[v => !!v && v.id || 'Selecione um fornecedor']"
@@ -17,6 +21,7 @@
                 label="Fornecedores"
               />
             </v-flex>
+
             <v-flex sm12 md6 lg4>
               <v-combobox v-model="contactCombo"
                 :rules="[v => !!v && v.id || 'Selecione um contato']"
@@ -34,42 +39,49 @@
                 label="Contas"
               />
             </v-flex>
+
             <v-flex sm12 md6 lg4>
               <v-text-field v-model="accountCombo.value"
                 label="Valor original"
                 disabled
               />
             </v-flex>
+
             <v-flex sm12 md6 lg4>
               <v-text-field v-model="accountCombo.fee"
                 label="Multa"
                 disabled
               />
             </v-flex>
+
             <v-flex sm12 md6 lg4>
               <v-text-field v-model="accountCombo.interest"
                 label="Juros"
                 disabled
               />
             </v-flex>
+
             <v-flex sm12 md6 lg6>
               <v-text-field v-model="accountCombo.emitedAt"
                 label="Data de emissão"
                 disabled
               />
             </v-flex>
+
             <v-flex sm12 md6 lg6>
               <v-text-field v-model="accountCombo.dueDateAt"
                 label="Data de vencimento"
                 disabled
               />
             </v-flex>
+
             <v-flex sm12 md6 lg6>
               <m2-date-picker v-model="record.newDate"
                 label="Data de vencimento proposta"
                 :rules="[v => !!v || 'Proponha uma data de vencimento']"
               />
             </v-flex>
+
             <v-flex sm12 md6 lg6>
               <v-text-field v-model="record.newValue"
                 type="number"
@@ -78,6 +90,7 @@
                 clearable
               />
             </v-flex>
+
             <v-flex sm12>
               <v-text-field v-model="record.subject"
                 :rules="[v => !!v || 'O assunto é obrigatório']"
@@ -85,6 +98,7 @@
                 clearable
               />
             </v-flex>
+
             <v-flex sm12>
               <v-textarea v-model="record.message"
                 :rules="[v => !!v || 'A renegociação precisa ter mensagem']"
@@ -94,11 +108,13 @@
           </v-layout>
 
           <v-layout class="m-t-10">
-            <v-btn dark type="submit">
+            <v-btn dark @click.prevent="$router.go(-1)">
               <span class="f-bold m-r-10">Cancelar</span>
               <i class="fa fa-times"></i>
             </v-btn>
+
             <v-spacer></v-spacer>
+
             <v-btn color="success" dark type="submit">
               <span class="f-bold m-r-10">Salvar</span>
               <i class="fa fa-check"></i>
@@ -106,7 +122,9 @@
           </v-layout>
         </v-form>
       </v-card-text>
+
     </v-card>
+
   </section>
 </template>
 

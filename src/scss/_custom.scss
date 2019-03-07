@@ -579,3 +579,22 @@ header.header {
     font-weight: 600;
   }
 }
+
+.list__item {
+  position: relative;
+  padding-top: 20px;
+
+  &__actions {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    padding-top: 0;
+
+    button.v-btn.v-btn--small {
+      margin: 0 5px;
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+  }
+}

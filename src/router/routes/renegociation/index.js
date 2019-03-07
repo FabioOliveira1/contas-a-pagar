@@ -20,7 +20,7 @@ export default [
         }
       },
       {
-        path: '/criar',
+        path: 'criar',
         name: 'renegociation.create',
         component: Form,
         meta: {
@@ -32,7 +32,7 @@ export default [
         }
       },
       {
-        path: '/editar',
+        path: 'editar',
         name: 'renegociation.edit',
         component: Form,
         meta: {
