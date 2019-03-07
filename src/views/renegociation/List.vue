@@ -25,12 +25,6 @@
               ></v-text-field>
             </v-flex>
             <v-flex sm12 md6 lg4>
-              <m2-date-range label="Data de emissão" v-model="filters.createdRange"></m2-date-range>
-            </v-flex>
-            <v-flex sm12 md6 lg4>
-              <m2-date-range label="Data de resposta" v-model="filters.answeredRange"></m2-date-range>
-            </v-flex>
-            <v-flex sm12 lg4>
               <v-select
                 v-model="filters.status"
                 :items="options.status"
@@ -38,6 +32,12 @@
                 item-text="nome"
                 label="Status"
               ></v-select>
+            </v-flex>
+            <v-flex sm12 md6>
+              <m2-date-range label="Data de emissão" v-model="filters.createdRange"></m2-date-range>
+            </v-flex>
+            <v-flex sm12 md6>
+              <m2-date-range label="Data de resposta" v-model="filters.answeredRange"></m2-date-range>
             </v-flex>
           </v-layout>
 

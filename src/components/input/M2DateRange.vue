@@ -46,6 +46,7 @@
           prepend-icon="arrow_forward"
           readonly
           v-on="on"
+          :rules="rules"
           clearable
         ></v-text-field>
       </template>
@@ -64,6 +65,10 @@ export default {
     label: {
       type: String,
       required: true
+    },
+    rules: {
+      type: Array,
+      default: () => []
     }
   },
   data () {

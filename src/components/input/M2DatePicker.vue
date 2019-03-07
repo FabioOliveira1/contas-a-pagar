@@ -18,6 +18,8 @@
         prepend-icon="event"
         readonly
         v-on="on"
+        :rules="rules"
+        clearable
       ></v-text-field>
     </template>
     <v-date-picker v-model="date" no-title scrollable>
@@ -34,6 +36,10 @@ export default {
     label: {
       type: String,
       required: true
+    },
+    rules: {
+      type: Array,
+      default: () => []
     }
   },
   data () {
