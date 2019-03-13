@@ -4,7 +4,7 @@
     <v-card>
       <v-card-title>
         <h1 class="f-size-20 w-100">Filtros</h1>
-        <p>Use os filtros para carregar os dados escolares</p>
+        <p>Use os filtros para carregar os dados</p>
       </v-card-title>
 
       <v-card-text class="p-t-0">

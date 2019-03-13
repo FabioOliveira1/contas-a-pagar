@@ -6,105 +6,48 @@
 
       <v-card-title>
         <h1 class="f-size-20 w-100">{{ this.record.id ? 'Editar': 'Novo' }}</h1>
-        <p>Formulário de renegociação</p>
+        <p>Formulário de grupo de contas</p>
       </v-card-title>
 
       <v-card-text class="p-t-0">
         <v-form @submit.prevent="doFilter" ref="form">
           <v-layout wrap>
 
-            <v-flex sm12 md6 lg4>
-              <v-combobox v-model="supplierCombo"
-                :rules="[v => !!v && v.id || 'Selecione um fornecedor']"
-                :items="options.suppliers"
-                item-text="name"
-                label="Fornecedores"
-              />
-            </v-flex>
-
-            <v-flex sm12 md6 lg4>
-              <v-combobox v-model="contactCombo"
-                :rules="[v => !!v && v.id || 'Selecione um contato']"
-                :items="options.contacts"
-                item-text="name"
-                label="Contato"
-              />
-            </v-flex>
-
-            <v-flex sm12 md6 lg4>
-              <v-combobox v-model="accountCombo"
-                :rules="[v => !!v && v.id || 'Selecione a conta para renegociar']"
-                :items="options.accounts"
-                item-text="name"
-                label="Contas"
-              />
-            </v-flex>
-
-            <v-flex sm12 md6 lg4>
-              <v-text-field v-model="accountCombo.value"
-                label="Valor original"
-                disabled
-              />
-            </v-flex>
-
-            <v-flex sm12 md6 lg4>
-              <v-text-field v-model="accountCombo.fee"
-                label="Multa"
-                disabled
-              />
-            </v-flex>
-
-            <v-flex sm12 md6 lg4>
-              <v-text-field v-model="accountCombo.interest"
-                label="Juros"
-                disabled
-              />
-            </v-flex>
-
-            <v-flex sm12 md6 lg6>
-              <v-text-field v-model="accountCombo.emitedAt"
-                label="Data de emissão"
-                disabled
-              />
-            </v-flex>
-
-            <v-flex sm12 md6 lg6>
-              <v-text-field v-model="accountCombo.dueDateAt"
-                label="Data de vencimento"
-                disabled
-              />
-            </v-flex>
-
-            <v-flex sm12 md6 lg6>
-              <m2-date-picker v-model="record.newDate"
-                label="Data de vencimento proposta"
-                :rules="[v => !!v || 'Proponha uma data de vencimento']"
-              />
-            </v-flex>
-
-            <v-flex sm12 md6 lg6>
-              <v-text-field v-model="record.newValue"
-                type="number"
-                :rules="[v => !!v || 'Proponha um novo valor a ser pago']"
-                label="Valor proposto"
+            <v-flex sm12 md4>
+              <v-text-field v-model="record.name"
+                :rules="[v => !!v || 'Digite um nome']"
+                label="Nome"
                 clearable
               />
             </v-flex>
 
-            <v-flex sm12>
-              <v-text-field v-model="record.subject"
-                :rules="[v => !!v || 'O assunto é obrigatório']"
-                label="Assunto"
-                clearable
+            <v-flex sm12 md4>
+              <v-select v-model="record.riskType"
+                :rules="[v => !!v || 'O tipo de risco é obrigatório']"
+                :items="options.risks"
+                item-text="name"
+                item-value="id"
+                label="Tipo de risco"
+              />
+            </v-flex>
+
+            <v-flex sm12 md4>
+              <v-combobox v-model="requiredFieldsCombo"
+                :rules="[v => !!v && v.id || 'Selecione os campos requeridos']"
+                :items="options.fields"
+                item-text="name"
+                label="Campos requeridos"
               />
             </v-flex>
 
             <v-flex sm12>
-              <v-textarea v-model="record.message"
-                :rules="[v => !!v || 'A renegociação precisa ter mensagem']"
-                label="Mensagem"
+              <v-textarea v-model="record.description"
+                :rules="[v => !!v || 'A descrição é obrigatória']"
+                label="Descrição"
+                clearable
               />
             </v-flex>
+
           </v-layout>
 
           <v-layout class="m-t-10">

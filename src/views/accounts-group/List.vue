@@ -4,7 +4,7 @@
     <v-card>
       <v-card-title>
         <h1 class="f-size-20 w-100">Filtros</h1>
-        <p>Use os filtros para carregar os dados escolares</p>
+        <p>Use os filtros para carregar os dados</p>
       </v-card-title>
 
       <v-card-text class="p-t-0">
@@ -177,11 +177,11 @@ export default {
     },
     handleCreate () {
       this.setRenegociationForm(null)
-      this.$router.push({ name: 'renegociation.create' })
+      this.$router.push({ name: 'accounts-group.create' })
     },
     handleEdit (id) {
       this.setRenegociationForm(id)
-      this.$router.push({ name: 'renegociation.edit' })
+      this.$router.push({ name: 'accounts-group.edit' })
     },
     handleDelete (id) {
       Notify.confirm('oi')
