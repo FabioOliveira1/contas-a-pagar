@@ -11,41 +11,22 @@
         <v-form @submit.prevent="doFilter" ref="form">
           <v-layout wrap>
 
-            <v-flex sm12 md6 lg4>
+            <v-flex xs12 sm8>
               <v-text-field v-model="filters.name"
-                label="Nome do fornecedor"
+                label="Nome do grupo"
                 clearable
               />
             </v-flex>
 
-            <v-flex sm12 md6 lg4>
-              <v-text-field v-model="filters.cnpj"
-                label="CNPJ do fornecedor"
-                mask="##.###.###/####-##"
-                clearable
-              />
-            </v-flex>
-
-            <v-flex sm12 md6 lg4>
-              <v-select v-model="filters.status"
-                :items="options.status"
+            <v-flex xs12 sm4>
+              <v-select v-model="filters.risk"
+                :items="options.risks"
                 item-value="id"
                 item-text="nome"
-                label="Status"
+                label="Riscos"
               />
             </v-flex>
 
-            <v-flex sm12 md6>
-              <m2-date-range v-model="filters.createdRange"
-                label="Data de emissão"
-              />
-            </v-flex>
-
-            <v-flex sm12 md6>
-              <m2-date-range v-model="filters.answeredRange"
-                label="Data de resposta"
-              />
-            </v-flex>
           </v-layout>
 
           <v-layout class="m-t-10">
@@ -78,62 +59,35 @@
           <span class="fa fa-times"></span>
         </v-btn>
       </div>
-      <v-layout wrap>
-        <v-flex xs12 sm6 md4 lg3>
+      <v-layout wrap justify-start>
+        <v-flex xs12 sm6>
           <v-card-text class="text-center">
-            <p><b><i class="fa fa-truck"></i> Fornecedor</b><p>
-            <p class="m-l-10 m-t-10"> Papeis Silva</p>
+            <p><b><i class="fa fa-truck"></i> Nome</b><p>
+            <p class="m-l-10 m-t-10"> Boleto</p>
           </v-card-text>
         </v-flex>
 
-        <v-flex xs12 sm6 md4 lg3>
+        <v-flex xs12 sm2>
           <v-card-text class="text-center">
-            <p><b><i class="fa fa-user"></i> Usuário</b><p>
-            <p class="m-l-10 m-t-10"> Marcos Oliveira</p>
+            <p><b><i class="fa fa-user"></i> Risco</b><p>
+            <p class="m-l-10 m-t-10"> Alto</p>
           </v-card-text>
         </v-flex>
 
-        <v-flex xs12 sm6 md4 lg3>
+        <v-flex xs12 sm4>
           <v-card-text class="text-center">
             <p><b><i class="fa fa-calendar"></i> Criado em</b><p>
             <p class="m-l-10 m-t-10">10/03/2018</p>
           </v-card-text>
         </v-flex>
 
-        <v-flex xs12 sm6 md4 lg3>
+        <v-flex xs12>
           <v-card-text class="text-center">
-            <p><b><i class="fa fa-square-o"></i> Status</b><p>
-            <p class="m-l-10 m-t-10"> Pendente</p>
+            <p><b><i class="fa fa-square-o"></i> Campos requeridos</b><p>
+            <p class="m-l-10 m-t-10"> Valor, Campo 1, Campo 2, etc</p>
           </v-card-text>
         </v-flex>
 
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-list-alt"></i> Conta a pagar</b><p>
-            <p class="m-l-10 m-t-10"> Compra de insumos</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-object-group"></i> Grupo de contas</b><p>
-            <p class="m-l-10 m-t-10"> Matéria Prima</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-calendar"></i> Vencimento proposto</b><p>
-            <p class="m-l-10 m-t-10"> 29/03/2018</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-money"></i> Valor proposto</b><p>
-            <p class="m-l-10 m-t-10"> R$ 1500,00</p>
-          </v-card-text>
-        </v-flex>
       </v-layout>
     </v-card>
 
