@@ -18,6 +18,18 @@
             <v-icon right class="f-size-18">arrow_drop_down</v-icon>
           </v-btn>
           <v-list>
+            <v-list-tile @click="$emit('manage-bank')">
+              <v-list-tile-title>
+                <v-icon left class="f-size-20 m-r-10">credit_card</v-icon>
+                <span class="f-size-14">Configurações bancárias</span>
+              </v-list-tile-title>
+            </v-list-tile>
+            <v-list-tile :to="{ name: 'users' }">
+              <v-list-tile-title>
+                <v-icon left class="f-size-20 m-r-10">person</v-icon>
+                <span class="f-size-14">Configurações de acesso</span>
+              </v-list-tile-title>
+            </v-list-tile>
             <v-list-tile @click="$emit('logout')">
               <v-list-tile-title>
                 <v-icon left class="f-size-20 m-r-10">exit_to_app</v-icon>

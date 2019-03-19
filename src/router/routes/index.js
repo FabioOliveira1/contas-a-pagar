@@ -9,6 +9,7 @@ import errors from '@/router/routes/errors'
 import suppliers from '@/router/routes/suppliers'
 import riskTypes from '@/router/routes/risk-types'
 import reports from '@/router/routes/reports'
+import users from '@/router/routes/users'
 
 export default [
   {
@@ -35,6 +36,7 @@ export default [
   ...suppliers,
   ...riskTypes,
   ...reports,
+  ...users,
 
   // Must be the last item always
   ...errors
