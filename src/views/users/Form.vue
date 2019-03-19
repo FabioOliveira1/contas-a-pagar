@@ -6,7 +6,7 @@
 
       <v-card-title>
         <h1 class="f-size-20 w-100">{{ this.record.id ? 'Editar': 'Novo' }}</h1>
-        <p>Formulário de grupo de contas</p>
+        <p>Formulário de usuários</p>
       </v-card-title>
 
       <v-card-text class="p-t-0">
