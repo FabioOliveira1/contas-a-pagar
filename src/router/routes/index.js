@@ -7,9 +7,10 @@ import accountsGroup from '@/router/routes/accounts-group'
 import auth from '@/router/routes/auth'
 import errors from '@/router/routes/errors'
 import suppliers from '@/router/routes/suppliers'
-import riskTypes from '@/router/routes/risk-types'
+// import riskTypes from '@/router/routes/risk-types'
 import reports from '@/router/routes/reports'
 import users from '@/router/routes/users'
+import bankAccounts from '@/router/routes/bank-accounts'
 
 export default [
   {
@@ -34,9 +35,10 @@ export default [
   ...accountsPayable,
   ...accountsGroup,
   ...suppliers,
-  ...riskTypes,
+  // ...riskTypes,
   ...reports,
   ...users,
+  ...bankAccounts,
 
   // Must be the last item always
   ...errors

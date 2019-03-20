@@ -38,10 +38,10 @@
         <span class="item-label">Fornecedores</span>
       </router-link>
 
-      <router-link class="v-toolbar__items" :to="{ name: 'risk-types' }" title="Tipos de risco">
+      <!-- <router-link class="v-toolbar__items" :to="{ name: 'risk-types' }" title="Tipos de risco">
         <i class="fa fa-exclamation-triangle"></i>
         <span class="item-label">Tipos de risco</span>
-      </router-link>
+      </router-link> -->
 
       <router-link class="v-toolbar__items" :to="{ name: 'reports' }" title="Relatórios">
         <i class="fa fa-bar-chart"></i>

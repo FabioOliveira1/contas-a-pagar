@@ -18,7 +18,7 @@
             <v-icon right class="f-size-18">arrow_drop_down</v-icon>
           </v-btn>
           <v-list>
-            <v-list-tile @click="$emit('manage-bank')">
+            <v-list-tile :to="{ name: 'bank-accounts' }">
               <v-list-tile-title>
                 <v-icon left class="f-size-20 m-r-10">credit_card</v-icon>
                 <span class="f-size-14">Configurações bancárias</span>
