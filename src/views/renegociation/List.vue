@@ -10,16 +10,13 @@
       <v-card-text class="p-t-0">
         <v-form @submit.prevent="doFilter" ref="form">
           <v-layout wrap>
-
             <v-flex sm12 md6 lg4>
-              <v-text-field v-model="filters.name"
-                label="Nome do fornecedor"
-                clearable
-              />
+              <v-text-field v-model="filters.name" label="Nome do fornecedor" clearable/>
             </v-flex>
 
             <v-flex sm12 md6 lg4>
-              <v-text-field v-model="filters.cnpj"
+              <v-text-field
+                v-model="filters.cnpj"
                 label="CNPJ do fornecedor"
                 mask="##.###.###/####-##"
                 clearable
@@ -27,7 +24,8 @@
             </v-flex>
 
             <v-flex sm12 md6 lg4>
-              <v-select v-model="filters.status"
+              <v-select
+                v-model="filters.status"
                 :items="options.status"
                 item-value="id"
                 item-text="nome"
@@ -36,15 +34,11 @@
             </v-flex>
 
             <v-flex sm12 md6>
-              <m2-date-range v-model="filters.createdRange"
-                label="Data de emissão"
-              />
+              <m2-date-range v-model="filters.createdRange" label="Data de emissão"/>
             </v-flex>
 
             <v-flex sm12 md6>
-              <m2-date-range v-model="filters.answeredRange"
-                label="Data de resposta"
-              />
+              <m2-date-range v-model="filters.answeredRange" label="Data de resposta"/>
             </v-flex>
           </v-layout>
 
@@ -65,78 +59,38 @@
       </v-card-text>
     </v-card>
 
-    <!-- Pagination -->
-    <v-pagination class="m-t-20" :length="10" v-model="page" />
-
     <!-- List -->
     <v-card class="m-t-10 f-size-16 list__item">
-      <div class="list__item__actions">
-        <v-btn small icon color="warning" @click.prevent="handleEdit('thisId')">
-          <span class="fa fa-pencil"></span>
-        </v-btn>
-        <v-btn small icon color="error" @click.prevent="handleDelete('thisId')">
-          <span class="fa fa-times"></span>
-        </v-btn>
-      </div>
       <v-layout wrap>
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-truck"></i> Fornecedor</b><p>
-            <p class="m-l-10 m-t-10"> Papeis Silva</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-user"></i> Usuário</b><p>
-            <p class="m-l-10 m-t-10"> Marcos Oliveira</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-calendar"></i> Criado em</b><p>
-            <p class="m-l-10 m-t-10">10/03/2018</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-square-o"></i> Status</b><p>
-            <p class="m-l-10 m-t-10"> Pendente</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-list-alt"></i> Conta a pagar</b><p>
-            <p class="m-l-10 m-t-10"> Compra de insumos</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-object-group"></i> Grupo de contas</b><p>
-            <p class="m-l-10 m-t-10"> Matéria Prima</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-calendar"></i> Vencimento proposto</b><p>
-            <p class="m-l-10 m-t-10"> 29/03/2018</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-money"></i> Valor proposto</b><p>
-            <p class="m-l-10 m-t-10"> R$ 1500,00</p>
-          </v-card-text>
-        </v-flex>
+          <v-data-table class="w-100" :headers="headers" :items="desserts" item-key="id">
+            <template v-slot:items="props">
+              <tr class="pointer" @click="props.expanded = !props.expanded">
+                <td>{{ props.item.supplier }}</td>
+                <td>{{ props.item.contact }}</td>
+                <td>{{ props.item.accountsPayable }}</td>
+                <td>{{ props.item.createdAt }}</td>
+                <td>{{ props.item.status }}</td>
+                <td>
+                  <v-btn small icon color="error" @click.prevent="handleDelete('thisId')">
+                    <span class="fa fa-times"></span>
+                  </v-btn>
+                </td>
+              </tr>
+            </template>
+            <template v-slot:expand="props">
+              <v-card flat class="expand__content">
+                <v-card-title><b>Outras informações </b></v-card-title>
+                <v-card-text><b>Valor atual:</b> R$ 1000,00</v-card-text>
+                <v-card-text><b>Vencimento atual:</b> 15/03/2019</v-card-text>
+                <v-card-text><b>Valor proposto:</b> R$ 1200,00</v-card-text>
+                <v-card-text><b>Vencimento proposto:</b> 30/03/2019</v-card-text>
+                <v-card-text><b>Assunto:</b> Adiamento de pagamento</v-card-text>
+                <v-card-text><b>Mensagem:</b> Bom dia, em função de mudanças recentes, precisamos de mais tempo para conseguir pagar a obrigação xyz.</v-card-text>
+              </v-card>
+            </template>
+          </v-data-table>
       </v-layout>
     </v-card>
-
   </section>
 </template>
 
@@ -162,7 +116,49 @@ export default {
       options: {
         status: []
       },
-      page: 1
+      page: 1,
+      headers: [
+        {
+          text: 'Fornecedor',
+          align: 'left',
+          sortable: false,
+          value: 'supplier'
+        },
+        {
+          text: 'Contato',
+          sortable: false,
+          value: 'contact'
+        },
+        {
+          text: 'Conta a pagar',
+          sortable: false,
+          value: 'accountsPayable'
+        },
+        {
+          text: 'Criado em',
+          sortable: false,
+          value: 'createdAt'
+        },
+        {
+          text: 'Status',
+          sortable: false,
+          value: 'status'
+        },
+        {
+          text: 'Ações',
+          sortable: false
+        }
+      ],
+      desserts: [
+        {
+          id: '4ad2fa42fa4af2af2443f4',
+          supplier: 'Papeis Silva',
+          contact: 'fulano@silvapapeis.com',
+          accountsPayable: 'Chapas de impressão personalizadas',
+          createdAt: '2019-03-22 15:30:32',
+          status: 'Pendente'
+        }
+      ]
     }
   },
   watch: {
@@ -184,8 +180,7 @@ export default {
       this.$router.push({ name: 'renegociation.edit' })
     },
     handleDelete (id) {
-      Notify.confirm('oi')
-        .then(val => console.log(val))
+      Notify.confirm('oi').then(val => console.log(val))
     }
   }
 }

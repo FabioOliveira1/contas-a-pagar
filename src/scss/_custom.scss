@@ -265,13 +265,6 @@
       padding: 4px 8px;
     }
   }
-  @media(max-width: 480px) {
-    .profile-user {
-      img {display: none;
-      }
-    }
-  }
-
   @media(min-width: 1024px) {
     &.reduce-width {
       padding-left: 230px !important;
@@ -595,6 +588,31 @@ header.header {
       margin: 0 5px;
       border-bottom-left-radius: 5px;
       border-bottom-right-radius: 5px;
+    }
+  }
+}
+
+/* Expand area inside data tables */
+.list__item {
+  .v-datatable {
+    th {
+      font-size: 15px;
+    }
+    .expand__content {
+      padding: 0 24px;
+      .v-card__title {
+        padding: 0;
+        padding-top: 16px;
+        font-size: 15px;
+      }
+      .v-card__text {
+        padding: 0;
+        padding-top: 16px;
+        font-size: 13px;
+      }
+      .v-card__text:last-child {
+        padding-bottom: 16px;
+      }
     }
   }
 }
