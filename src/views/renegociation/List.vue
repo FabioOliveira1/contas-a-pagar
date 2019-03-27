@@ -157,6 +157,38 @@ export default {
           accountsPayable: 'Chapas de impressão personalizadas',
           createdAt: '2019-03-22 15:30:32',
           status: 'Pendente'
+        },
+        {
+          id: '4ad2fa42fa4af2af2443f',
+          supplier: 'Papeis Silva',
+          contact: 'fulano@silvapapeis.com',
+          accountsPayable: 'Chapas de impressão personalizadas',
+          createdAt: '2019-03-22 15:30:32',
+          status: 'Pendente'
+        },
+        {
+          id: '4ad2fa42fa4af2af2443',
+          supplier: 'Papeis Silva',
+          contact: 'fulano@silvapapeis.com',
+          accountsPayable: 'Chapas de impressão personalizadas',
+          createdAt: '2019-03-22 15:30:32',
+          status: 'Pendente'
+        },
+        {
+          id: '4ad2fa42fa4af2af244',
+          supplier: 'Papeis Silva',
+          contact: 'fulano@silvapapeis.com',
+          accountsPayable: 'Chapas de impressão personalizadas',
+          createdAt: '2019-03-22 15:30:32',
+          status: 'Pendente'
+        },
+        {
+          id: '4ad2fa42fa4af2af24',
+          supplier: 'Papeis Silva',
+          contact: 'fulano@silvapapeis.com',
+          accountsPayable: 'Chapas de impressão personalizadas',
+          createdAt: '2019-03-22 15:30:32',
+          status: 'Pendente'
         }
       ]
     }
