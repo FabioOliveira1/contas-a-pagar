@@ -6,12 +6,44 @@
 
       <v-card-title>
         <h1 class="f-size-20 w-100">{{ this.record.id ? 'Editar': 'Novo' }}</h1>
-        <p>Formulário de renegociação</p>
+        <p>Formulário de fornecedores</p>
       </v-card-title>
 
       <v-card-text class="p-t-0">
         <v-form @submit.prevent="doFilter" ref="form">
           <v-layout wrap>
+
+            <v-flex sm12 md6 lg4>
+              <v-text-field v-model="record.name"
+                :rules="[v => !!v || 'Campo obirgatório']"
+                label="Nome Fantasia"
+                clearable
+              />
+            </v-flex>
+
+            <v-flex sm12 md6 lg4>
+              <v-text-field v-model="record.rsocial"
+                :rules="[v => !!v || 'Campo obirgatório']"
+                label="Razão Social"
+                clearable
+              />
+            </v-flex>
+
+            <v-flex sm12 md6 lg4>
+              <v-text-field v-model="record.cnpj"
+                :rules="[v => !!v || 'Campo obirgatório']"
+                label="CNPJ"
+                clearable
+              />
+            </v-flex>
+
+            <v-flex sm12 md6 lg4>
+              <v-text-field v-model="record.inscEstadual"
+                :rules="[v => !!v || 'Campo obirgatório']"
+                label="Inscrição Estadual"
+                clearable
+              />
+            </v-flex>
 
             <v-flex sm12 md6 lg4>
               <v-combobox v-model="supplierCombo"
