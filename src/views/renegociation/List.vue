@@ -62,7 +62,7 @@
     <!-- List -->
     <v-card class="m-t-10 f-size-16 list__item">
       <v-layout wrap>
-          <v-data-table class="w-100" :headers="headers" :items="desserts" item-key="id">
+          <v-data-table class="w-100" :headers="headers" :items="records" item-key="id">
             <template v-slot:items="props">
               <tr class="pointer" @click="props.expanded = !props.expanded">
                 <td>{{ props.item.supplier }}</td>
@@ -149,7 +149,7 @@ export default {
           sortable: false
         }
       ],
-      desserts: [
+      records: [
         {
           id: '4ad2fa42fa4af2af2443f4',
           supplier: 'Papeis Silva',
