@@ -2,44 +2,48 @@
     Text helpers
   =====================================================================================*/
 
+.ellipsis {
+  overflow: hidden;
+  text-overflow: "...";
+}
 .f-bold {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .f-normal {
-    font-weight: normal;
+  font-weight: normal;
 }
 
 .text-center {
-    text-align: center;
+  text-align: center;
 }
 
 .text-right {
-    text-align: right;
+  text-align: right;
 }
 
 .text-left {
-    text-align: left;
+  text-align: left;
 }
 
 .text-justify {
-    text-align: justify;
+  text-align: justify;
 }
 
 .title-case::first-letter {
-    text-transform: uppercase;
+  text-transform: uppercase;
 }
 
 .uppercase {
-    text-transform: uppercase;
+  text-transform: uppercase;
 }
 
 .lowercase {
-    text-transform: lowercase;
+  text-transform: lowercase;
 }
 
 .capitalize {
-    text-transform: capitalize;
+  text-transform: capitalize;
 }
 
 @for $i from 10 through 48 {
@@ -97,29 +101,13 @@
   width: 80% !important;
 }
 
-.min-w-60 {
-  width: 60px !important;
-}
-.min-w-80 {
-  width: 80px !important;
-}
-.min-w-100 {
-  width: 100px !important;
-}
-.min-w-120 {
-  width: 120px !important;
-}
-.min-w-140 {
-  width: 140px !important;
-}
-.min-w-160 {
-  width: 160px !important;
-}
-.min-w-180 {
-  width: 180px !important;
-}
-.min-w-200 {
-  width: 200px !important;
+@for $i from 0 through 7 {
+  .min-w-#{60+$i*20} {
+    min-width: #{60+$i*20}px !important;
+  }
+  .max-w-#{60+$i*20} {
+    max-width: #{60+$i*20}px !important;
+  }
 }
 
 /*=======================================================================================

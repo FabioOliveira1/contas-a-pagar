@@ -566,13 +566,57 @@ header.header {
 /* M2- Date Range */
 .m2-date-range {
   &__label {
-    color: #959595;
+    color: #767676;
     position: absolute;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 550;
   }
 }
+.m2-multi-file-input {
+  &__label {
+    color: #767676;
+    // position: absolute;
+    font-size: 16px;
+    font-weight: 550;
+  }
+  &__button {
+    width: 100%;
+    height: 47px !important;
+    font-size: 20px !important;
+    color: #9e9e9e !important;
+    border: solid 1px #dfdfdf;
+  }
+  &__card {
+    max-width: 100px;
+    margin: 5px;
 
+    &__tile {
+      height: 80px;
+      background-color: #757575;
+      justify-content: center;
+      align-items: center;
+      font-size: 25px;
+      color: #fff;
+      position: relative;
+
+      &__remover {
+        cursor: pointer;
+        top: 5px;
+        right: 5px;
+        position: absolute;
+        color: #9e9e9e;
+        background-color: #fff;
+        font-size: 12px;
+        padding: 1px 3px;
+        border-radius: 50%;
+
+        &:hover {
+          opacity: .75;
+        }
+      }
+    }
+  }
+}
 .list__item {
   position: relative;
   padding-top: 20px;

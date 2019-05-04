@@ -212,11 +212,11 @@ export default {
     },
     handleCreate () {
       this.setRenegociationForm(null)
-      this.$router.push({ name: 'renegociation.create' })
+      this.$router.push({ name: 'accounts-payable.create' })
     },
     handleEdit (id) {
       this.setRenegociationForm(id)
-      this.$router.push({ name: 'renegociation.edit' })
+      this.$router.push({ name: 'accounts-payable.edit' })
     },
     handleDelete (id) {
       Notify.confirm('oi')
