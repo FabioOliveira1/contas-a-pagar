@@ -81,11 +81,20 @@
               />
             </v-flex>
 
-            <v-flex sm12 md6 lg6>
+            <v-flex xs12 sm8>
               <v-text-field v-model="record.barcode"
                 type="number"
                 :rules="[v => !!v || 'Campo obrigatório']"
                 label="Código de barras"
+                clearable
+              />
+            </v-flex>
+
+            <v-flex xs12 sm4>
+              <v-text-field v-model="record.ourNumber"
+                type="number"
+                :rules="[v => !!v || 'Campo obrigatório']"
+                label="Nosso número"
                 clearable
               />
             </v-flex>
