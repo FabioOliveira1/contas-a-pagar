@@ -13,7 +13,7 @@
         <v-form @submit.prevent="doFilter" ref="form">
           <v-layout wrap>
 
-            <v-flex sm12 md4>
+            <v-flex sm12 md6>
               <v-text-field v-model="record.name"
                 :rules="[v => !!v || 'Digite um nome']"
                 label="Nome"
@@ -21,7 +21,7 @@
               />
             </v-flex>
 
-            <v-flex sm12 md4>
+            <v-flex sm12 md6>
               <v-select v-model="record.riskType"
                 :rules="[v => !!v || 'O tipo de risco é obrigatório']"
                 :items="options.risks"
@@ -31,13 +31,24 @@
               />
             </v-flex>
 
-            <v-flex sm12 md4>
-              <v-combobox v-model="requiredFieldsCombo"
+            <v-flex sm12>
+              <v-select
+                v-model="record.requireds"
+                :items="[{ id: 1, name: 'Juros' },{ id: 2, name: 'Multa' }]"
+                :rules="[v => v && v.length || 'Campo obrigatório']"
+                item-text="name"
+                item-value="id"
+                attach
+                chips
+                label="Requeridos"
+                multiple
+              />
+              <!-- <v-combobox v-model="requiredFieldsCombo"
                 :rules="[v => !!v && v.id || 'Selecione os campos requeridos']"
                 :items="options.fields"
                 item-text="name"
                 label="Campos requeridos"
-              />
+              /> -->
             </v-flex>
 
             <v-flex sm12>
@@ -84,6 +95,7 @@ export default {
       loading: false,
       record: {
         id: null,
+        requireds: [],
         supplierId: null,
         contactId: null,
         accountId: null,
