@@ -84,7 +84,7 @@
                 <td>{{ props.item.status }}</td>
                 <td>
                   <v-layout >
-                  <v-btn alt="Adicionar anexos" class="m-5" small icon color="primary" @click.prevent.stop="handleDelete('thisId')">
+                  <v-btn alt="Adicionar anexos" class="m-5" small icon color="primary" @click.prevent.stop="reference = 'thisId'">
                     <span class="fa fa-file-text"></span>
                   </v-btn>
                   <v-btn alt="Editar conta" class="m-5" small icon color="warning" @click.prevent.stop="handleDelete('thisId')">
@@ -114,6 +114,7 @@
           </v-data-table>
       </v-layout>
     </v-card>
+    <AddFiles v-if="reference" @close="reference = null" />
 
   </section>
 </template>
@@ -121,9 +122,13 @@
 <script>
 import { mapActions } from 'vuex'
 import Notify from '@/utils/notify'
+import AddFiles from '@/views/accounts-payable/modals/AddFiles'
+
 export default {
+  components: { AddFiles },
   data () {
     return {
+      reference: null,
       filters: {
         status: null,
         name: null,

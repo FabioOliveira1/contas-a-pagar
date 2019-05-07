@@ -122,7 +122,6 @@
       </v-card-text>
 
     </v-card>
-
   </section>
 </template>
 
