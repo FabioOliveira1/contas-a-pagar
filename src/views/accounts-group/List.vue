@@ -46,48 +46,45 @@
       </v-card-text>
     </v-card>
 
-    <!-- Pagination -->
-    <v-pagination class="m-t-20" :length="10" v-model="page" />
-
     <!-- List -->
     <v-card class="m-t-10 f-size-16 list__item">
-      <div class="list__item__actions">
-        <v-btn small icon color="warning" @click.prevent="handleEdit('thisId')">
-          <span class="fa fa-pencil"></span>
-        </v-btn>
-        <v-btn small icon color="error" @click.prevent="handleDelete('thisId')">
-          <span class="fa fa-times"></span>
-        </v-btn>
-      </div>
-      <v-layout wrap justify-start>
-        <v-flex xs12 sm6>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-truck"></i> Nome</b><p>
-            <p class="m-l-10 m-t-10"> Boleto</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm2>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-user"></i> Risco</b><p>
-            <p class="m-l-10 m-t-10"> Alto</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm4>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-calendar"></i> Criado em</b><p>
-            <p class="m-l-10 m-t-10">10/03/2018</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-square-o"></i> Campos requeridos</b><p>
-            <p class="m-l-10 m-t-10"> Valor, Campo 1, Campo 2, etc</p>
-          </v-card-text>
-        </v-flex>
-
+      <v-layout wrap>
+          <v-data-table class="w-100" :headers="headers" :items="records" item-key="id">
+            <template v-slot:items="props">
+              <tr>
+                <td>{{ props.item.name }}</td>
+                <td>{{ props.item.description }}</td>
+                <td>{{ props.item.risk }}</td>
+                <td>
+                  <v-chip color="primary" class="white--text" v-for="(r, i) in props.item.requireds" :key="i">{{ r }}</v-chip>
+                </td>
+                <td>
+                  <v-layout >
+                    <v-btn alt="Editar grupo" class="m-5" small icon color="warning" @click.prevent.stop="handleEdit('thisId')">
+                      <span class="fa fa-pencil"></span>
+                    </v-btn>
+                    <v-btn alt="Remover grupo" class="m-5" small icon color="error" @click.prevent.stop="handleDelete('thisId')">
+                      <span class="fa fa-times"></span>
+                    </v-btn>
+                  </v-layout>
+                </td>
+              </tr>
+            </template>
+            <template v-slot:expand="props">
+              <v-card flat class="expand__content">
+                <v-card-title><b>Outras informações </b></v-card-title>
+                <v-card-text><b>Emitido em:</b> {{ props.item.emitedAt }} </v-card-text>
+                <v-card-text><b>Paga em:</b> {{ props.item.paidAt }} </v-card-text>
+                <v-card-text><b>Finalizada em:</b> {{ props.item.endedAt }} </v-card-text>
+                <v-card-text><b>Código de barras:</b> {{ props.item.barcode }} </v-card-text>
+                <v-card-text><b>Valor pago:</b> {{ props.item.totalValue }} </v-card-text>
+                <v-card-text><b>Tempo para protesto:</b> {{ props.item.protestTime }}.</v-card-text>
+                <v-card-text><b>Valor de protesto:</b> {{ props.item.protestValue }}.</v-card-text>
+                <v-card-text><b>Multa:</b> {{ props.item.fee }} </v-card-text>
+                <v-card-text><b>Juros:</b> {{ props.item.increase }} </v-card-text>
+              </v-card>
+            </template>
+          </v-data-table>
       </v-layout>
     </v-card>
 
@@ -116,7 +113,42 @@ export default {
       options: {
         status: []
       },
-      page: 1
+      page: 1,
+      headers: [
+        {
+          text: 'Nome',
+          align: 'left',
+          value: 'name'
+        },
+        {
+          text: 'Descrição',
+          sortable: false,
+          value: 'description'
+        },
+        {
+          text: 'Risco',
+          sortable: false,
+          value: 'risk'
+        },
+        {
+          text: 'Requeridos',
+          sortable: false,
+          value: 'requireds'
+        },
+        {
+          text: 'Ações',
+          sortable: false
+        }
+      ],
+      records: [
+        {
+          id: Math.random() * Date.now(),
+          name: 'Boleto',
+          description: 'Toda a sorte de boletos que se encaixem no modelo xpto',
+          risk: 'Médio',
+          requireds: ['Juros', 'Multa', 'Tempo protesto', 'Valor protesto']
+        }
+      ]
     }
   },
   watch: {

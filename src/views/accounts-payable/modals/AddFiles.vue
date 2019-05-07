@@ -19,7 +19,7 @@ export default {
   mixins: [FormActions],
   data () {
     return {
-      mixinContext: 'renegociação',
+      mixinContext: 'anexos',
       loading: false,
       record: {
         id: null,
