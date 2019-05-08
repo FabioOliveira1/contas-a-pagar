@@ -87,7 +87,7 @@
                   <v-btn alt="Adicionar anexos" class="m-5" small icon color="primary" @click.prevent.stop="reference = 'thisId'">
                     <span class="fa fa-file-text"></span>
                   </v-btn>
-                  <v-btn alt="Editar conta" class="m-5" small icon color="warning" @click.prevent.stop="handleDelete('thisId')">
+                  <v-btn alt="Editar conta" class="m-5" small icon color="warning" @click.prevent.stop="handleEdit('thisId')">
                     <span class="fa fa-pencil"></span>
                   </v-btn>
                   <v-btn alt="Remover conta" class="m-5" small icon color="error" @click.prevent.stop="handleDelete('thisId')">

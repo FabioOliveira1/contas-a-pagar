@@ -68,10 +68,10 @@
                   <v-btn alt="Adicionar contatos" class="m-5" small icon color="primary" @click.prevent.stop="reference = 'thisId'">
                     <span class="fa fa-phone"></span>
                   </v-btn>
-                  <v-btn alt="Editar conta" class="m-5" small icon color="warning" @click.prevent.stop="handleDelete('thisId')">
+                  <v-btn alt="Editar fornecedor" class="m-5" small icon color="warning" @click.prevent.stop="handleEdit('thisId')">
                     <span class="fa fa-pencil"></span>
                   </v-btn>
-                  <v-btn alt="Remover conta" class="m-5" small icon color="error" @click.prevent.stop="handleDelete('thisId')">
+                  <v-btn alt="Remover fornecedor" class="m-5" small icon color="error" @click.prevent.stop="handleDelete('thisId')">
                     <span class="fa fa-times"></span>
                   </v-btn>
                   </v-layout>
@@ -95,6 +95,7 @@
           </v-data-table>
       </v-layout>
     </v-card>
+    <AddContacts v-if="reference" @close="reference = null" />
 
   </section>
 </template>
@@ -102,9 +103,13 @@
 <script>
 import { mapActions } from 'vuex'
 import Notify from '@/utils/notify'
+import AddContacts from '@/views/suppliers/modals/AddContacts'
+
 export default {
+  components: { AddContacts },
   data () {
     return {
+      reference: null,
       filters: {
         risk: null,
         name: null,
