@@ -43,12 +43,6 @@
                 label="Requeridos"
                 multiple
               />
-              <!-- <v-combobox v-model="requiredFieldsCombo"
-                :rules="[v => !!v && v.id || 'Selecione os campos requeridos']"
-                :items="options.fields"
-                item-text="name"
-                label="Campos requeridos"
-              /> -->
             </v-flex>
 
             <v-flex sm12>

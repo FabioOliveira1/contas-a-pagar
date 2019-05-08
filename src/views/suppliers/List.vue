@@ -27,23 +27,11 @@
             </v-flex>
 
             <v-flex sm12 md6 lg4>
-              <v-select v-model="filters.status"
-                :items="options.status"
+              <v-select v-model="filters.risk"
+                :items="options.risk"
                 item-value="id"
                 item-text="nome"
-                label="Status"
-              />
-            </v-flex>
-
-            <v-flex sm12 md6>
-              <m2-date-range v-model="filters.createdRange"
-                label="Data de emissão"
-              />
-            </v-flex>
-
-            <v-flex sm12 md6>
-              <m2-date-range v-model="filters.answeredRange"
-                label="Data de resposta"
+                label="Risco"
               />
             </v-flex>
           </v-layout>
@@ -65,75 +53,46 @@
       </v-card-text>
     </v-card>
 
-    <!-- Pagination -->
-    <v-pagination class="m-t-20" :length="10" v-model="page" />
-
     <!-- List -->
     <v-card class="m-t-10 f-size-16 list__item">
-      <div class="list__item__actions">
-        <v-btn small icon color="warning" @click.prevent="handleEdit('thisId')">
-          <span class="fa fa-pencil"></span>
-        </v-btn>
-        <v-btn small icon color="error" @click.prevent="handleDelete('thisId')">
-          <span class="fa fa-times"></span>
-        </v-btn>
-      </div>
       <v-layout wrap>
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-truck"></i> Fornecedor</b><p>
-            <p class="m-l-10 m-t-10"> Papeis Silva</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-user"></i> Usuário</b><p>
-            <p class="m-l-10 m-t-10"> Marcos Oliveira</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-calendar"></i> Criado em</b><p>
-            <p class="m-l-10 m-t-10">10/03/2018</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-square-o"></i> Status</b><p>
-            <p class="m-l-10 m-t-10"> Pendente</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-list-alt"></i> Conta a pagar</b><p>
-            <p class="m-l-10 m-t-10"> Compra de insumos</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-object-group"></i> Grupo de contas</b><p>
-            <p class="m-l-10 m-t-10"> Matéria Prima</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-calendar"></i> Vencimento proposto</b><p>
-            <p class="m-l-10 m-t-10"> 29/03/2018</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-money"></i> Valor proposto</b><p>
-            <p class="m-l-10 m-t-10"> R$ 1500,00</p>
-          </v-card-text>
-        </v-flex>
+          <v-data-table class="w-100" :headers="headers" :items="records" item-key="id">
+            <template v-slot:items="props">
+              <tr class="pointer" @click="props.expanded = !props.expanded">
+                <td>{{ props.item.fantasyName }}</td>
+                <td>{{ props.item.cnpj }}</td>
+                <td>{{ props.item.companyName }}</td>
+                <td>{{ props.item.risk }}</td>
+                <td>
+                  <v-layout >
+                  <v-btn alt="Adicionar contatos" class="m-5" small icon color="primary" @click.prevent.stop="reference = 'thisId'">
+                    <span class="fa fa-phone"></span>
+                  </v-btn>
+                  <v-btn alt="Editar conta" class="m-5" small icon color="warning" @click.prevent.stop="handleDelete('thisId')">
+                    <span class="fa fa-pencil"></span>
+                  </v-btn>
+                  <v-btn alt="Remover conta" class="m-5" small icon color="error" @click.prevent.stop="handleDelete('thisId')">
+                    <span class="fa fa-times"></span>
+                  </v-btn>
+                  </v-layout>
+                </td>
+              </tr>
+            </template>
+            <template v-slot:expand="props">
+              <v-card flat class="expand__content">
+                <v-card-title><b>Outras informações </b></v-card-title>
+                <v-card-text><b>Inscrição Estadual:</b> {{ props.item.stateNumber }} </v-card-text>
+                <v-card-text><b>CEP:</b> {{ props.item.cep }} </v-card-text>
+                <v-card-text><b>Logradouro:</b> {{ props.item.address }} </v-card-text>
+                <v-card-text><b>Bairro:</b> {{ props.item.neighborhood }} </v-card-text>
+                <v-card-text><b>Cidade:</b> {{ props.item.city }} </v-card-text>
+                <v-card-text><b>Estado:</b> {{ props.item.state }}</v-card-text>
+                <v-card-text><b>Banco:</b> {{ props.item.bank }}</v-card-text>
+                <v-card-text><b>Agência:</b> {{ props.item.agency }} </v-card-text>
+                <v-card-text><b>Conta corrente:</b> {{ props.item.bankAccount }} </v-card-text>
+              </v-card>
+            </template>
+          </v-data-table>
       </v-layout>
     </v-card>
 
@@ -147,22 +106,59 @@ export default {
   data () {
     return {
       filters: {
-        status: null,
+        risk: null,
         name: null,
-        cnpj: null,
-        createdRange: {
-          from: null,
-          to: null
-        },
-        answeredRange: {
-          from: null,
-          to: null
-        }
+        cnpj: null
       },
       options: {
         status: []
       },
-      page: 1
+      page: 1,
+      headers: [
+        {
+          text: 'Fornecedor',
+          align: 'left',
+          sortable: false,
+          value: 'fantasyName'
+        },
+        {
+          text: 'CNPJ',
+          sortable: false,
+          value: 'cnpj'
+        },
+        {
+          text: 'Razão Social',
+          sortable: false,
+          value: 'companyName'
+        },
+        {
+          text: 'Risco',
+          sortable: false,
+          value: 'risk'
+        },
+        {
+          text: 'Ações',
+          sortable: false
+        }
+      ],
+      records: [
+        {
+          id: Math.random() * Date.now(),
+          fantasyName: 'Papéis Silva',
+          companyName: 'José Magno da Silva ME',
+          cnpj: '23199252000115',
+          risk: 'Alto',
+          stateNumber: '123123123123',
+          cep: '18078470',
+          address: 'R. Genésio Machado, 24',
+          neighborhood: 'Vila Alberta',
+          city: 'Sorocaba',
+          state: 'SP',
+          bank: 'Itau SA',
+          agency: '1650',
+          bankAccount: '123456'
+        }
+      ]
     }
   },
   watch: {
@@ -177,11 +173,11 @@ export default {
     },
     handleCreate () {
       this.setRenegociationForm(null)
-      this.$router.push({ name: 'renegociation.create' })
+      this.$router.push({ name: 'suppliers.create' })
     },
     handleEdit (id) {
       this.setRenegociationForm(id)
-      this.$router.push({ name: 'renegociation.edit' })
+      this.$router.push({ name: 'suppliers.edit' })
     },
     handleDelete (id) {
       Notify.confirm('oi')

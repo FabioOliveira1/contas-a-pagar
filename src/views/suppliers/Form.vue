@@ -13,7 +13,7 @@
         <v-form @submit.prevent="doFilter" ref="form">
           <v-layout wrap>
 
-            <v-flex sm12 md6 lg4>
+            <v-flex sm12 md5>
               <v-text-field v-model="record.name"
                 :rules="[v => !!v || 'Campo obirgatório']"
                 label="Nome Fantasia"
@@ -21,7 +21,7 @@
               />
             </v-flex>
 
-            <v-flex sm12 md6 lg4>
+            <v-flex sm12 md5>
               <v-text-field v-model="record.rsocial"
                 :rules="[v => !!v || 'Campo obirgatório']"
                 label="Razão Social"
@@ -29,7 +29,17 @@
               />
             </v-flex>
 
-            <v-flex sm12 md6 lg4>
+            <v-flex sm12 md2>
+              <v-select v-model="record.riskType"
+                :rules="[v => !!v || 'O tipo de risco é obrigatório']"
+                :items="options.risks"
+                item-text="name"
+                item-value="id"
+                label="Tipo de risco"
+              />
+            </v-flex>
+
+            <v-flex sm12 md5>
               <v-text-field v-model="record.cnpj"
                 :rules="[v => !!v || 'Campo obirgatório']"
                 label="CNPJ"
@@ -37,7 +47,7 @@
               />
             </v-flex>
 
-            <v-flex sm12 md6 lg4>
+            <v-flex sm12 md5>
               <v-text-field v-model="record.inscEstadual"
                 :rules="[v => !!v || 'Campo obirgatório']"
                 label="Inscrição Estadual"
@@ -45,96 +55,80 @@
               />
             </v-flex>
 
-            <v-flex sm12 md6 lg4>
-              <v-combobox v-model="supplierCombo"
-                :rules="[v => !!v && v.id || 'Selecione um fornecedor']"
-                :items="options.suppliers"
-                item-text="name"
-                label="Fornecedores"
-              />
-            </v-flex>
-
-            <v-flex sm12 md6 lg4>
-              <v-combobox v-model="contactCombo"
-                :rules="[v => !!v && v.id || 'Selecione um contato']"
-                :items="options.contacts"
-                item-text="name"
-                label="Contato"
-              />
-            </v-flex>
-
-            <v-flex sm12 md6 lg4>
-              <v-combobox v-model="accountCombo"
-                :rules="[v => !!v && v.id || 'Selecione a conta para renegociar']"
-                :items="options.accounts"
-                item-text="name"
-                label="Contas"
-              />
-            </v-flex>
-
-            <v-flex sm12 md6 lg4>
-              <v-text-field v-model="accountCombo.value"
-                label="Valor original"
-                disabled
-              />
-            </v-flex>
-
-            <v-flex sm12 md6 lg4>
-              <v-text-field v-model="accountCombo.fee"
-                label="Multa"
-                disabled
-              />
-            </v-flex>
-
-            <v-flex sm12 md6 lg4>
-              <v-text-field v-model="accountCombo.interest"
-                label="Juros"
-                disabled
-              />
-            </v-flex>
-
-            <v-flex sm12 md6 lg6>
-              <v-text-field v-model="accountCombo.emitedAt"
-                label="Data de emissão"
-                disabled
-              />
-            </v-flex>
-
-            <v-flex sm12 md6 lg6>
-              <v-text-field v-model="accountCombo.dueDateAt"
-                label="Data de vencimento"
-                disabled
-              />
-            </v-flex>
-
-            <v-flex sm12 md6 lg6>
-              <m2-date-picker v-model="record.newDate"
-                label="Data de vencimento proposta"
-                :rules="[v => !!v || 'Proponha uma data de vencimento']"
-              />
-            </v-flex>
-
-            <v-flex sm12 md6 lg6>
-              <v-text-field v-model="record.newValue"
-                type="number"
-                :rules="[v => !!v || 'Proponha um novo valor a ser pago']"
-                label="Valor proposto"
+            <v-flex sm12 md2>
+              <v-text-field v-model="record.cep"
+                :rules="[v => !!v || 'Campo obirgatório']"
+                label="CEP"
                 clearable
               />
             </v-flex>
 
-            <v-flex sm12>
-              <v-text-field v-model="record.subject"
-                :rules="[v => !!v || 'O assunto é obrigatório']"
-                label="Assunto"
+            <v-flex sm12 md6>
+              <v-text-field v-model="record.address"
+                :rules="[v => !!v || 'Campo obirgatório']"
+                label="Logradouro"
                 clearable
               />
             </v-flex>
 
-            <v-flex sm12>
-              <v-textarea v-model="record.message"
-                :rules="[v => !!v || 'A renegociação precisa ter mensagem']"
-                label="Mensagem"
+            <v-flex sm12 md3>
+              <v-text-field v-model="record.neighborhood"
+                :rules="[v => !!v || 'Campo obirgatório']"
+                label="Bairro"
+                clearable
+              />
+            </v-flex>
+
+            <v-flex sm12 md3>
+              <v-text-field v-model="record.city"
+                :rules="[v => !!v || 'Campo obirgatório']"
+                label="Cidade"
+                clearable
+              />
+            </v-flex>
+
+            <v-flex xs12 sm6 md3>
+              <v-select v-model="record.state"
+                :rules="[v => !!v || 'Campo Obrigatório']"
+                :items="['SP', 'TO']"
+                label="UF"
+              />
+            </v-flex>
+
+            <v-flex xs12 sm6 md3>
+              <v-select v-model="record.bank"
+                :rules="[v => !!v || 'Campo Obrigatório']"
+                :items="['Itau SA', 'Banco do Brasil SA']"
+                label="Banco"
+              />
+            </v-flex>
+
+            <v-flex xs12 sm6 md3>
+              <v-text-field v-model="record.agency"
+                :rules="[v => !!v || 'Campo obirgatório']"
+                label="Agência"
+                clearable
+              />
+            </v-flex>
+
+            <v-flex xs12 sm6 md3>
+              <v-text-field v-model="record.bankAccount"
+                :rules="[v => !!v || 'Campo obirgatório']"
+                label="Conta corrente"
+                clearable
+              />
+            </v-flex>
+            <v-flex sm12 md6>
+              <v-select
+                v-model="record.payment"
+                :items="[{ id: 1, name: 'Depósito' },{ id: 2, name: 'Boleto' }]"
+                :rules="[v => v && v.length || 'Campo obrigatório']"
+                item-text="name"
+                item-value="id"
+                attach
+                chips
+                label="Forma de pagamento"
+                multiple
               />
             </v-flex>
           </v-layout>
