@@ -40,6 +40,13 @@
               />
             </v-flex>
 
+            <v-flex sm12 md6 lg2>
+              <v-select v-model="record.initiative"
+                :items="['Interna', 'Externa']"
+                label="Iniciativa"
+              />
+            </v-flex>
+
             <v-flex sm12 md6 lg4>
               <v-text-field v-model="accountCombo.value"
                 label="Valor original"
@@ -47,14 +54,14 @@
               />
             </v-flex>
 
-            <v-flex sm12 md6 lg4>
+            <v-flex sm12 md6 lg3>
               <v-text-field v-model="accountCombo.fee"
                 label="Multa"
                 disabled
               />
             </v-flex>
 
-            <v-flex sm12 md6 lg4>
+            <v-flex sm12 md6 lg3>
               <v-text-field v-model="accountCombo.interest"
                 label="Juros"
                 disabled
@@ -92,17 +99,9 @@
             </v-flex>
 
             <v-flex sm12>
-              <v-text-field v-model="record.subject"
-                :rules="[v => !!v || 'O assunto é obrigatório']"
-                label="Assunto"
-                clearable
-              />
-            </v-flex>
-
-            <v-flex sm12>
-              <v-textarea v-model="record.message"
+              <v-textarea v-model="record.description"
                 :rules="[v => !!v || 'A renegociação precisa ter mensagem']"
-                label="Mensagem"
+                label="Descrição"
               />
             </v-flex>
           </v-layout>
@@ -146,8 +145,7 @@ export default {
         accountId: null,
         newValue: null,
         newDate: null,
-        subject: null,
-        message: null,
+        description: null,
         status: null
       },
       accountCombo: {

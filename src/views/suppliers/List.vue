@@ -64,7 +64,7 @@
                 <td>{{ props.item.companyName }}</td>
                 <td>{{ props.item.risk }}</td>
                 <td>
-                  <v-layout >
+                  <v-layout>
                   <v-btn alt="Adicionar contatos" class="m-5" small icon color="primary" @click.prevent.stop="reference = 'thisId'">
                     <span class="fa fa-phone"></span>
                   </v-btn>

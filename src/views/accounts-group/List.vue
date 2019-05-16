@@ -59,7 +59,7 @@
                   <v-chip color="primary" class="white--text" v-for="(r, i) in props.item.requireds" :key="i">{{ r }}</v-chip>
                 </td>
                 <td>
-                  <v-layout >
+                  <v-layout>
                     <v-btn alt="Editar grupo" class="m-5" small icon color="warning" @click.prevent.stop="handleEdit('thisId')">
                       <span class="fa fa-pencil"></span>
                     </v-btn>

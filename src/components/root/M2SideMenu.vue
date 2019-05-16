@@ -13,6 +13,11 @@
         <span class="item-label">Home</span>
       </router-link>
 
+      <router-link class="v-toolbar__items" :to="{ name: 'accounts-payable' }" title="Contas a pagar">
+        <i class="fa fa-list-alt"></i>
+        <span class="item-label">Contas a pagar</span>
+      </router-link>
+
       <router-link class="v-toolbar__items" :to="{ name: 'renegociation' }" title="Renegociação">
         <i class="fa fa-handshake-o"></i>
         <span class="item-label">Renegociação</span>
@@ -21,11 +26,6 @@
       <router-link class="v-toolbar__items" :to="{ name: 'simulation' }" title="Simulação">
         <i class="fa fa-calculator"></i>
         <span class="item-label">Simulação</span>
-      </router-link>
-
-      <router-link class="v-toolbar__items" :to="{ name: 'accounts-payable' }" title="Contas a pagar">
-        <i class="fa fa-list-alt"></i>
-        <span class="item-label">Contas a pagar</span>
       </router-link>
 
       <router-link class="v-toolbar__items" :to="{ name: 'accounts-group' }" title="Grupo de contas">
@@ -52,6 +52,21 @@
         <i class="fa fa-list-alt"></i>
         <span class="item-label">Extras</span>
       </router-link> -->
+
+      <div
+        style="
+          position: absolute;
+          bottom: 0;
+          padding: 15px;
+          font-weight: 700;
+          color: #004973;
+          background-color: #dadada;
+        "
+        class="pointer w-100 text-center"
+        @click="$router.push({ name: 'accounts-payable.create'})"
+      >
+        <i class="fa fa-plus m-r-10"></i>Cadastrar conta
+      </div>
 
     </v-toolbar>
   </transition>

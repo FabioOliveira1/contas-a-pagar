@@ -83,7 +83,7 @@
                 <td>{{ props.item.dueDateAt }}</td>
                 <td>{{ props.item.status }}</td>
                 <td>
-                  <v-layout >
+                  <v-layout>
                   <v-btn alt="Adicionar anexos" class="m-5" small icon color="primary" @click.prevent.stop="reference = 'thisId'">
                     <span class="fa fa-file-text"></span>
                   </v-btn>

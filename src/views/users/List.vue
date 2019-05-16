@@ -53,63 +53,29 @@
       </v-card-text>
     </v-card>
 
-    <!-- Pagination -->
-    <v-pagination class="m-t-20" :length="10" v-model="page" />
-
     <!-- List -->
     <v-card class="m-t-10 f-size-16 list__item">
-      <div class="list__item__actions">
-        <v-btn small icon color="warning" @click.prevent="handleEdit('thisId')">
-          <span class="fa fa-pencil"></span>
-        </v-btn>
-        <v-btn small icon color="error" @click.prevent="handleDelete('thisId')">
-          <span class="fa fa-times"></span>
-        </v-btn>
-      </div>
       <v-layout wrap>
-
-        <v-flex xs12 sm4 md2>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-barcode"></i> Matrícula</b><p>
-            <p class="m-l-10 m-t-10"> 192156</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm8 md5>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-user"></i> Usuário</b><p>
-            <p class="m-l-10 m-t-10"> Marco Aurélio</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm8 md5>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-envelope-o"></i> E-mail</b><p>
-            <p class="m-l-10 m-t-10"> marco.aurelio@m2print.com</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm4 md2>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-key"></i> Nível de acesso</b><p>
-            <p class="m-l-10 m-t-10"> Administrador</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-calendar"></i> Criado em</b><p>
-            <p class="m-l-10 m-t-10">10/03/2018</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-calendar"></i> Alterado em</b><p>
-            <p class="m-l-10 m-t-10">20/03/2018</p>
-          </v-card-text>
-        </v-flex>
-
+          <v-data-table class="w-100" :headers="headers" :items="records" item-key="id">
+            <template v-slot:items="props">
+              <tr>
+                <td>{{ props.item.workNumber }}</td>
+                <td>{{ props.item.accessLevel }}</td>
+                <td>{{ props.item.name }}</td>
+                <td>{{ props.item.email }}</td>
+                <td>
+                  <v-layout>
+                    <v-btn alt="Editar conta" class="m-5" small icon color="warning" @click.prevent.stop="handleEdit('thisId')">
+                      <span class="fa fa-pencil"></span>
+                    </v-btn>
+                    <v-btn alt="Remover conta" class="m-5" small icon color="error" @click.prevent.stop="handleDelete('thisId')">
+                      <span class="fa fa-times"></span>
+                    </v-btn>
+                  </v-layout>
+                </td>
+              </tr>
+            </template>
+          </v-data-table>
       </v-layout>
     </v-card>
 
@@ -138,7 +104,56 @@ export default {
       options: {
         status: []
       },
-      page: 1
+      headers: [
+        {
+          text: 'Matrícula',
+          align: 'left',
+          sortable: false,
+          value: 'workNumber'
+        },
+        {
+          text: 'Nível de acesso',
+          sortable: false,
+          value: 'accessLevel'
+        },
+        {
+          text: 'Nome',
+          sortable: false,
+          value: 'name'
+        },
+        {
+          text: 'E-mail',
+          sortable: false,
+          value: 'email'
+        },
+        {
+          text: 'Ações',
+          sortable: false
+        }
+      ],
+      records: [
+        {
+          id: Math.random() * Date.now(),
+          workNumber: '021324',
+          accessLevel: 'Admin',
+          name: 'Marco da Silva Sauro',
+          email: 'marco.sauro@m2print.com'
+        },
+        {
+          id: Math.random() * Date.now(),
+          workNumber: '6646542',
+          accessLevel: 'Gerente',
+          name: 'Adilson Ferreira dos Santos',
+          email: 'adilson.santos@m2print.com'
+        },
+        {
+          id: Math.random() * Date.now(),
+          workNumber: '895413',
+          accessLevel: 'Analista',
+          name: 'Bruno Araújo Hoyama',
+          email: 'bruno.hoyama@m2print.com'
+        }
+      ]
     }
   },
   watch: {
