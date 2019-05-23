@@ -102,10 +102,10 @@
 }
 
 @for $i from 0 through 7 {
-  .min-w-#{60+$i*20} {
+  .min-w-#{40+$i*20} {
     min-width: #{60+$i*20}px !important;
   }
-  .max-w-#{60+$i*20} {
+  .max-w-#{40+$i*20} {
     max-width: #{60+$i*20}px !important;
   }
 }

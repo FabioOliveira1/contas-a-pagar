@@ -82,7 +82,7 @@
             <v-btn small color="error" @click="askToRemove(a.id, i)"><i class="fa fa-times"></i></v-btn>
           </v-layout>
         </v-card>
-        <p v-if="!banks.length">Nenhum banco adicionado</p>
+        <p v-if="!agencies.length">Nenhuma agência adicionado</p>
       </v-flex>
     </section>
 

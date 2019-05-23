@@ -75,7 +75,7 @@
                 <td>{{ props.item.value }}</td>
                 <td>
                   <v-layout>
-                    <v-btn alt="Gerenciar saldo" class="m-5" small icon color="primary" @click.prevent.stop="handleEdit('thisId')">
+                    <v-btn alt="Gerenciar saldo" class="m-5" small icon color="primary" @click.prevent.stop="handleAmountModal(props.item)">
                       <span class="fa fa-money"></span>
                     </v-btn>
                     <v-btn alt="Editar conta" class="m-5" small icon color="warning" @click.prevent.stop="handleEdit('thisId')">
@@ -92,6 +92,7 @@
       </v-layout>
     </v-card>
 
+    <ManageAmount v-if="show === 'updateAmount'" :account="accountToModal" @close="show = null" />
     <ManageAgencies v-if="show === 'agencies'" @close="show = null" />
     <ManageBanks v-if="show === 'banks'" @close="show = null" />
 
@@ -101,14 +102,16 @@
 <script>
 import { mapActions } from 'vuex'
 import Notify from '@/utils/notify'
+import ManageAmount from '@/views/bank-accounts/modals/ManageAmount'
 import ManageAgencies from '@/views/bank-accounts/modals/ManageAgencies'
 import ManageBanks from '@/views/bank-accounts/modals/ManageBanks'
 
 export default {
-  components: { ManageAgencies, ManageBanks },
+  components: { ManageAmount, ManageAgencies, ManageBanks },
   data () {
     return {
       show: null,
+      accountToModal: null,
       filters: {
         status: null,
         name: null,
@@ -186,6 +189,10 @@ export default {
     ...mapActions(['setRenegociationForm']),
     doFilter () {
       console.log('oi')
+    },
+    handleAmountModal (account) {
+      this.accountToModal = account
+      this.show = 'updateAmount'
     },
     handleCreate () {
       this.setRenegociationForm(null)
