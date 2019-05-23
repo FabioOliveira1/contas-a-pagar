@@ -3,6 +3,9 @@
     <div class="modal-mask" @click="$emit('close')">
       <div class="modal-wrapper">
         <div class="modal-container" @click.stop="">
+          <div class="modal-close pointer red--text darken-4" @click="$emit('close')">
+            <v-icon color="red darken-2">close</v-icon>
+          </div>
 
           <div class="modal-header">
             <slot name="header">

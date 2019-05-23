@@ -664,7 +664,7 @@ header.header {
 /* M2 Modal */
 .modal-mask {
   position: fixed;
-  z-index: 9998;
+  z-index: 1000;
   top: 0;
   left: 0;
   width: 100%;
@@ -690,6 +690,14 @@ header.header {
   box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
   transition: all .3s ease;
   font-family: Helvetica, Arial, sans-serif;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 8px;
 }
 
 .modal-header {
@@ -702,6 +710,25 @@ header.header {
 
 .modal-default-button {
   float: right;
+}
+
+.loading-inline {
+  position: absolute;
+  background-color: #fb8e3e;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  padding: 15px;
+
+  .message::after {
+    content: ' .';
+    animation: dots 1s steps(5, end) infinite;
+  }
 }
 
 /*
