@@ -61,13 +61,10 @@
 import { get, create, update } from '@/services/renegociation'
 import { mapGetters } from 'vuex'
 import Notify from '@/utils/notify'
-import FormActions from '@/utils/mixins/formActions'
 
 export default {
-  mixins: [FormActions],
   data () {
     return {
-      mixinContext: 'anexos',
       loading: false,
       editingId: null,
       record: {
