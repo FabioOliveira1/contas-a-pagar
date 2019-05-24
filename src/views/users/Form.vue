@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import { get, create, update } from '@/services/renegociation'
+import { get, create, update } from '@/services'
 import { mapGetters } from 'vuex'
 import FormActions from '@/utils/mixins/formActions'
 

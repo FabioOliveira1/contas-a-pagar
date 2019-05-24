@@ -18,6 +18,7 @@
           v-model="dateFrom"
           readonly
           v-on="on"
+          :rules="rules"
           clearable
         ></v-text-field>
       </template>

@@ -53,7 +53,6 @@
 </template>
 
 <script>
-import { get, create, update } from '@/services/renegociation'
 import { mapGetters } from 'vuex'
 import Notify from '@/utils/notify'
 

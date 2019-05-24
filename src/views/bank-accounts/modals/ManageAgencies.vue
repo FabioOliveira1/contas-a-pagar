@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import { get, create, update } from '@/services/renegociation'
+import { get, create, update, deleteAgency } from '@/services'
 import { mapGetters } from 'vuex'
 import Notify from '@/utils/notify'
 
@@ -173,12 +173,12 @@ export default {
       Notify.confirm('Tem certeza que deseja apagar a agência?')
         .then(r => {
           if (r.value) {
-            this.removeBank(id, i)
+            this.removeAgency(id, i)
           }
         })
     },
-    removeBank (id, i) {
-      deleteBank(id)
+    removeAgency (id, i) {
+      deleteAgency(id)
         .then(() => {
           this.banks.splice(i, 1)
           Notify.success('Agência removida')
@@ -186,7 +186,6 @@ export default {
         .catch(() => {
           Notify.error('Não foi possível remover a agência')
         })
-      
     },
     save () {
 

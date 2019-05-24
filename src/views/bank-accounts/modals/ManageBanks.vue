@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { get, create, update } from '@/services/renegociation'
+import { get, create, update, deleteBank } from '@/services'
 import { mapGetters } from 'vuex'
 import Notify from '@/utils/notify'
 
@@ -119,7 +119,6 @@ export default {
         .catch(() => {
           Notify.error('Não foi possível remover o banco')
         })
-      
     },
     save () {
 
