@@ -4,7 +4,7 @@
     <v-card>
       <v-card-title>
         <h1 class="f-size-20 w-100">Filtros</h1>
-        <p>Use os filtros para carregar os dados batata</p>
+        <p>Use os filtros para carregar os dados</p>
       </v-card-title>
 
       <v-card-text class="p-t-0">
@@ -39,8 +39,8 @@
           </v-layout>
 
           <v-layout class="m-t-10">
-            <v-btn color="success" class="m-r-10" dark @click.prevent="handleCreate">
-              <span class="f-bold m-r-10">Novo</span>
+            <v-btn color="primary" class="m-r-10" dark @click.prevent="handleCreate">
+              <span class="f-bold m-r-10">Conta bancária</span>
               <i class="fa fa-plus"></i>
             </v-btn>
             <v-btn color="primary" class="m-r-10" dark @click.prevent="show = 'banks'">

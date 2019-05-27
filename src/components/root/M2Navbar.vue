@@ -21,7 +21,7 @@
             <v-list-tile :to="{ name: 'bank-accounts' }">
               <v-list-tile-title>
                 <v-icon left class="f-size-20 m-r-10">credit_card</v-icon>
-                <span class="f-size-14">Configurações bancárias</span>
+                <span class="f-size-14">Informações bancárias</span>
               </v-list-tile-title>
             </v-list-tile>
             <v-list-tile :to="{ name: 'users' }">

@@ -1,6 +1,6 @@
 <template>
   <m2-modal @close="$emit('close')">
-    <h3 slot="header">Gerenciar saldo da conta</h3>
+    <h3 slot="header">Gerenciar saldo da conta bancária</h3>
 
     <section slot="body">
       <v-layout wrap class="f-size-15">

@@ -4,7 +4,7 @@ import Form from '@/views/bank-accounts/Form.vue'
 
 export default [
   {
-    path: '/conta-bancaria',
+    path: '/informacoes-bancarias',
     component: Main,
     children: [
       {
@@ -12,34 +12,34 @@ export default [
         name: 'bank-accounts',
         component: List,
         meta: {
-          title: 'M2 Print | Contas bancárias',
+          title: 'M2 Print | Informações bancárias',
           header: {
-            title: 'Contas bancárias',
-            breadcrumbs: ['Contas bancárias']
+            title: 'Informações bancárias',
+            breadcrumbs: ['Informações bancárias']
           }
         }
       },
       {
-        path: 'criar',
+        path: 'criar-conta-bancaria',
         name: 'bank-accounts.create',
         component: Form,
         meta: {
-          title: 'M2 Print | Contas bancárias',
+          title: 'M2 Print | Informações bancárias',
           header: {
-            title: 'Contas bancárias',
-            breadcrumbs: ['Contas bancárias', 'Criar']
+            title: 'Criar conta bancária',
+            breadcrumbs: ['Informações bancárias', 'Criar conta bancária']
           }
         }
       },
       {
-        path: 'editar',
+        path: 'editar-conta-bancaria',
         name: 'bank-accounts.edit',
         component: Form,
         meta: {
-          title: 'M2 Print | Contas bancárias',
+          title: 'M2 Print | Informações bancárias',
           header: {
-            title: 'Contas bancárias',
-            breadcrumbs: ['Contas bancárias', 'Editar']
+            title: 'Editar conta bancária',
+            breadcrumbs: ['Informações bancárias', 'Editar conta bancária']
           }
         }
       }
