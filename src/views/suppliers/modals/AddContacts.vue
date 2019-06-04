@@ -1,63 +1,114 @@
 <template>
   <m2-modal @close="$emit('close')">
-    <h3 slot="header">Gerenciar contatos</h3>
+    <h3 slot="header">Gerenciar agências</h3>
 
     <section slot="body">
-      <v-form @submit.prevent="addContact" ref="contactForm">
+      <v-form @submit.prevent="addAgency" ref="form">
         <v-layout wrap>
-          <v-flex xs12 sm5>
+          <v-flex xs12 sm4>
             <v-text-field v-model="record.name"
               :rules="[v => !!v || 'Campo obrigatório']"
               label="Nome"
               clearable
             />
           </v-flex>
-          <v-flex xs12 sm5>
+          <v-flex xs12 sm4>
             <v-text-field v-model="record.email"
+              type="email"
               :rules="emailRules"
-              label="Email"
+              label="E-mail"
               clearable
             />
           </v-flex>
-          <v-flex xs12 sm2 class="text-center">
-            <v-btn color="success" flat style="margin-top: 16px;" type="submit"><i class="fa fa-plus"></i></v-btn>
+          <v-flex xs12 sm4>
+            <v-text-field v-model="record.phone"
+              type="number"
+              :rules="[v => !!v || 'Campo obrigatório']"
+              label="Telefone"
+              clearable
+            />
+          </v-flex>
+          <v-flex xs12 class="text-center m-t-10">
+            <v-layout>
+              <v-btn dark v-if="editingId" @click="clear">Cancelar<i class="fa fa-times m-l-10"></i></v-btn>
+              <v-spacer></v-spacer>
+              <v-btn color="success" type="submit">{{ editingId ? 'Salvar' : 'Adicionar' }}<i class="fa fa-check m-l-10"></i></v-btn>
+            </v-layout>
           </v-flex>
         </v-layout>
       </v-form>
 
-      <v-flex xs12 class="m-t-10">
-        <h3 class="m-b-5">Contatos: </h3>
-        <v-chip color="primary" class="white--text p-5" close @input="removeContact(i)" v-for="(c, i) in contacts" :key="i">
-          {{ c.name }} <br/> {{ c.email }}
-        </v-chip>
-        <p v-if="!contacts.length">Nenhum contato adicionado</p>
+      <v-flex xs12 class="m-t-20">
+        <h3 class="m-b-5">Agências: </h3>
+        <v-card color="grey lighten-2" class="p-10 m-t-10" style="position: relative;" v-for="(a, i) in agencies" :key="a.id">
+          <transition name="fade">
+            <div class="loading-inline" v-if="editingId === a.id">
+              <span class="message">Editando</span>
+            </div>
+          </transition>
+          <v-layout>
+            <div class="f-size-15 p-t-5">
+                <p><b>{{ a.name }}</b> - {{ a.phone }}</p>
+                <p>{{ a.email }}</p>
+            </div>
+            <v-spacer/>
+            <v-btn small color="warning" class="m-r-10" @click="handleEdit(a, i)"><i class="fa fa-edit"></i></v-btn>
+            <v-btn small color="error" @click="askToRemove(a.id, i)"><i class="fa fa-times"></i></v-btn>
+          </v-layout>
+        </v-card>
+        <p v-if="!agencies.length">Nenhuma agência adicionado</p>
       </v-flex>
     </section>
 
     <v-layout slot="footer">
-      <v-btn @click="$emit('close')" dark>Cancelar</v-btn>
-      <v-spacer/>
-      <v-btn color="success" :disabled="!!record.name || !!record.email" @click="$emit('close')">Salvar</v-btn>
+      <v-btn @click="$emit('close')" dark>Fechar</v-btn>
     </v-layout>
   </m2-modal>
 </template>
 
 <script>
-import { get, create, update } from '@/services'
+import { get, create, update, deleteAgency } from '@/services'
 import { mapGetters } from 'vuex'
-import FormActions from '@/utils/mixins/formActions'
+import Notify from '@/utils/notify'
 
 export default {
-  mixins: [FormActions],
   data () {
     return {
-      mixinContext: 'anexos',
       loading: false,
+      editingId: null,
       record: {
+        bank: null,
+        number: null,
         name: null,
+        phone: null,
         email: null
       },
-      contacts: [],
+      banks: [
+        {
+          id: 1,
+          number: '042',
+          name: 'Itaú SA'
+        },
+        {
+          id: 2,
+          number: '341',
+          name: 'Bradesco SA'
+        }
+      ],
+      agencies: [
+        {
+          id: 1,
+          name: 'Carlos da Silva Sauro',
+          phone: '5532325532',
+          email: 'carlos.sauro@silvapapeis.com'
+        },
+        {
+          id: 2,
+          name: 'Jeremias M. Saladino',
+          phone: '5555323232',
+          email: 'jeremias.saladino@silvapapeis.com'
+        }
+      ],
       emailRules: [
         v => !!v || 'Campo Obrigatório',
         v => /.+@.+\.+./.test(v) || 'Não é uma email válido'
@@ -76,23 +127,56 @@ export default {
     })
   },
   methods: {
-    removeContact (i) {
-      this.contacts.splice(i, 1)
+    handleEdit (agency, index) {
+      this.editingId = agency.id
+      this.record.bank = agency.bank
+      this.record.number = agency.number
+      this.record.name = agency.name
+      this.record.name = agency.name
+      this.record.phone = agency.phone
+      this.record.email = agency.email
     },
-    addContact () {
-      console.log(this.$refs.contactForm.validate())
-      if (this.$refs.contactForm.validate()) {
-        this.contacts.push({
+    askToRemove (id, i) {
+      Notify.confirm('Tem certeza que deseja apagar a agência?')
+        .then(r => {
+          if (r.value) {
+            this.removeAgency(id, i)
+          }
+        })
+    },
+    removeAgency (id, i) {
+      deleteAgency(id)
+        .then(() => {
+          this.banks.splice(i, 1)
+          Notify.success('Agência removida')
+        })
+        .catch(() => {
+          Notify.error('Não foi possível remover a agência')
+        })
+    },
+    save () {
+
+    },
+    addAgency () {
+      console.log(this.$refs.form.validate())
+      if (this.$refs.form.validate()) {
+        this.banks.push({
+          id: Date.now().toString(16),
           name: this.record.name,
-          email: this.record.email
+          number: this.record.number
         })
         this.clear()
       }
     },
     clear () {
+      this.editingId = null
+      this.record.bank = null
+      this.record.number = null
       this.record.name = null
+      this.record.name = null
+      this.record.phone = null
       this.record.email = null
-      this.$refs.contactForm.resetValidation()
+      this.$refs.form.resetValidation()
     },
     create: payload => create(payload),
     update: payload => update(payload),
