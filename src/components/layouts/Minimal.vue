@@ -1,12 +1,12 @@
 <template>
-  <v-layout class="minimal" align-center justify-center>
-    <v-card elevation-3 class="w-80">
+  <v-layout :class="`minimal ${expanded ? 'expanded' : ''}` " align-center justify-center>
+    <v-card elevation-3 class="minimal__container">
       <v-img
         src="@/assets/images/logo1.png"
         alt="M2 Print logo"
         max-height="100px"
         contain
-        :class="`${ isError ? 'error-layout' : '' } m-b-20`"
+        :class="`${isError ? 'isError' : ''} m-b-20`"
       />
       <slot></slot>
     </v-card>
@@ -16,6 +16,10 @@
 export default {
   props: {
     isError: {
+      type: Boolean,
+      default: false
+    },
+    expanded: {
       type: Boolean,
       default: false
     }

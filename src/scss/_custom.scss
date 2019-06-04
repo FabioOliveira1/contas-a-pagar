@@ -405,13 +405,20 @@ header.header {
   -moz-background-size: cover;
   background-size: cover;
 
-  .v-card {
+  .minimal__container {
     padding: 20px;
     max-width: 500px;
 
-    .v-image.error-layout {
+    .v-image.isError {
       opacity: .5;
     }
+  }
+  &.expanded {
+    .minimal__container {
+      max-width: 80%;
+      width: 80%;
+    }
+
   }
 }
 

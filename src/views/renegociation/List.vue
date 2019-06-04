@@ -80,12 +80,11 @@
             <template v-slot:expand="props">
               <v-card flat class="expand__content">
                 <v-card-title><b>Outras informações </b></v-card-title>
-                <v-card-text><b>Valor atual:</b> R$ 1000,00</v-card-text>
-                <v-card-text><b>Vencimento atual:</b> 15/03/2019</v-card-text>
-                <v-card-text><b>Valor proposto:</b> R$ 1200,00</v-card-text>
-                <v-card-text><b>Vencimento proposto:</b> 30/03/2019</v-card-text>
-                <v-card-text><b>Assunto:</b> Adiamento de pagamento</v-card-text>
-                <v-card-text><b>Mensagem:</b> Bom dia, em função de mudanças recentes, precisamos de mais tempo para conseguir pagar a obrigação xyz.</v-card-text>
+                <v-card-text><b>Valor atual:</b>{{ props.item.oldValue }}</v-card-text>
+                <v-card-text><b>Vencimento atual:</b>{{ props.item.oldDuedateAt }}</v-card-text>
+                <v-card-text><b>Valor proposto:</b>{{ props.item.newValue }}</v-card-text>
+                <v-card-text><b>Vencimento proposto:</b>{{ props.item.newDueDateAt }}</v-card-text>
+                <v-card-text><b>Mensagem:</b>{{ props.item.message }}</v-card-text>
               </v-card>
             </template>
           </v-data-table>
@@ -156,7 +155,12 @@ export default {
           contact: 'fulano@silvapapeis.com',
           accountsPayable: 'Chapas de impressão personalizadas',
           createdAt: '2019-03-22 15:30:32',
-          status: 'Pendente'
+          status: 'Pendente',
+          oldValue: 1000,
+          oldDueDateAt: '15/03/2019',
+          newValue: 1200,
+          newDueDateAt: '30/03/2019',
+          message: 'Bom dia, em função de mudanças recentes, precisamos de mais tempo para conseguir pagar a obrigação xyz'
         },
         {
           id: '4ad2fa42fa4af2af2443f',
@@ -164,7 +168,12 @@ export default {
           contact: 'fulano@silvapapeis.com',
           accountsPayable: 'Chapas de impressão personalizadas',
           createdAt: '2019-03-22 15:30:32',
-          status: 'Pendente'
+          status: 'Pendente',
+          oldValue: 1000,
+          oldDueDateAt: '15/03/2019',
+          newValue: 1200,
+          newDueDateAt: '30/03/2019',
+          message: 'Bom dia, em função de mudanças recentes, precisamos de mais tempo para conseguir pagar a obrigação xyz'
         },
         {
           id: '4ad2fa42fa4af2af2443',
@@ -172,7 +181,12 @@ export default {
           contact: 'fulano@silvapapeis.com',
           accountsPayable: 'Chapas de impressão personalizadas',
           createdAt: '2019-03-22 15:30:32',
-          status: 'Pendente'
+          status: 'Pendente',
+          oldValue: 1000,
+          oldDueDateAt: '15/03/2019',
+          newValue: 1200,
+          newDueDateAt: '30/03/2019',
+          message: 'Bom dia, em função de mudanças recentes, precisamos de mais tempo para conseguir pagar a obrigação xyz'
         },
         {
           id: '4ad2fa42fa4af2af244',
@@ -180,7 +194,12 @@ export default {
           contact: 'fulano@silvapapeis.com',
           accountsPayable: 'Chapas de impressão personalizadas',
           createdAt: '2019-03-22 15:30:32',
-          status: 'Pendente'
+          status: 'Pendente',
+          oldValue: 1000,
+          oldDueDateAt: '15/03/2019',
+          newValue: 1200,
+          newDueDateAt: '30/03/2019',
+          message: 'Bom dia, em função de mudanças recentes, precisamos de mais tempo para conseguir pagar a obrigação xyz'
         },
         {
           id: '4ad2fa42fa4af2af24',
@@ -188,7 +207,12 @@ export default {
           contact: 'fulano@silvapapeis.com',
           accountsPayable: 'Chapas de impressão personalizadas',
           createdAt: '2019-03-22 15:30:32',
-          status: 'Pendente'
+          status: 'Pendente',
+          oldValue: 1000,
+          oldDueDateAt: '15/03/2019',
+          newValue: 1200,
+          newDueDateAt: '30/03/2019',
+          message: 'Bom dia, em função de mudanças recentes, precisamos de mais tempo para conseguir pagar a obrigação xyz'
         }
       ]
     }

@@ -1,4 +1,5 @@
 import Main from '@/views/Main.vue'
+import Approval from '@/views/renegociation/Approval.vue'
 import List from '@/views/renegociation/List.vue'
 import Form from '@/views/renegociation/Form.vue'
 
@@ -44,5 +45,17 @@ export default [
         }
       }
     ]
+  },
+  {
+    path: '/renegociacao/:token',
+    name: 'renegociation.approval',
+    component: Approval,
+    meta: {
+      title: 'M2 Print | Renegociação',
+      header: {
+        title: 'Fornecedores',
+        breadcrumbs: ['Fornecedores']
+      }
+    }
   }
 ]
