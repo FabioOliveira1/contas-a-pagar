@@ -12,40 +12,20 @@
           <v-layout wrap>
 
             <v-flex sm12 md6 lg4>
-              <v-text-field v-model="filters.name"
-                label="Nome do fornecedor"
-                clearable
-              />
-            </v-flex>
-
-            <v-flex sm12 md6 lg4>
-              <v-text-field v-model="filters.cnpj"
-                label="CNPJ do fornecedor"
-                mask="##.###.###/####-##"
-                clearable
-              />
-            </v-flex>
-
-            <v-flex sm12 md6 lg4>
               <v-select v-model="filters.status"
                 :items="options.status"
                 item-value="id"
-                item-text="nome"
+                item-text="name"
                 label="Status"
               />
             </v-flex>
 
-            <v-flex sm12 md6>
+            <v-flex sm12 md6 lg8>
               <m2-date-range v-model="filters.createdRange"
-                label="Data de emissão"
+                label="Criado entre"
               />
             </v-flex>
 
-            <v-flex sm12 md6>
-              <m2-date-range v-model="filters.answeredRange"
-                label="Data de resposta"
-              />
-            </v-flex>
           </v-layout>
 
           <v-layout class="m-t-10">
@@ -65,75 +45,32 @@
       </v-card-text>
     </v-card>
 
-    <!-- Pagination -->
-    <v-pagination class="m-t-20" :length="10" v-model="page" />
-
     <!-- List -->
     <v-card class="m-t-10 f-size-16 list__item">
-      <div class="list__item__actions">
-        <v-btn small icon color="warning" @click.prevent="handleEdit('thisId')">
-          <span class="fa fa-pencil"></span>
-        </v-btn>
-        <v-btn small icon color="error" @click.prevent="handleDelete('thisId')">
-          <span class="fa fa-times"></span>
-        </v-btn>
-      </div>
       <v-layout wrap>
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-truck"></i> Fornecedor</b><p>
-            <p class="m-l-10 m-t-10"> Papeis Silva</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-user"></i> Usuário</b><p>
-            <p class="m-l-10 m-t-10"> Marcos Oliveira</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-calendar"></i> Criado em</b><p>
-            <p class="m-l-10 m-t-10">10/03/2018</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-square-o"></i> Status</b><p>
-            <p class="m-l-10 m-t-10"> Pendente</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-list-alt"></i> Conta a pagar</b><p>
-            <p class="m-l-10 m-t-10"> Compra de insumos</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-object-group"></i> Grupo de contas</b><p>
-            <p class="m-l-10 m-t-10"> Matéria Prima</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-calendar"></i> Vencimento proposto</b><p>
-            <p class="m-l-10 m-t-10"> 29/03/2018</p>
-          </v-card-text>
-        </v-flex>
-
-        <v-flex xs12 sm6 md4 lg3>
-          <v-card-text class="text-center">
-            <p><b><i class="fa fa-money"></i> Valor proposto</b><p>
-            <p class="m-l-10 m-t-10"> R$ 1500,00</p>
-          </v-card-text>
-        </v-flex>
+          <v-data-table class="w-100" :headers="headers" :items="records" item-key="id">
+            <template v-slot:items="props">
+              <tr>
+                <td>{{ props.item.status }}</td>
+                <td>{{ props.item.bankAccount }}</td>
+                <td>{{ props.item.accountAmount }}</td>
+                <td>{{ props.item.allAmount }}</td>
+                <td>{{ props.item.simAmount }}</td>
+                <td>{{ props.item.createdAt }}</td>
+                <td>{{ props.item.simDate }}</td>
+                <td>
+                  <v-layout>
+                    <v-btn small icon color="primary" @click.prevent="handleDelete('thisId')">
+                      <span class="fa fa-eye"></span>
+                    </v-btn>
+                    <v-btn small icon color="error" class="m-l-10" @click.prevent="handleDelete('thisId')">
+                      <span class="fa fa-times"></span>
+                    </v-btn>
+                  </v-layout>
+                </td>
+              </tr>
+            </template>
+          </v-data-table>
       </v-layout>
     </v-card>
 
@@ -160,9 +97,76 @@ export default {
         }
       },
       options: {
-        status: []
+        status: [
+          {
+            id: 'pendente',
+            name: 'Pendente'
+          },
+          {
+            id: 'aprovada',
+            name: 'Aprovada'
+          },
+          {
+            id: 'recusada',
+            name: 'Recusada'
+          }
+        ]
       },
-      page: 1
+      page: 1,
+      headers: [
+        {
+          text: 'Status',
+          sortable: false,
+          value: 'status'
+        },
+        {
+          text: 'C/C',
+          align: 'left',
+          sortable: false,
+          value: 'bankAccount'
+        },
+        {
+          text: 'Saldo Atual',
+          sortable: false,
+          value: 'accountAmount'
+        },
+        {
+          text: 'Total Geral',
+          sortable: false,
+          value: 'allAmount'
+        },
+        {
+          text: 'Total Simulado',
+          sortable: false,
+          value: 'simAmount'
+        },
+        {
+          text: 'Criado em',
+          sortable: false,
+          value: 'createdAt'
+        },
+        {
+          text: 'Data simulada',
+          sortable: false,
+          value: 'simDate'
+        },
+        {
+          text: 'Ações',
+          sortable: false
+        }
+      ],
+      records: [
+        {
+          id: '4ad2fa42fa4af2af2443f4',
+          status: 'Pendente',
+          bankAccount: '631787',
+          accountAmount: 5000,
+          allAmount: 5383.31,
+          simAmount: 3630.55,
+          createdAt: '2019-03-14 15:30:32',
+          simDate: '22/03/2019'
+        },
+      ]
     }
   },
   watch: {
@@ -173,18 +177,18 @@ export default {
   methods: {
     ...mapActions(['setRenegociationForm']),
     doFilter () {
-      console.log('oi')
+      console.log('Essa é uma ação irreversível')
     },
     handleCreate () {
       this.setRenegociationForm(null)
-      this.$router.push({ name: 'renegociation.create' })
+      this.$router.push({ name: 'simulation.create' })
     },
     handleEdit (id) {
       this.setRenegociationForm(id)
-      this.$router.push({ name: 'renegociation.edit' })
+      this.$router.push({ name: 'simulation.view' })
     },
     handleDelete (id) {
-      Notify.confirm('oi')
+      Notify.confirm('Essa é uma ação irreversível')
         .then(val => console.log(val))
     }
   }

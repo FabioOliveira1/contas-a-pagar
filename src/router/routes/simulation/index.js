@@ -1,6 +1,7 @@
 import Main from '@/views/Main.vue'
 import List from '@/views/simulation/List.vue'
 import Form from '@/views/simulation/Form.vue'
+import Preview from '@/views/simulation/Preview.vue'
 
 export default [
   {
@@ -32,14 +33,14 @@ export default [
         }
       },
       {
-        path: 'editar',
-        name: 'simulation.edit',
-        component: Form,
+        path: 'visualizar',
+        name: 'simulation.preview',
+        component: Preview,
         meta: {
           title: 'M2 Print | Simulação',
           header: {
             title: 'Simulação',
-            breadcrumbs: ['Simulação', 'Editar']
+            breadcrumbs: ['Simulação', 'Visualizar']
           }
         }
       }

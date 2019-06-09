@@ -188,7 +188,7 @@ export default {
   methods: {
     ...mapActions(['setRenegociationForm']),
     doFilter () {
-      console.log('oi')
+      console.log('Essa é uma ação irreversível')
     },
     handleAmountModal (account) {
       this.accountToModal = account
@@ -203,7 +203,7 @@ export default {
       this.$router.push({ name: 'bank-accounts.edit' })
     },
     handleDelete (id) {
-      Notify.confirm('oi')
+      Notify.confirm('Essa é uma ação irreversível')
         .then(val => console.log(val))
     }
   }

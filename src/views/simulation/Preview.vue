@@ -5,8 +5,8 @@
     <v-card flex>
 
       <v-card-title>
-        <h1 class="f-size-20 w-100">{{ this.record.id ? 'Editar': 'Novo' }}</h1>
-        <p>Formulário de simulação</p>
+        <h1 class="f-size-20 w-100">Simulação do dia 22/03/2019</h1>
+        <p>Só pode ser aprovada ou rejeitada pelos gerentes</p>
       </v-card-title>
 
       <v-card-text class="p-10">

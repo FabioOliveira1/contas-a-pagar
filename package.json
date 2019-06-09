@@ -10,6 +10,7 @@
   "dependencies": {
     "date-fns": "^1.30.1",
     "font-awesome": "^4.7.0",
+    "moment": "^2.24.0",
     "node-sass": "^4.11.0",
     "pdfmake": "^0.1.56",
     "sass-loader": "^7.1.0",
@@ -23,7 +24,7 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.4.0",
     "@vue/cli-plugin-eslint": "^3.4.0",
-    "@vue/cli-service": "^3.4.0",
+    "@vue/cli-service": "^3.8.0",
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.8.0",

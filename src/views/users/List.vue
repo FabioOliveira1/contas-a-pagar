@@ -164,7 +164,7 @@ export default {
   methods: {
     ...mapActions(['setRenegociationForm']),
     doFilter () {
-      console.log('oi')
+      console.log('Essa é uma ação irreversível')
     },
     handleCreate () {
       this.setRenegociationForm(null)
@@ -175,7 +175,7 @@ export default {
       this.$router.push({ name: 'users.edit' })
     },
     handleDelete (id) {
-      Notify.confirm('oi')
+      Notify.confirm('Essa é uma ação irreversível')
         .then(val => console.log(val))
     }
   }

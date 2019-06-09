@@ -760,3 +760,40 @@ header.header {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
 }
+
+/* Simulation selector of accounts payable */
+.simulation-accounts-available {
+  position: relative;
+
+  .no-date-selected {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    background-color: #ddd;
+    opacity: .75;
+    z-index: 7;
+  }
+  .simulation-selector {
+    .v-card {
+      position: relative;
+      padding-right: 40px!important;
+
+      .risk-indicator {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        right: 5px;
+        top: 7px;
+
+        &:last-child {
+          top: 44px;
+        }
+      }
+    }
+  }
+}

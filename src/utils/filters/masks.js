@@ -71,3 +71,5 @@ Vue.filter('asDocumentFormat', (doc) => {
 
   return 'Documento inválido'
 })
+
+Vue.filter('currency', (value) => parseFloat(Math.round(value * 100) / 100).toFixed(2))
