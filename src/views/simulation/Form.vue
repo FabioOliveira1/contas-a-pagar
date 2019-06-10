@@ -123,7 +123,7 @@
 
               <v-layout wrap class="simulation-selector">
                 <v-flex xs12 v-for="(ap, i) in simAccounts" :key="ap.id" @click="removeAccount(i)">
-                  <v-card color="green" class="p-10 white--text m-t-5 m-b-5 pointer">
+                  <v-card color="green lighten-2" class="p-10 white--text m-t-5 m-b-5 pointer">
                     <p class="m-b-5"><b>{{ ap.description }}</b></p>
                     <p class="m-b-5">{{ ap.supplier.name }}</p>
                     <p class="m-b-5">{{ ap.accountsGroup.name }}</p>

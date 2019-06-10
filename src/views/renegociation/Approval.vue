@@ -30,7 +30,7 @@ export default {
       record: {
         id: '4ad2fa42fa4af2af2443f4',
         supplier: 'Papeis Silva',
-        contact: 'Fulano Souza',
+        contact: 'Carlos Souza',
         accountsPayable: 'Chapas de impressão personalizadas',
         createdAt: '2019-03-22 15:30:32',
         status: 'Pendente',
@@ -38,7 +38,7 @@ export default {
         oldDueDateAt: '15/03/2019',
         newValue: 1200,
         newDueDateAt: '30/03/2019',
-        message: 'Em função de mudanças recentes, precisaremos de mais tempo para conseguir os recursos necessários para liquidar nossa dívida.'
+        message: 'Em função de mudanças recentes, precisaremos de mais tempo para conseguir os recursos necessários para liquidar nossa dívida.\nNos próximos meses teremos vários projetos de grandes proporções, portanto, peço que compreenda essa nossa fase.'
       }
     }
   },

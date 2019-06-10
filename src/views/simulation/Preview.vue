@@ -5,161 +5,66 @@
     <v-card flex>
 
       <v-card-title>
-        <h1 class="f-size-20 w-100">Simulação do dia 22/03/2019</h1>
+        <h1 class="f-size-20 w-100">Simulação para o dia {{ record.simDate | dateFormat }}</h1>
         <p>Só pode ser aprovada ou rejeitada pelos gerentes</p>
       </v-card-title>
 
       <v-card-text class="p-10">
-        <v-form @submit.prevent="doFilter" ref="form">
-          <v-layout wrap>
+        <v-layout class="m-b-20 p-r-5 p-l-5">
+          <span class="m-r-10"><b>Banco</b> <br/>{{ record.bank.name }}</span>
+          <span class="m-r-10"><b>Agência</b> <br/>{{ record.agency.number }}</span>
+          <span class="m-r-10"><b>Conta</b> <br/>{{ record.bankAccount.number }}</span>
+          <span class="m-r-10"><b>Saldo</b> <br/>{{ record.bankAccount.value }}</span>
+        </v-layout>
+        <v-layout class="m-b-20 p-r-5 p-l-5 f-size-16">
+          <span class="m-r-10"><b>Total geral</b> <br/>{{ record.allAmount }}</span>
+          <span class="m-r-10"><b>Total Simulado</b> <br/>{{ record.simAmount }}</span>
+          <span class="m-r-10"><b>Saldo após simulação</b> <br/>{{ (record.bankAccount.value - record.simAmount) | currency }}</span>
+        </v-layout>
+        <v-layout wrap class="simulation-accounts-available">
+          <!-- Seletor de contas -->
+          <v-flex xs12 class="p-10">
+            <h3 class="m-b-5">Contas em simulação</h3>
 
-            <v-flex xs12 sm6 md2>
-              <v-combobox v-model="record.bank"
-                :rules="[v => !!v && !!v.id || 'Selecione um banco']"
-                :items="options.banks"
-                item-text="name"
-                label="Banco"
-              />
-            </v-flex>
+            <p class="p-t-10 p-b-10">Estão sempre ordenadas pela ordem de inserção</p>
+            <v-layout wrap class="simulation-selector">
+              <v-flex xs12 sm6 md4 v-for="ap in simAccounts" :key="ap.id">
+                <v-card color="green lighten-2" class="p-10 m-t-5 m-b-5">
+                  <p class="m-b-5"><b>{{ ap.description }}</b></p>
+                  <p class="m-b-5">{{ ap.supplier.name }}</p>
+                  <p class="m-b-5">{{ ap.accountsGroup.name }}</p>
+                  <p class="m-b-5">R$ {{ ap.value | currency }} - {{ ap.dueDateAt | dateFormat }}</p>
+                  <p class="m-b-5">Total R$ {{ ap.simValue || 0 | currency }}</p>
 
-            <v-flex xs12 sm6 md3>
-              <v-combobox v-model="record.agency"
-                :rules="[v => !!v && !!v.id || 'Selecione uma agência bancária']"
-                :items="options.agencies"
-                item-text="number"
-                label="Agência"
-              />
-            </v-flex>
-
-            <v-flex xs12 sm6 md3>
-              <v-combobox v-model="record.bankAccount"
-                :rules="[v => !!v && !!v.id || 'Selecione a conta bancária']"
-                :items="options.accounts"
-                item-text="number"
-                label="Conta bancária"
-              />
-            </v-flex>
-
-            <v-flex xs12 sm6 md4>
-              <v-text-field v-model="record.bankAccount.value"
-                label="Saldo atual"
-                disabled
-              />
-            </v-flex>
-
-            <v-flex xs12 sm6 md4>
-              <m2-date-picker v-model="record.simDate"
-                label="Data de simulação de pagamento"
-                :rules="[v => !!v || 'Proponha uma data de vencimento']"
-              />
-            </v-flex>
-
-            <v-flex xs12 sm6 md4>
-              <v-text-field v-model="record.simAmount"
-                label="Total da simulação"
-                disabled
-              />
-            </v-flex>
-
-            <v-flex xs12 sm6 md4>
-              <v-text-field v-model="record.allAmount"
-                label="Total geral"
-                disabled
-              />
-            </v-flex>
-          </v-layout>
-
-          <v-layout wrap class="simulation-accounts-available">
-            <div class="no-date-selected" v-if="!record.simDate">Selecione a data primeiro</div>
-            <!-- Seletor de contas -->
-            <v-flex xs12 sm8>
-              <h3 class="m-b-10">Contas disponíveis</h3>
-              <v-layout justify-space-between class="m-b-10">
-                <v-btn small flat @click="handleFilter('supplier')" :color="getColor('supplier')" class="m-r-10">
-                  <i class="m-r-10 fa fa-truck"></i> <i :class="getOrderIcon('supplier')"></i>
-                </v-btn>
-                
-                <v-btn small flat @click="handleFilter('accountsGroup')" :color="getColor('accountsGroup')" class="m-r-10">
-                  <i class="m-r-10 fa fa-object-group"></i> <i :class="getOrderIcon('accountsGroup')"></i>
-                </v-btn>
-                
-                <v-btn small flat @click="handleFilter('value')" :color="getColor('value')" class="m-r-10">
-                  <i class="m-r-10 fa fa-money"></i> <i :class="getOrderIcon('value')"></i>
-                </v-btn>
-                
-                <v-btn small flat @click="handleFilter('dueDateAt')" :color="getColor('dueDateAt')" class="m-r-10">
-                  <i class="m-r-10 fa fa-calendar"></i> <i :class="getOrderIcon('dueDateAt')"></i>
-                </v-btn>
-              </v-layout>
-              <v-layout wrap class="simulation-selector">
-                <v-flex xs12 sm6 md6 v-for="(ap, i) in accountsPayable" :key="ap.id" @click="addAccount(i)">
-                  <v-card color="#ddd" class="p-10 m-t-5 m-b-5 pointer">
-                    <p class="m-b-5"><b>{{ ap.description }}</b></p>
-                    <p class="m-b-5">{{ ap.supplier.name }}</p>
-                    <p class="m-b-5">{{ ap.accountsGroup.name }}</p>
-                    <p class="m-b-5">R$ {{ ap.value | currency }} - {{ ap.dueDateAt }}</p>
-                    <p class="m-b-5">Total R$ {{ ap.simValue || 0 | currency }}</p>
-
-                    <span title="Risco do fornecedor" class="white risk-indicator p-5 f-size-16">
-                      <i :class="`${riskColors[ap.supplier.risk - 1]} fa fa-truck`"></i>
-                    </span>
-                    <span title="Risco do grupo de contas" class="white risk-indicator p-5 f-size-16">
-                      <i :class="`${riskColors[ap.accountsGroup.risk - 1]} fa fa-object-group`"></i>
-                    </span>
-                  </v-card>
-                </v-flex>
-                <v-flex xs12 v-if="!accountsPayable.length">
-                  <v-card color="#fff" class="p-10 m-t-5 m-b-5">
-                    <p class="m-b-5">Não existem contas a pagar para simular</p>
-                  </v-card>
-                </v-flex>
-              </v-layout>
-            </v-flex>
-            <!-- Contas em simulação -->
-            <v-flex xs12 sm4>
-              <h3 class="m-b-5">Contas em simulação</h3>
-
-              <p class="p-10">Estão sempre ordenadas pela ordem de inserção</p>
-
-              <v-layout wrap class="simulation-selector">
-                <v-flex xs12 v-for="(ap, i) in simAccounts" :key="ap.id" @click="removeAccount(i)">
-                  <v-card color="green" class="p-10 white--text m-t-5 m-b-5 pointer">
-                    <p class="m-b-5"><b>{{ ap.description }}</b></p>
-                    <p class="m-b-5">{{ ap.supplier.name }}</p>
-                    <p class="m-b-5">{{ ap.accountsGroup.name }}</p>
-                    <p class="m-b-5">R$ {{ ap.value | currency }} - {{ ap.dueDateAt }}</p>
-                    <p class="m-b-5">Total R$ {{ ap.simValue || 0 | currency }}</p>
-                    <span title="Risco do fornecedor" class="white risk-indicator p-5 f-size-16">
-                      <i :class="`${riskColors[ap.supplier.risk - 1]} fa fa-truck`"></i>
-                    </span>
-                    <span title="Risco do grupo de contas" class="white risk-indicator p-5 f-size-16">
-                      <i :class="`${riskColors[ap.accountsGroup.risk - 1]} fa fa-object-group`"></i>
-                    </span>
-                  </v-card>
-                </v-flex>
-                <v-flex xs12 v-if="!simAccounts.length">
-                  <v-card color="#fff" class="p-10 m-t-5 m-b-5">
-                    <p class="m-b-5">Nenhuma conta adicionada</p>
-                  </v-card>
-                </v-flex>
-              </v-layout>
-            </v-flex>
-          </v-layout>
-
+                  <span title="Risco do fornecedor" class="white risk-indicator p-5 f-size-16">
+                    <i :class="`${riskColors[ap.supplier.risk - 1]} fa fa-truck`"></i>
+                  </span>
+                  <span title="Risco do grupo de contas" class="white risk-indicator p-5 f-size-16">
+                    <i :class="`${riskColors[ap.accountsGroup.risk - 1]} fa fa-object-group`"></i>
+                  </span>
+                </v-card>
+              </v-flex>
+              <v-flex xs12 v-if="!simAccounts.length">
+                <v-card color="#fff" class="p-10 m-t-5 m-b-5">
+                  <p class="m-b-5">Não existem contas a pagar para simular</p>
+                </v-card>
+              </v-flex>
+            </v-layout>
+          </v-flex>
+        </v-layout>
           <v-layout class="p-10">
-            <v-btn dark @click.prevent="$router.go(-1)">
-              <span class="f-bold m-r-10">Cancelar</span>
+            <v-btn dark color="error" @click.prevent="$router.go(-1)">
+              <span class="f-bold m-r-10">Recusar</span>
               <i class="fa fa-times"></i>
             </v-btn>
 
             <v-spacer></v-spacer>
 
             <v-btn color="success" dark type="submit">
-              <span class="f-bold m-r-10">Salvar</span>
+              <span class="f-bold m-r-10">Aprovar</span>
               <i class="fa fa-check"></i>
             </v-btn>
           </v-layout>
-        </v-form>
       </v-card-text>
 
     </v-card>
@@ -194,9 +99,9 @@ export default {
           number: '631787',
           value: 5000
         },
-        simDate: null,
-        allAmount: null,
-        simAmount: null
+        simDate: '2019-03-22',
+        allAmount: 5383.31,
+        simAmount: 3630.55
       },
       accountCombo: {
         id: null,
@@ -220,7 +125,7 @@ export default {
         agencies: [],
         accounts: []
       },
-      accountsPayable: [
+      simAccounts: [
         {
           id: Math.random() * Date.now(),
           description: 'Milheiro papel vergê',
@@ -247,26 +152,6 @@ export default {
         },
         {
           id: Math.random() * Date.now(),
-          description: 'Pigmentos variados',
-          supplier: { name: 'Tintas Cerdo', risk: 3 },
-          accountsGroup: { name: 'Insumos', risk: 3 },
-          value: 900,
-          dueDateAt: '2019-03-25',
-          fee: 0.1, // Porcentagem direta
-          increase: 0.03 // Porcentagem ao dia
-        },
-        {
-          id: Math.random() * Date.now(),
-          description: 'Conjunto de corte e estampa',
-          supplier: { name: 'Estampo e cia', risk: 2 },
-          accountsGroup: { name: 'Insumos', risk: 3 },
-          value: 670,
-          dueDateAt: '2019-03-18',
-          fee: 0.1, // Porcentagem direta
-          increase: 0.02 // Porcentagem ao dia
-        },
-        {
-          id: Math.random() * Date.now(),
           description: 'Suportes para notebook',
           supplier: { name: 'Lunga Ká', risk: 1 },
           accountsGroup: { name: 'Material de Escritório', risk: 1 },
@@ -276,24 +161,8 @@ export default {
           protestValue: 230, // Valor para retirar o protesto
           fee: 0.1, // Porcentagem direta
           increase: 0.02 // Porcentagem ao dia
-        },
-        {
-          id: Math.random() * Date.now(),
-          description: 'Produtos de limpeza',
-          supplier: { name: 'Limpejá', risk: 1 },
-          accountsGroup: { name: 'Material de Escritório', risk: 1 },
-          value: 55,
-          dueDateAt: '2019-03-15'
         }
       ],
-      simAccounts: [],
-      sortBy: [],
-      filterColors: {
-        'supplier': 'red darken-2',
-        'accountsGroup': 'blue darken-2',
-        'value': 'green darken-2',
-        'dueDateAt': 'purple darken-2'
-      },
       riskColors: ['green--text text--darken-3', 'yellow--text text--darken-4', 'red--text text--darken-1']
     }
   },
@@ -301,10 +170,6 @@ export default {
     if (this.currentId) {
       this.record.id = this.currentId
       this.fetchRecord()
-    }
-  },
-  watch: {
-    'record.simDate' (val) {
       this.getRealValues()
     }
   },
@@ -314,59 +179,8 @@ export default {
     })
   },
   methods: {
-    getAmounts () {
-      let allAmount = 0
-      allAmount = this.accountsPayable.reduce((allAmount, b) => allAmount + b.simValue, 0)
-      let simAmount = 0
-      simAmount = this.simAccounts.reduce((simAmount, b) => simAmount + b.simValue, 0)
-      this.record.allAmount = this.$options.filters.currency(allAmount + simAmount)
-      this.record.simAmount = this.$options.filters.currency(simAmount)
-    },
-    addAccount (i) {
-      this.simAccounts.push(this.accountsPayable[i])
-      this.accountsPayable.splice(i, 1)
-      this.getAmounts()
-    },
-    removeAccount (i) {
-      this.accountsPayable.push(this.simAccounts[i])
-      this.simAccounts.splice(i, 1)
-      this.getAmounts()
-    },
-    handleFilter (type) {
-      const existent = this.sortBy.findIndex(f => f.name === type)
-
-      if (existent === -1) {
-        this.sortBy.push({ name: type, order: 1 })
-        return true
-      }
-
-      if(this.sortBy[existent].order === 1) {
-        this.sortBy[existent].order = -1
-        return true
-      }
-
-      this.sortBy.splice(existent, 1)
-      return false
-    },
-    getOrderIcon (type) {
-      const existent = this.sortBy.find(f => f.name === type)
-
-      if (!existent) {
-        return ''
-      }
-
-      return `fa fa-arrow-${existent.order === 1 ? 'up' : 'down'}` 
-    },
-    getColor (type) {
-      const existent = this.sortBy.findIndex(f => f.name === type)
-      if (existent === -1) {
-        return 'grey'
-      }
-
-      return this.filterColors[type]
-    },
     getRealValues () {
-      this.accountsPayable.map(ap => {
+      this.simAccounts.map(ap => {
         if (!this.record.simDate) {
           ap.simValue = null
           return ap
@@ -398,7 +212,6 @@ export default {
         ap.simValue = value
         return ap
       })
-      this.getAmounts()
     },
     create: payload => create(payload),
     update: payload => update(payload),

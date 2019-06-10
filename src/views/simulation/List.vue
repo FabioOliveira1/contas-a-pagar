@@ -60,7 +60,7 @@
                 <td>{{ props.item.simDate }}</td>
                 <td>
                   <v-layout>
-                    <v-btn small icon color="primary" @click.prevent="handleDelete('thisId')">
+                    <v-btn small icon color="primary" @click.prevent="handlePreview('thisId')">
                       <span class="fa fa-eye"></span>
                     </v-btn>
                     <v-btn small icon color="error" class="m-l-10" @click.prevent="handleDelete('thisId')">
@@ -183,9 +183,9 @@ export default {
       this.setRenegociationForm(null)
       this.$router.push({ name: 'simulation.create' })
     },
-    handleEdit (id) {
+    handlePreview (id) {
       this.setRenegociationForm(id)
-      this.$router.push({ name: 'simulation.view' })
+      this.$router.push({ name: 'simulation.preview' })
     },
     handleDelete (id) {
       Notify.confirm('Essa é uma ação irreversível')

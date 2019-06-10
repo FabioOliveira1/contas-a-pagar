@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import moment from 'moment'
 
 /**
  * Returns string on phone number format
@@ -72,4 +73,6 @@ Vue.filter('asDocumentFormat', (doc) => {
   return 'Documento inválido'
 })
 
-Vue.filter('currency', (value) => parseFloat(Math.round(value * 100) / 100).toFixed(2))
+Vue.filter('currency', value => parseFloat(Math.round(value * 100) / 100).toFixed(2))
+
+Vue.filter('dateFormat', value => moment(value).format('DD[/]MM[/]YYYY'))
