@@ -1,4 +1,5 @@
 import Main from '@/views/Main.vue'
+import Dashboard from '@/views/Dashboard.vue'
 
 import renegociation from '@/router/routes/renegociation'
 import simulation from '@/router/routes/simulation'
@@ -18,15 +19,21 @@ export default [
   },
   {
     path: '/home',
-    name: 'home',
     component: Main,
-    meta: {
-      title: 'M2 Print | Dashboard',
-      header: {
-        title: 'Dashboard',
-        breadcrumbs: ['Dashboard']
+    children: [
+      {
+        path: '',
+        name: 'home',
+        component: Dashboard,
+        meta: {
+          title: 'M2 Print | Dashboard',
+          header: {
+            title: 'Dashboard',
+            breadcrumbs: ['Dashboard']
+          }
+        }
       }
-    }
+    ]
   },
   ...auth,
   ...renegociation,

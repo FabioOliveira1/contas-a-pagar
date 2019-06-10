@@ -182,7 +182,7 @@ export default {
       ],
       byAccountsGroup: [
         [
-          { text: 'Fornecedor' },
+          { text: 'Grupo de contas' },
           { text: 'Risco' },
           { text: 'Quantitativo' },
           { text: 'Valor (R$)' }
