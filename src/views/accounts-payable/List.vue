@@ -153,32 +153,32 @@ export default {
           text: 'Descrição',
           align: 'left',
           sortable: false,
-          value: 'description'
+          value: 'Cta_descrConta'
         },
         {
           text: 'Fornecedor',
           sortable: false,
-          value: 'supplier'
+          value: 'supplierName'
         },
         {
           text: 'Grupo de contas',
           sortable: false,
-          value: 'group'
+          value: 'accountsGroupName'
         },
         {
           text: 'Valor a pagar',
           sortable: false,
-          value: 'value'
+          value: 'Cta_valConta'
         },
         {
           text: 'Vencimento em',
           sortable: false,
-          value: 'dueDateAt'
+          value: 'Cta_dataVencimento'
         },
         {
           text: 'Status',
           sortable: false,
-          value: 'status'
+          value: 'Cta_Status'
         },
         {
           text: 'Ações',

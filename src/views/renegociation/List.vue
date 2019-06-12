@@ -62,16 +62,16 @@
     <!-- List -->
     <v-card class="m-t-10 f-size-16 list__item">
       <v-layout wrap>
-          <v-data-table class="w-100" :headers="headers" :items="records" item-key="id">
+          <v-data-table class="w-100" :headers="headers" :items="records" item-key="Rng_idProposta">
             <template v-slot:items="props">
               <tr class="pointer" @click="props.expanded = !props.expanded">
-                <td>{{ props.item.supplier }}</td>
-                <td>{{ props.item.contact }}</td>
+                <td>{{ props.item.supplierName }}</td>
+                <td>{{ props.item.contactName }}</td>
                 <td>{{ props.item.accountsPayable }}</td>
-                <td>{{ props.item.createdAt }}</td>
-                <td>{{ props.item.status }}</td>
+                <td>{{ props.item.created_at | dateFormat }}</td>
+                <td>{{ props.item.Rng_Status }}</td>
                 <td>
-                  <v-btn small icon color="error" @click.prevent="handleDelete('thisId')">
+                  <v-btn small icon color="error" @click.prevent="handleDelete(props.item.Rng_idProposta)">
                     <span class="fa fa-times"></span>
                   </v-btn>
                 </td>
@@ -80,11 +80,11 @@
             <template v-slot:expand="props">
               <v-card flat class="expand__content">
                 <v-card-title><b>Outras informações </b></v-card-title>
-                <v-card-text><b>Valor atual:</b>{{ props.item.oldValue }}</v-card-text>
-                <v-card-text><b>Vencimento atual:</b>{{ props.item.oldDuedateAt }}</v-card-text>
-                <v-card-text><b>Valor proposto:</b>{{ props.item.newValue }}</v-card-text>
-                <v-card-text><b>Vencimento proposto:</b>{{ props.item.newDueDateAt }}</v-card-text>
-                <v-card-text><b>Mensagem:</b>{{ props.item.message }}</v-card-text>
+                <v-card-text><b>Valor atual:</b>{{ props.item.Rng_valAntigo }}</v-card-text>
+                <v-card-text><b>Vencimento atual:</b>{{ props.item.Rng_vencAntigo }}</v-card-text>
+                <v-card-text><b>Valor proposto:</b>{{ props.item.Rng_valProposta }}</v-card-text>
+                <v-card-text><b>Vencimento proposto:</b>{{ props.item.Rng_vencProposta }}</v-card-text>
+                <v-card-text><b>Mensagem:</b>{{ props.item.Rng_descrProposta }}</v-card-text>
               </v-card>
             </template>
           </v-data-table>
@@ -94,7 +94,8 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { getAllRenegociation, deleteRenegociation } from '@/services'
+import { mapMutations } from 'vuex'
 import Notify from '@/utils/notify'
 export default {
   data () {
@@ -121,12 +122,12 @@ export default {
           text: 'Fornecedor',
           align: 'left',
           sortable: false,
-          value: 'supplier'
+          value: 'supplierName'
         },
         {
           text: 'Contato',
           sortable: false,
-          value: 'contact'
+          value: 'contactName'
         },
         {
           text: 'Conta a pagar',
@@ -136,107 +137,63 @@ export default {
         {
           text: 'Criado em',
           sortable: false,
-          value: 'createdAt'
+          value: 'created_at'
         },
         {
           text: 'Status',
           sortable: false,
-          value: 'status'
+          value: 'Rng_Status'
         },
         {
           text: 'Ações',
           sortable: false
         }
       ],
-      records: [
-        {
-          id: '4ad2fa42fa4af2af2443f4',
-          supplier: 'Papeis Silva',
-          contact: 'fulano@silvapapeis.com',
-          accountsPayable: 'Chapas de impressão personalizadas',
-          createdAt: '2019-03-22 15:30:32',
-          status: 'Pendente',
-          oldValue: 1000,
-          oldDueDateAt: '15/03/2019',
-          newValue: 1200,
-          newDueDateAt: '30/03/2019',
-          message: 'Bom dia, em função de mudanças recentes, precisamos de mais tempo para conseguir pagar a obrigação xyz'
-        },
-        {
-          id: '4ad2fa42fa4af2af2443f',
-          supplier: 'Papeis Silva',
-          contact: 'fulano@silvapapeis.com',
-          accountsPayable: 'Chapas de impressão personalizadas',
-          createdAt: '2019-03-22 15:30:32',
-          status: 'Pendente',
-          oldValue: 1000,
-          oldDueDateAt: '15/03/2019',
-          newValue: 1200,
-          newDueDateAt: '30/03/2019',
-          message: 'Bom dia, em função de mudanças recentes, precisamos de mais tempo para conseguir pagar a obrigação xyz'
-        },
-        {
-          id: '4ad2fa42fa4af2af2443',
-          supplier: 'Papeis Silva',
-          contact: 'fulano@silvapapeis.com',
-          accountsPayable: 'Chapas de impressão personalizadas',
-          createdAt: '2019-03-22 15:30:32',
-          status: 'Pendente',
-          oldValue: 1000,
-          oldDueDateAt: '15/03/2019',
-          newValue: 1200,
-          newDueDateAt: '30/03/2019',
-          message: 'Bom dia, em função de mudanças recentes, precisamos de mais tempo para conseguir pagar a obrigação xyz'
-        },
-        {
-          id: '4ad2fa42fa4af2af244',
-          supplier: 'Papeis Silva',
-          contact: 'fulano@silvapapeis.com',
-          accountsPayable: 'Chapas de impressão personalizadas',
-          createdAt: '2019-03-22 15:30:32',
-          status: 'Pendente',
-          oldValue: 1000,
-          oldDueDateAt: '15/03/2019',
-          newValue: 1200,
-          newDueDateAt: '30/03/2019',
-          message: 'Bom dia, em função de mudanças recentes, precisamos de mais tempo para conseguir pagar a obrigação xyz'
-        },
-        {
-          id: '4ad2fa42fa4af2af24',
-          supplier: 'Papeis Silva',
-          contact: 'fulano@silvapapeis.com',
-          accountsPayable: 'Chapas de impressão personalizadas',
-          createdAt: '2019-03-22 15:30:32',
-          status: 'Pendente',
-          oldValue: 1000,
-          oldDueDateAt: '15/03/2019',
-          newValue: 1200,
-          newDueDateAt: '30/03/2019',
-          message: 'Bom dia, em função de mudanças recentes, precisamos de mais tempo para conseguir pagar a obrigação xyz'
-        }
-      ]
+      records: []
     }
   },
-  watch: {
-    page (val) {
-      console.log(val)
-    }
+  created() {
+    this.doFilter()
   },
   methods: {
-    ...mapActions(['setRenegociationForm']),
+    ...mapMutations({ setFormReference: 'SET_FORM_REFERENCE' }),
     doFilter () {
-      console.log('Essa é uma ação irreversível')
+      this.loading = false
+
+      getAllRenegociation()
+        .then(({ data }) => {
+          console.log(data)
+          this.records = data.map(r => {
+            r.contactName = r.contact.Cnt_nomeContato
+            r.contactEmail = r.contact.Cnt_emailContato
+            r.supplierName = r.contact.supplier.Forn_NomeFantasia
+            r.accountsPayable = r.bill.Cta_descrConta
+            return r
+          })
+        })
+        .catch(e => console.log(e))
+        .then(() => { this.loading = false })
     },
     handleCreate () {
-      this.setRenegociationForm(null)
+      this.setFormReference({field: 'renegociation', value: null })
       this.$router.push({ name: 'renegociation.create' })
     },
     handleEdit (id) {
-      this.setRenegociationForm(id)
+      this.setFormReference({field: 'renegociation', value: id })
       this.$router.push({ name: 'renegociation.edit' })
     },
     handleDelete (id) {
-      Notify.confirm('Essa é uma ação irreversível').then(val => console.log(val))
+      Notify.confirm('Essa é uma ação irreversível')
+        .then(response => {
+          if (response.value) {
+            deleteRenegociation(id)
+              .then(() => {
+                Notify.success('Registro removido')
+                this.doFilter()
+              })
+              .catch(() => { Notify.error('Não foi possível remover o registro') })
+          }
+        })
     }
   }
 }

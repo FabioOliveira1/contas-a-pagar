@@ -14,83 +14,88 @@
           <v-layout wrap>
 
             <v-flex sm12 md6 lg4>
-              <v-combobox v-model="supplierCombo"
-                :rules="[v => !!v && v.id || 'Selecione um fornecedor']"
-                :items="options.suppliers"
+              <v-select v-model="supplier"
+                :rules="[v => !!v || 'Selecione um fornecedor']"
+                :items="suppliers"
+                item-value="id"
                 item-text="name"
                 label="Fornecedores"
               />
             </v-flex>
 
             <v-flex sm12 md6 lg4>
-              <v-combobox v-model="contactCombo"
-                :rules="[v => !!v && v.id || 'Selecione um contato']"
-                :items="options.contacts"
+              <v-select v-model="record.Rng_idContato"
+                :rules="[v => !!v || 'Selecione um contato']"
+                :items="contacts"
+                item-value="id"
                 item-text="name"
                 label="Contato"
+                :disabled="!supplier"
               />
             </v-flex>
 
             <v-flex sm12 md6 lg4>
-              <v-combobox v-model="accountCombo"
-                :rules="[v => !!v && v.id || 'Selecione a conta para renegociar']"
-                :items="options.accounts"
+              <v-select v-model="record.Rng_idConta"
+                :rules="[v => !!v || 'Selecione a conta para renegociar']"
+                :items="accountsPayable"
+                item-value="id"
                 item-text="name"
                 label="Contas"
+                :disabled="!supplier"
               />
             </v-flex>
 
             <v-flex sm12 md6 lg2>
-              <v-select v-model="record.initiative"
+              <v-select v-model="record.Rng_Iniciativa"
                 :items="['Interna', 'Externa']"
                 label="Iniciativa"
               />
             </v-flex>
 
             <v-flex sm12 md6 lg4>
-              <v-text-field v-model="accountCombo.value"
+              <v-text-field v-model="accountPayable.value"
                 label="Valor original"
                 disabled
               />
             </v-flex>
 
             <v-flex sm12 md6 lg3>
-              <v-text-field v-model="accountCombo.fee"
+              <v-text-field v-model="accountPayable.fee"
                 label="Multa"
                 disabled
               />
             </v-flex>
 
             <v-flex sm12 md6 lg3>
-              <v-text-field v-model="accountCombo.interest"
+              <v-text-field v-model="accountPayable.interest"
                 label="Juros"
                 disabled
               />
             </v-flex>
 
             <v-flex sm12 md6 lg6>
-              <v-text-field v-model="accountCombo.emitedAt"
+              <v-text-field v-model="accountPayable.emitedAt"
                 label="Data de emissão"
                 disabled
               />
             </v-flex>
 
             <v-flex sm12 md6 lg6>
-              <v-text-field v-model="accountCombo.dueDateAt"
+              <v-text-field v-model="accountPayable.dueDateAt"
                 label="Data de vencimento"
                 disabled
               />
             </v-flex>
 
             <v-flex sm12 md6 lg6>
-              <m2-date-picker v-model="record.newDate"
+              <m2-date-picker v-model="record.Rng_vencProposta"
                 label="Data de vencimento proposta"
                 :rules="[v => !!v || 'Proponha uma data de vencimento']"
               />
             </v-flex>
 
             <v-flex sm12 md6 lg6>
-              <v-text-field v-model="record.newValue"
+              <v-text-field v-model="record.Rng_valProposta"
                 type="number"
                 :rules="[v => !!v || 'Proponha um novo valor a ser pago']"
                 label="Valor proposto"
@@ -99,7 +104,7 @@
             </v-flex>
 
             <v-flex sm12>
-              <v-textarea v-model="record.description"
+              <v-textarea v-model="record.Rng_descrProposta"
                 :rules="[v => !!v || 'A renegociação precisa ter mensagem']"
                 label="Descrição"
               />
@@ -128,8 +133,7 @@
 </template>
 
 <script>
-import { get, create, update } from '@/services'
-import { mapGetters } from 'vuex'
+import { createRenegociation, getAllAccountsPayable, getAllSupplier, getAllContact } from '@/services'
 import FormActions from '@/utils/mixins/formActions'
 
 export default {
@@ -140,55 +144,74 @@ export default {
       loading: false,
       record: {
         id: null,
-        supplierId: null,
-        contactId: null,
-        accountId: null,
-        newValue: null,
-        newDate: null,
-        description: null,
-        status: null
+        Rng_idContato: null,
+        Rng_idConta: null,
+        Rng_Iniciativa: null,
+        Rng_vencProposta: null,
+        Rng_valProposta: null,
+        Rng_descrProposta: null,
+        Rng_valAntigo: null,
+        Rng_vencAntigo: null
       },
-      accountCombo: {
-        id: null,
-        name: null,
-        value: null,
-        fee: null,
-        interest: null,
-        emitedAt: null,
-        dueDateAt: null
-      },
-      supplierCombo: {
-        id: null,
-        name: null
-      },
-      contactCombo: {
-        id: null,
-        name: null
-      },
-      options: {
-        suppliers: [],
-        contacts: [],
-        accounts: []
-      }
+      supplier: null,
+      suppliers: [],
+      contacts: [],
+      accountsPayable: []
     }
   },
   created () {
-    if (this.currentId) {
-      this.record.id = this.currentId
-      this.fetchRecord()
-    }
+    this.getOptions()
   },
   computed: {
-    ...mapGetters({
-      currentId: 'getRenegociationForm'
-    })
+    accountPayable () {
+      if (!this.record.Rng_idConta || !this.accountsPayable.length) {
+        return []
+      }
+
+      return this.accountsPayable.find(ac => ac.id === this.record.Rng_idConta)
+    }
+  },
+  watch: {
+    supplier (val) {
+      this.getDependantOptions(val)
+    }
   },
   methods: {
-    create: payload => create(payload),
-    update: payload => update(payload),
-    get: id => get(id),
+    getOptions () {
+      getAllSupplier()
+        .then(({ data }) => {
+          this.suppliers = data.map(s => ({
+            id: s.Forn_idFornecedor,
+            name: s.Forn_NomeFantasia
+          }))
+        })
+    },
+    getDependantOptions (id) {
+      getAllAccountsPayable({ Cta_idFornecedor: id, Cta_Status: 'A' })
+        .then(({ data }) => {
+          this.accountsPayable = data.map(r => ({
+            id: r.Cta_idConta,
+            name: r.Cta_descrConta,
+            value: r.Cta_valConta,
+            fee: r.Cta_Multa,
+            interest: r.Cta_Juros,
+            emitedAt: r.Cta_dataEmissao,
+            dueDateAt: r.Cta_dataVencimento,
+          }))
+        })
+      getAllContact({ Cnt_idFornecedor: id })
+        .then(({ data }) => {
+          this.contacts = data.map(r => ({
+            id: r.Cnt_idContato,
+            name: r.Cnt_nomeContato,
+          }))
+        })
+    },
+    create: payload => createRenegociation(payload),
     doFilter () {
       if (this.$refs.form.validate()) {
+        this.record['Rng_valAntigo'] = this.accountPayable.value
+        this.record['Rng_vencAntigo'] = this.accountPayable.dueDateAt
         this.save()
       }
     }

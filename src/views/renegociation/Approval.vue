@@ -1,13 +1,13 @@
 <template>
   <minimal-layout expanded>
-    <section class="w-100 f-size-16 text-justify">
+    <section class="w-100 f-size-16 text-justify" v-if="!loading">
       <!-- List -->
         <v-layout wrap>
-          <v-card-title><b>Olá, {{record.contact}},</b></v-card-title>
-          <v-card-text class="p-t-0">Gostariamos de renegociar a conta a pagar sobre: "{{record.accountsPayable}}" com a sua companhia, {{ record.supplier }}.</v-card-text>
-          <v-card-text class="p-t-0">{{ record.message }}</v-card-text>
-          <v-card-text class="p-t-0">Atualmente, o valor e data de vencimento correspondem a <b>R$ {{ record.oldValue }}</b> e <b>{{ record.oldDueDateAt }}</b>.</v-card-text>
-          <v-card-text class="p-t-0">Caso aceite, o valor e data de vencimento passarão a ser <b>R$ {{ record.newValue }}</b> e <b>{{ record.newDueDateAt }}</b>.</v-card-text>
+          <v-card-title><b>Olá, {{record.contact.Cnt_nomeContato}},</b></v-card-title>
+          <v-card-text class="p-t-0">Gostariamos de renegociar a conta a pagar sobre: "{{record.bill.Cta_descrConta}}" com a sua companhia, {{ record.contact.supplier.Forn_NomeFantasia }}.</v-card-text>
+          <v-card-text class="p-t-0">{{ record.Rng_descrProposta }}</v-card-text>
+          <v-card-text class="p-t-0">Atualmente, o valor e data de vencimento correspondem a <b>R$ {{ record.Rng_valAntigo }}</b> e <b>{{ record.Rng_vencAntigo | dateFormat }}</b>.</v-card-text>
+          <v-card-text class="p-t-0">Caso aceite, o valor e data de vencimento passarão a ser <b>R$ {{ record.Rng_valProposta }}</b> e <b>{{ record.Rng_vencProposta | dateFormat }}</b>.</v-card-text>
           
           <v-card-text>
             Se necessário, salve os novos documentos:
@@ -24,55 +24,48 @@
 
 <script>
 import Notify from '@/utils/notify'
-import { endRenegociation } from '@/services'
+import { getRenegociation, endRenegociation } from '@/services'
 
 export default {
   data () {
     return {
-      loading: false,
+      loading: true,
       loadingAccept: false,
       loadingDeny: false,
-      record: {
-        id: '4ad2fa42fa4af2af2443f4',
-        supplier: 'Papeis Silva',
-        contact: 'Carlos Souza',
-        accountsPayable: 'Chapas de impressão personalizadas',
-        createdAt: '2019-03-22 15:30:32',
-        status: 'Pendente',
-        oldValue: 1000,
-        oldDueDateAt: '15/03/2019',
-        newValue: 1200,
-        newDueDateAt: '30/03/2019',
-        message: 'Em função de mudanças recentes, precisaremos de mais tempo para conseguir os recursos necessários para liquidar nossa dívida.\nNos próximos meses teremos vários projetos de grandes proporções, portanto, peço que compreenda essa nossa fase.'
-      }
+      record: { contact: { supplier: {} }, bill: {} }
     }
   },
   mounted () {
     this.loading = true
-    let a = confirm(this.$route.params.token)
-    if (!a) {
-      this.$router.push({ name: 'error404' })
-    }
+    getRenegociation(this.$route.params.token)
+      .then(({ data }) => {
+        console.log(data)
+        this.record = { ...data }
+      })
+      // .catch
     this.loading = false
   },
   methods: {
     accept () {
       this.loadingAccept = true
-      this.endRenegociation('aprovada')
+      endRenegociation({ id: this.record.Rng_idProposta, Rng_Status: 'A' })
         .then(() => {
           Notify.success('Obrigado por aceitar nossa proposta.', 'Boa escolha!')
+          this.$router.push({ name: 'home' })
         })
+        .catch(() => { Notify.error('Algo deu errado, tente mais tarde.') })
         .then(() => { this.loadingAccept = false })
     },
     deny () {
       this.loadingDeny = true
-      this.endRenegociation('recusada')
+      endRenegociation({ id: this.record.Rng_idProposta, Rng_Status: 'R' })
         .then(() => {
           Notify.info('Vamos elaborar uma proposta melhor.', 'Que pena!')
+          this.$router.push({ name: 'home' })
         })
+        .catch(() => { Notify.error('Algo deu errado, tente mais tarde.') })
         .then(() => { this.loadingDeny = false })
-    },
-    endRenegociation: (v) => endRenegociation({ status: v })
+    }
   }
 }
 </script>

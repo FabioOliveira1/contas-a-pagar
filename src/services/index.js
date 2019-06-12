@@ -5,6 +5,9 @@ export const initStore = () => http.get('/api/init')
 // suppliers
 export const getAllSupplier = (params = {}) => http.get('/api/supplier', { params })
 
+// contacts
+export const getAllContact = (params = {}) => http.get('/api/contacts', { params })
+
 // accounts group
 export const getAllAccountsGroup = (params = {}) => http.get('/api/billsGroup', { params })
 
@@ -26,6 +29,19 @@ export const createAccountsPayable = (params = {}) => http.post('/api/bill', par
 export const updateAccountsPayable = (params = {}) => http.put(`/api/bill/${params.id}`, params)
 
 export const deleteAccountsPayable = id => http.delete(`/api/bill/${id}`)
+
+// accounts payable
+export const getAllRenegociation = (params = {}) => http.get('/api/renegotiation', { params })
+
+export const getRenegociation = id => http.get(`/api/renegotiation/${id}`)
+
+export const createRenegociation = (params = {}) => http.post('/api/renegotiation', params)
+
+export const updateRenegociation = (params = {}) => http.put(`/api/renegotiation/${params.id}`, params)
+
+export const endRenegociation = (params = {}) => http.put(`/api/renegotiation/${params.id}/end`, params)
+
+export const deleteRenegociation = id => http.delete(`/api/renegotiation/${id}`)
 
 
 
@@ -66,11 +82,6 @@ export const deleteBank = () => {
 export const deleteAgency = () => {
   return new Promise((resolve, reject) => {
     setTimeout(() => resolve('deleteAgency'), 1000)
-  })
-}
-export const endRenegociation = (params = {}) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => resolve('endRenegociation'), 1000)
   })
 }
 
