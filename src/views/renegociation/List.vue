@@ -81,9 +81,9 @@
               <v-card flat class="expand__content">
                 <v-card-title><b>Outras informações </b></v-card-title>
                 <v-card-text><b>Valor atual:</b>{{ props.item.Rng_valAntigo }}</v-card-text>
-                <v-card-text><b>Vencimento atual:</b>{{ props.item.Rng_vencAntigo }}</v-card-text>
+                <v-card-text><b>Vencimento atual:</b>{{ props.item.Rng_vencAntigo | dateFormat }}</v-card-text>
                 <v-card-text><b>Valor proposto:</b>{{ props.item.Rng_valProposta }}</v-card-text>
-                <v-card-text><b>Vencimento proposto:</b>{{ props.item.Rng_vencProposta }}</v-card-text>
+                <v-card-text><b>Vencimento proposto:</b>{{ props.item.Rng_vencProposta | dateFormat }}</v-card-text>
                 <v-card-text><b>Mensagem:</b>{{ props.item.Rng_descrProposta }}</v-card-text>
               </v-card>
             </template>
