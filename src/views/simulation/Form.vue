@@ -83,8 +83,8 @@
                   <i class="m-r-10 fa fa-object-group"></i> <i :class="getOrderIcon('accountsGroup')"></i>
                 </v-btn>
                 
-                <v-btn small flat @click="handleFilter('value')" :color="getColor('value')" class="m-r-10">
-                  <i class="m-r-10 fa fa-money"></i> <i :class="getOrderIcon('value')"></i>
+                <v-btn small flat @click="handleFilter('simValue')" :color="getColor('simValue')" class="m-r-10">
+                  <i class="m-r-10 fa fa-money"></i> <i :class="getOrderIcon('simValue')"></i>
                 </v-btn>
                 
                 <v-btn small flat @click="handleFilter('dueDateAt')" :color="getColor('dueDateAt')" class="m-r-10">
@@ -92,7 +92,7 @@
                 </v-btn>
               </v-layout>
               <v-layout wrap class="simulation-selector">
-                <v-flex xs12 sm6 md6 v-for="(ap, i) in accountsPayable" :key="ap.id" @click="addAccount(i)">
+                <v-flex xs12 sm6 md6 v-for="(ap, i) in sortedAccounts" :key="ap.id" @click="addAccount(i)">
                   <v-card color="#ddd" class="p-10 m-t-5 m-b-5 pointer">
                     <p class="m-b-5"><b>{{ ap.description }}</b></p>
                     <p class="m-b-5">{{ ap.supplier.name }}</p>
@@ -108,7 +108,7 @@
                     </span>
                   </v-card>
                 </v-flex>
-                <v-flex xs12 v-if="!accountsPayable.length">
+                <v-flex xs12 v-if="!sortedAccounts.length">
                   <v-card color="#fff" class="p-10 m-t-5 m-b-5">
                     <p class="m-b-5">Não existem contas a pagar para simular</p>
                   </v-card>
@@ -291,7 +291,7 @@ export default {
       filterColors: {
         'supplier': 'red darken-2',
         'accountsGroup': 'blue darken-2',
-        'value': 'green darken-2',
+        'simValue': 'green darken-2',
         'dueDateAt': 'purple darken-2'
       },
       riskColors: ['green--text text--darken-3', 'yellow--text text--darken-4', 'red--text text--darken-1']
@@ -311,7 +311,30 @@ export default {
   computed: {
     ...mapGetters({
       currentId: 'getRenegociationForm'
-    })
+    }),
+    sortedAccounts () {
+      return this.accountsPayable.sort((a, b) => {
+        for (let item of this.sortBy) {
+          if (item.name === 'accountsGroup' || item.name === 'supplier') {
+            if (a[item.name].risk > b[item.name].risk) {
+              return item.order
+            }
+            if (a[item.name].risk < b[item.name].risk) {
+              return item.order*(-1)
+            }
+          }
+
+          if (a[item.name] > b[item.name]) {
+            return item.order
+          }
+          if (a[item.name] < b[item.name]) {
+            return item.order*(-1)
+          }
+        }
+
+        return 1
+      })
+    }
   },
   methods: {
     getAmounts () {
