@@ -40,6 +40,9 @@ export default {
     rules: {
       type: Array,
       default: () => []
+    },
+    value: {
+      default: null
     }
   },
   data () {
@@ -48,9 +51,15 @@ export default {
       menu: false
     }
   },
+  created () {
+    this.date = this.value
+  },
   watch: {
     date (val) {
       this.$emit('input', val)
+    },
+    value (val) {
+      this.date = val
     }
   }
 }

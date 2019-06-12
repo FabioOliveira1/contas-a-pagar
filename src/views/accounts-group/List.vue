@@ -49,7 +49,7 @@
     <!-- List -->
     <v-card class="m-t-10 f-size-16 list__item">
       <v-layout wrap>
-          <v-data-table class="w-100" :loading="loading" :headers="headers" :items="records" item-key="id">
+          <v-data-table class="w-100" :loading="loading" :headers="headers" :items="records" item-key="GrCt_idGrupo">
             <template v-slot:items="props">
               <tr>
                 <td>{{ props.item.GrCt_NomeGrupo }}</td>

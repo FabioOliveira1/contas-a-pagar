@@ -10,91 +10,105 @@
       </v-card-title>
 
       <v-card-text class="p-t-0">
-        <v-form @submit.prevent="doFilter" ref="form">
+        <v-form @submit.prevent="submit" ref="form">
           <v-layout wrap>
 
             <v-flex sm12 md6>
-              <v-text-field v-model="record.description"
+              <v-text-field v-model="record.Cta_descrConta"
+                :rules="[v => !!v || 'Campo obrigatório']"
                 label="Descrição"
               />
             </v-flex>
 
             <v-flex sm12 md6>
-              <v-combobox v-model="groupCombo"
-                :rules="[v => !!v && v.id || 'Selecione um grupo ']"
-                :items="options.groups"
+              <v-select v-model="record.Cta_idGrupo" @change="$refs.form.resetValidation()"
+                :rules="[v => !!v || 'Selecione um grupo ']"
+                :items="accountsGroups"
+                item-value="id"
                 item-text="name"
                 label="Grupo de contas"
               />
             </v-flex>
 
             <v-flex sm12 md6>
-              <v-combobox v-model="supplierCombo"
-                :rules="[v => !!v && v.id || 'Selecione um fornecedor']"
-                :items="options.suppliers"
+              <v-select v-model="record.Cta_idFornecedor"
+                :rules="[v => !!v || 'Selecione um fornecedor']"
+                :items="suppliers"
+                item-value="id"
                 item-text="name"
                 label="Fornecedores"
               />
             </v-flex>
 
             <v-flex sm6 md3>
-              <v-text-field v-model="record.fee"
+              <v-text-field v-model="record.Cta_Multa"
                 label="Multa"
+                :disabled="!requireds.find(r => r === 'Cta_Multa')"
+                :rules="[v => !requireds.find(r => r === 'Cta_Multa') || !!v || 'Campo obrigatório']"
               />
             </v-flex>
 
             <v-flex sm6 md3>
-              <v-text-field v-model="record.increase"
+              <v-text-field v-model="record.Cta_Juros"
                 label="Juros"
+                :disabled="!requireds.find(r => r === 'Cta_Juros')"
+                :rules="[v => !requireds.find(r => r === 'Cta_Juros') || !!v || 'Campo obrigatório']"
               />
             </v-flex>
 
             <v-flex sm12 md6>
-              <v-text-field v-model="record.value"
+              <v-text-field v-model="record.Cta_valConta"
+                :rules="[v => !!v || 'Campo obrigatório']"
                 label="Valor original"
               />
             </v-flex>
 
             <v-flex sm12 md3>
-              <v-text-field v-model="record.protestTime"
+              <v-text-field v-model="record.Cta_tempoProtesto"
                 label="Tempo de protesto"
+                :disabled="!requireds.find(r => r === 'Cta_tempoProtesto')"
+                :rules="[v => !requireds.find(r => r === 'Cta_tempoProtesto') || !!v || 'Campo obrigatório']"
               />
             </v-flex>
 
             <v-flex sm12 md3>
-              <v-text-field v-model="record.protestValue"
+              <v-text-field v-model="record.Cta_valProtesto"
                 label="Valor do protesto"
+                :disabled="!requireds.find(r => r === 'Cta_valProtesto')"
+                :rules="[v => !requireds.find(r => r === 'Cta_valProtesto') || !!v || 'Campo obrigatório']"
               />
             </v-flex>
 
             <v-flex sm12 md6 lg6>
-              <m2-date-picker v-model="record.emitedAt"
+              <m2-date-picker v-model="record.Cta_dataEmissao"
                 label="Data de emissão"
                 :rules="[v => !!v || 'Campo obrigatório']"
               />
             </v-flex>
 
             <v-flex sm12 md6 lg6>
-              <m2-date-picker v-model="record.dueDateAt"
+              <m2-date-picker v-model="record.Cta_dataVencimento"
                 label="Data de vencimento"
                 :rules="[v => !!v || 'Campo obrigatório']"
               />
             </v-flex>
 
             <v-flex xs12 sm8>
-              <v-text-field v-model="record.barcode"
+              <v-text-field v-model="record.Cta_codBarra"
                 type="number"
-                :rules="[v => !!v || 'Campo obrigatório']"
                 label="Código de barras"
+                :disabled="!requireds.find(r => r === 'Cta_codBarra')"
+                :rules="[v => !requireds.find(r => r === 'Cta_codBarra') || !!v || 'Campo obrigatório']"
                 clearable
               />
             </v-flex>
 
             <v-flex xs12 sm4>
-              <v-text-field v-model="record.ourNumber"
+              <v-text-field v-model="record.Cta_numConta"
                 type="number"
-                :rules="[v => !!v || 'Campo obrigatório']"
                 label="Nosso número"
+                :disabled="!requireds.find(r => r === 'Cta_numConta')"
+                :rules="[v => !requireds.find(r => r === 'Cta_numConta') || !!v || 'Campo obrigatório']"
                 clearable
               />
             </v-flex>
@@ -126,68 +140,93 @@
 </template>
 
 <script>
-import { get, create, update } from '@/services'
-import { mapGetters } from 'vuex'
+import { getAccountsPayable, createAccountsPayable, updateAccountsPayable, getAllSupplier, getAllAccountsGroup } from '@/services'
+import { mapState, mapGetters } from 'vuex'
 import FormActions from '@/utils/mixins/formActions'
 
 export default {
   mixins: [FormActions],
   data () {
     return {
-      mixinContext: 'renegociação',
+      mixinContext: 'contas a pagar',
       loading: false,
       record: {
         id: null,
-        supplierId: null,
-        contactId: null,
-        accountId: null,
-        newValue: null,
-        newDate: null,
-        subject: null,
-        message: null,
-        status: null
+        Cta_idConta: null,
+        Cta_descrConta: null,
+        Cta_numConta: null,
+        Cta_idFornecedor: null,
+        Cta_idGrupo: null,
+        Cta_codBarra: null,
+        Cta_Juros: null,
+        Cta_Multa: null,
+        Cta_dataEmissao: null,
+        Cta_dataVencimento: null,
+        Cta_tempoProtesto: null,
+        Cta_valConta: null,
+        Cta_valProtesto: null,
+        Cta_Status: null
       },
-      accountCombo: {
-        id: null,
-        name: null,
-        value: null,
-        fee: null,
-        interest: null,
-        emitedAt: null,
-        dueDateAt: null
-      },
-      supplierCombo: {
-        id: null,
-        name: null
-      },
-      contactCombo: {
-        id: null,
-        name: null
-      },
-      options: {
-        suppliers: [],
-        contacts: [],
-        accounts: []
-      }
+      suppliers: [],
+      accountsGroups: []
     }
   },
   created () {
-    if (this.currentId) {
+    this.getOptions()
+    if (this.$route.name.includes('edit') && this.currentId) {
       this.record.id = this.currentId
       this.fetchRecord()
     }
+    if (this.$route.name.includes('edit') && !this.currentId) {
+      this.$router.push({ name: this.$route.name.replace('.edit', '')})
+    }
   },
   computed: {
-    ...mapGetters({
-      currentId: 'getRenegociationForm'
-    })
+    ...mapState([ 'risks', 'requireds' ]),
+    ...mapGetters(['getFormReference']),
+    currentId () {
+      return this.getFormReference('accountsPayable')
+    },
+    requireds () {
+      if (!this.record.Cta_idGrupo || !this.accountsGroups.length) {
+        return []
+      }
+
+      return this.accountsGroups.find(g => g.id === this.record.Cta_idGrupo).requireds
+    }
   },
   methods: {
-    create: payload => create(payload),
-    update: payload => update(payload),
-    get: id => get(id),
-    doFilter () {
+    getOptions () {
+      getAllSupplier()
+        .then(({ data }) => {
+          this.suppliers = data.map(s => ({
+            id: s.Forn_idFornecedor,
+            name: s.Forn_NomeFantasia
+          }))
+        })
+      getAllAccountsGroup()
+        .then(({ data }) => {
+          this.accountsGroups = data.map(r => ({
+            id: r.GrCt_idGrupo,
+            name: r.GrCt_NomeGrupo,
+            requireds: r.requireds.map(i => i.Rq_DescrRequeridos)
+          }))
+        })
+    },
+    fetchRecord () {
+      this.loading = true
+      this.get(this.record.id)
+        .then(({ data }) => {
+          this.record = { ...data, id: data.Cta_idConta }
+        })
+        .then(() => { this.loading = false })
+    },
+    create: payload => createAccountsPayable(payload),
+    update: payload => updateAccountsPayable(payload),
+    get: id => getAccountsPayable(id),
+    submit () {
       if (this.$refs.form.validate()) {
+        this.record['requireds'] = this.requireds
         this.save()
       }
     }

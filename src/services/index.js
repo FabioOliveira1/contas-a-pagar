@@ -2,6 +2,10 @@ import http from '@/utils/http'
 
 export const initStore = () => http.get('/api/init')
 
+// suppliers
+export const getAllSupplier = (params = {}) => http.get('/api/supplier', { params })
+
+// accounts group
 export const getAllAccountsGroup = (params = {}) => http.get('/api/billsGroup', { params })
 
 export const getAccountsGroup = id => http.get(`/api/billsGroup/${id}`)
@@ -11,6 +15,17 @@ export const createAccountsGroup = (params = {}) => http.post('/api/billsGroup',
 export const updateAccountsGroup = (params = {}) => http.put(`/api/billsGroup/${params.id}`, params)
 
 export const deleteAccountsGroup = id => http.delete(`/api/billsGroup/${id}`)
+
+// accounts payable
+export const getAllAccountsPayable = (params = {}) => http.get('/api/bill', { params })
+
+export const getAccountsPayable = id => http.get(`/api/bill/${id}`)
+
+export const createAccountsPayable = (params = {}) => http.post('/api/bill', params)
+
+export const updateAccountsPayable = (params = {}) => http.put(`/api/bill/${params.id}`, params)
+
+export const deleteAccountsPayable = id => http.delete(`/api/bill/${id}`)
 
 
 

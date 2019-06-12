@@ -73,24 +73,24 @@
     <!-- List -->
     <v-card class="m-t-10 f-size-16 list__item">
       <v-layout wrap>
-          <v-data-table class="w-100" :headers="headers" :items="records" item-key="id">
+          <v-data-table class="w-100" :loading="loading" :headers="headers" :items="records" item-key="Cta_idConta">
             <template v-slot:items="props">
               <tr class="pointer" @click="props.expanded = !props.expanded">
-                <td>{{ props.item.description }}</td>
-                <td>{{ props.item.supplier }}</td>
-                <td>{{ props.item.group }}</td>
-                <td>{{ props.item.value }}</td>
-                <td>{{ props.item.dueDateAt }}</td>
-                <td>{{ props.item.status }}</td>
+                <td>{{ props.item.Cta_descrConta }}</td>
+                <td>{{ props.item.supplierName }}</td>
+                <td>{{ props.item.accountsGroupName }}</td>
+                <td>{{ props.item.Cta_valConta }}</td>
+                <td>{{ props.item.Cta_dataVencimento }}</td>
+                <td>{{ props.item.Cta_Status }}</td>
                 <td>
                   <v-layout>
                   <v-btn alt="Adicionar anexos" class="m-5" small icon color="primary" @click.prevent.stop="reference = 'thisId'">
                     <span class="fa fa-file-text"></span>
                   </v-btn>
-                  <v-btn alt="Editar conta" class="m-5" small icon color="warning" @click.prevent.stop="handleEdit('thisId')">
+                  <v-btn alt="Editar conta" class="m-5" small icon color="warning" @click.prevent.stop="handleEdit(props.item.Cta_idConta)">
                     <span class="fa fa-pencil"></span>
                   </v-btn>
-                  <v-btn alt="Remover conta" class="m-5" small icon color="error" @click.prevent.stop="handleDelete('thisId')">
+                  <v-btn alt="Remover conta" class="m-5" small icon color="error" @click.prevent.stop="handleDelete(props.item.Cta_idConta)">
                     <span class="fa fa-times"></span>
                   </v-btn>
                   </v-layout>
@@ -100,15 +100,16 @@
             <template v-slot:expand="props">
               <v-card flat class="expand__content">
                 <v-card-title><b>Outras informações </b></v-card-title>
-                <v-card-text><b>Emitido em:</b> {{ props.item.emitedAt }} </v-card-text>
-                <v-card-text><b>Paga em:</b> {{ props.item.paidAt }} </v-card-text>
-                <v-card-text><b>Finalizada em:</b> {{ props.item.endedAt }} </v-card-text>
-                <v-card-text><b>Código de barras:</b> {{ props.item.barcode }} </v-card-text>
-                <v-card-text><b>Valor pago:</b> {{ props.item.totalValue }} </v-card-text>
-                <v-card-text><b>Tempo para protesto:</b> {{ props.item.protestTime }}.</v-card-text>
-                <v-card-text><b>Valor de protesto:</b> {{ props.item.protestValue }}.</v-card-text>
-                <v-card-text><b>Multa:</b> {{ props.item.fee }} </v-card-text>
-                <v-card-text><b>Juros:</b> {{ props.item.increase }} </v-card-text>
+                <v-card-text><b>Nosso número:</b> {{ props.item.Cta_numConta }} </v-card-text>
+                <v-card-text><b>Emitido em:</b> {{ props.item.Cta_dataEmissao }} </v-card-text>
+                <v-card-text><b>Paga em:</b> {{ props.item.Cta_dataPagto }} </v-card-text>
+                <v-card-text><b>Finalizada em:</b> {{ props.item.Cta_dataBaixa }} </v-card-text>
+                <v-card-text><b>Código de barras:</b> {{ props.item.Cta_codBarra }} </v-card-text>
+                <v-card-text><b>Valor pago:</b> {{ props.item.Cta_totalConta }} </v-card-text>
+                <v-card-text><b>Tempo para protesto:</b> {{ props.item.Cta_tempoProtesto }}</v-card-text>
+                <v-card-text><b>Valor de protesto:</b> {{ props.item.Cta_valProtesto }}</v-card-text>
+                <v-card-text><b>Multa:</b> {{ props.item.Cta_Multa }} </v-card-text>
+                <v-card-text><b>Juros:</b> {{ props.item.Cta_Juros }} </v-card-text>
               </v-card>
             </template>
           </v-data-table>
@@ -120,7 +121,8 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { getAllAccountsPayable, deleteAccountsPayable } from '@/services'
+import { mapMutations } from 'vuex'
 import Notify from '@/utils/notify'
 import AddFiles from '@/views/accounts-payable/modals/AddFiles'
 
@@ -128,6 +130,7 @@ export default {
   components: { AddFiles },
   data () {
     return {
+      loading: false,
       reference: null,
       filters: {
         status: null,
@@ -145,7 +148,6 @@ export default {
       options: {
         status: []
       },
-      page: 1,
       headers: [
         {
           text: 'Descrição',
@@ -183,49 +185,48 @@ export default {
           sortable: false
         }
       ],
-      records: [
-        {
-          id: Math.random() * Date.now(),
-          description: 'Chapas de impressão personalizadas',
-          supplier: 'Papeis Silva',
-          group: 'Insumos',
-          value: 1500,
-          dueDateAt: '2019-03-22 15:30:32',
-          status: 'Aberta',
-          emitedAt: '2019-03-22 15:30:32',
-          paidAt: '2019-03-22 15:30:32',
-          endedAt: '2019-03-22 15:30:32',
-          barcode: '858900000000549003281900510708190234631332961557',
-          totalValue: 1650, // Após pagamento
-          protestTime: 6, // Em dias
-          protestValue: 350, // Valor para retirar o protesto
-          fee: 0.1, // Porcentagem direta
-          increase: 0.01 // Porcentagem ao dia
-        }
-      ]
+      records: []
     }
   },
-  watch: {
-    page (val) {
-      console.log(val)
-    }
+  created() {
+    this.doFilter()
   },
   methods: {
-    ...mapActions(['setRenegociationForm']),
+    ...mapMutations({ setFormReference: 'SET_FORM_REFERENCE' }),
     doFilter () {
-      console.log('Essa é uma ação irreversível')
+      this.loading = false
+
+      getAllAccountsPayable()
+        .then(({ data }) => {
+          this.records = data.map(r => {
+            r.supplierName = r.supplier.Forn_NomeFantasia
+            r.accountsGroupName = r.bills_group.GrCt_NomeGrupo
+            return r
+          })
+        })
+        .catch(e => console.log(e))
+        .then(() => { this.loading = false })
     },
     handleCreate () {
-      this.setRenegociationForm(null)
+      this.setFormReference({field: 'accountsPayable', value: null })
       this.$router.push({ name: 'accounts-payable.create' })
     },
     handleEdit (id) {
-      this.setRenegociationForm(id)
+      this.setFormReference({field: 'accountsPayable', value: id })
       this.$router.push({ name: 'accounts-payable.edit' })
     },
     handleDelete (id) {
       Notify.confirm('Essa é uma ação irreversível')
-        .then(val => console.log(val))
+        .then(response => {
+          if (response.value) {
+            deleteAccountsPayable(id)
+              .then(() => {
+                Notify.success('Registro removido')
+                this.doFilter()
+              })
+              .catch(() => { Notify.error('Não foi possível remover o registro') })
+          }
+        })
     }
   }
 }
