@@ -1,5 +1,9 @@
 export default {
+  init: false,
   form: {
-    renegociation: null
-  }
+    renegociation: null,
+    accountsGroup: null
+  },
+  requireds: [],
+  risks: []
 }

@@ -20,9 +20,9 @@
 
             <v-flex xs12 sm4>
               <v-select v-model="filters.risk"
-                :items="options.risks"
+                :items="risks"
                 item-value="id"
-                item-text="nome"
+                item-text="name"
                 label="Riscos"
               />
             </v-flex>
@@ -49,40 +49,28 @@
     <!-- List -->
     <v-card class="m-t-10 f-size-16 list__item">
       <v-layout wrap>
-          <v-data-table class="w-100" :headers="headers" :items="records" item-key="id">
+          <v-data-table class="w-100" :loading="loading" :headers="headers" :items="records" item-key="id">
             <template v-slot:items="props">
               <tr>
-                <td>{{ props.item.name }}</td>
-                <td>{{ props.item.description }}</td>
-                <td>{{ props.item.risk }}</td>
+                <td>{{ props.item.GrCt_NomeGrupo }}</td>
+                <td>{{ props.item.GrCt_DescrGrupo }}</td>
+                <td>{{ risks.find( r => r.id === props.item.GrCt_idRisco).name }}</td>
                 <td>
-                  <v-chip color="primary" class="white--text" v-for="(r, i) in props.item.requireds" :key="i">{{ r }}</v-chip>
+                  <v-chip color="primary" class="white--text" v-for="(r, i) in props.item.requireds" :key="i">
+                    {{ requireds.find( req => req.id === r).name }}
+                  </v-chip>
                 </td>
                 <td>
                   <v-layout>
-                    <v-btn alt="Editar grupo" class="m-5" small icon color="warning" @click.prevent.stop="handleEdit('thisId')">
+                    <v-btn alt="Editar grupo" class="m-5" small icon color="warning" @click.prevent.stop="handleEdit(props.item.GrCt_idGrupo)">
                       <span class="fa fa-pencil"></span>
                     </v-btn>
-                    <v-btn alt="Remover grupo" class="m-5" small icon color="error" @click.prevent.stop="handleDelete('thisId')">
+                    <v-btn alt="Remover grupo" class="m-5" small icon color="error" @click.prevent.stop="handleDelete(props.item.GrCt_idGrupo)">
                       <span class="fa fa-times"></span>
                     </v-btn>
                   </v-layout>
                 </td>
               </tr>
-            </template>
-            <template v-slot:expand="props">
-              <v-card flat class="expand__content">
-                <v-card-title><b>Outras informações </b></v-card-title>
-                <v-card-text><b>Emitido em:</b> {{ props.item.emitedAt }} </v-card-text>
-                <v-card-text><b>Paga em:</b> {{ props.item.paidAt }} </v-card-text>
-                <v-card-text><b>Finalizada em:</b> {{ props.item.endedAt }} </v-card-text>
-                <v-card-text><b>Código de barras:</b> {{ props.item.barcode }} </v-card-text>
-                <v-card-text><b>Valor pago:</b> {{ props.item.totalValue }} </v-card-text>
-                <v-card-text><b>Tempo para protesto:</b> {{ props.item.protestTime }}.</v-card-text>
-                <v-card-text><b>Valor de protesto:</b> {{ props.item.protestValue }}.</v-card-text>
-                <v-card-text><b>Multa:</b> {{ props.item.fee }} </v-card-text>
-                <v-card-text><b>Juros:</b> {{ props.item.increase }} </v-card-text>
-              </v-card>
             </template>
           </v-data-table>
       </v-layout>
@@ -92,11 +80,14 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { getAllAccountsGroup, deleteAccountsGroup } from '@/services'
+import { mapMutations, mapState } from 'vuex'
 import Notify from '@/utils/notify'
+
 export default {
   data () {
     return {
+      loading: false,
       filters: {
         status: null,
         name: null,
@@ -110,25 +101,21 @@ export default {
           to: null
         }
       },
-      options: {
-        status: []
-      },
-      page: 1,
       headers: [
         {
           text: 'Nome',
           align: 'left',
-          value: 'name'
+          value: 'GrCt_NomeGrupo'
         },
         {
           text: 'Descrição',
           sortable: false,
-          value: 'description'
+          value: 'GrCt_DescrGrupo'
         },
         {
           text: 'Risco',
           sortable: false,
-          value: 'risk'
+          value: 'GrCt_idRisco'
         },
         {
           text: 'Requeridos',
@@ -140,38 +127,50 @@ export default {
           sortable: false
         }
       ],
-      records: [
-        {
-          id: Math.random() * Date.now(),
-          name: 'Boleto',
-          description: 'Toda a sorte de boletos que se encaixem no modelo xpto',
-          risk: 'Médio',
-          requireds: ['Juros', 'Multa', 'Tempo protesto', 'Valor protesto']
-        }
-      ]
+      records: []
     }
   },
-  watch: {
-    page (val) {
-      console.log(val)
-    }
+  created() {
+    this.doFilter()
+  },
+  computed: {
+    ...mapState([ 'risks', 'requireds' ])
   },
   methods: {
-    ...mapActions(['setRenegociationForm']),
+    ...mapMutations({ setFormReference: 'SET_FORM_REFERENCE' }),
     doFilter () {
-      console.log('Essa é uma ação irreversível')
+      this.loading = false
+
+      getAllAccountsGroup()
+        .then(({ data }) => {
+          this.records = data.map(r => {
+            r.requireds = r.requireds.map(i => i.Rq_idRequeridos)
+            return r
+          })
+        })
+        .catch(e => console.log(e))
+        .then(() => { this.loading = false })
     },
     handleCreate () {
-      this.setRenegociationForm(null)
+      this.setFormReference({field: 'accountsGroup', value: null })
       this.$router.push({ name: 'accounts-group.create' })
     },
     handleEdit (id) {
-      this.setRenegociationForm(id)
+      this.setFormReference({field: 'accountsGroup', value: id })
       this.$router.push({ name: 'accounts-group.edit' })
     },
     handleDelete (id) {
       Notify.confirm('Essa é uma ação irreversível')
-        .then(val => console.log(val))
+        .then(response => {
+          if (response.value) {
+            deleteAccountsGroup(id)
+              .then(() => {
+                Notify.success('Registro removido')
+                this.doFilter()
+              })
+              .catch(() => { Notify.error('Não foi possível remover o registro') })
+          }
+        })
     }
   }
 }

@@ -5,18 +5,12 @@ export default {
     return {
       loading: false,
       mixinmixinContext: '',
-      record: {}
+      record: {
+        id: null
+      }
     }
   },
   methods: {
-    fetchRecord () {
-      this.loading = true
-      this.get(this.record.id)
-        .then(response => {
-          console.log('fetch response', response)
-        })
-        .then(() => { this.loading = false })
-    },
     request () {
       return this.record.id ? this.update(this.record) : this.create(this.record)
     },
@@ -24,8 +18,8 @@ export default {
       this.loading = true
       this.request()
         .then(response => {
-          console.log('response', response)
           Notify.success(`O registro de ${this.mixinContext} foi salvo!`)
+          this.$router.go(-1)
         })
         .then(() => { this.loading = false })
     }

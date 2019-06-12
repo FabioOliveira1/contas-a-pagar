@@ -3,7 +3,7 @@
     <m2-sidemenu :isMenuOpen="isMenuOpen" />
     <m2-navbar :isMenuOpen="isMenuOpen" @logout="logout" @toggleMenu="isMenuOpen = !isMenuOpen" />
 
-    <div :class="`main-container ${isMenuOpen ? 'reduce-width' : ''}`">
+    <div v-if="init" :class="`main-container ${isMenuOpen ? 'reduce-width' : ''}`">
       <slot></slot>
     </div>
   </v-layout>
@@ -11,6 +11,7 @@
 
 <script>
 // import { mapActions } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   data () {
@@ -18,6 +19,9 @@ export default {
       isLoading: false,
       isMenuOpen: true
     }
+  },
+  computed: {
+    ...mapState([ 'init'])
   },
   methods: {
     // ...mapActions([ 'logout' ]),

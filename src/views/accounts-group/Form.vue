@@ -14,7 +14,7 @@
           <v-layout wrap>
 
             <v-flex sm12 md6>
-              <v-text-field v-model="record.name"
+              <v-text-field v-model="record.GrCt_NomeGrupo"
                 :rules="[v => !!v || 'Digite um nome']"
                 label="Nome"
                 clearable
@@ -22,9 +22,9 @@
             </v-flex>
 
             <v-flex sm12 md6>
-              <v-select v-model="record.riskType"
+              <v-select v-model="record.GrCt_idRisco"
                 :rules="[v => !!v || 'O tipo de risco é obrigatório']"
-                :items="options.risks"
+                :items="risks"
                 item-text="name"
                 item-value="id"
                 label="Tipo de risco"
@@ -34,8 +34,8 @@
             <v-flex sm12>
               <v-select
                 v-model="record.requireds"
-                :items="[{ id: 1, name: 'Juros' },{ id: 2, name: 'Multa' }]"
-                :rules="[v => v && v.length || 'Campo obrigatório']"
+                :items="requireds"
+                :rules="[v => v && !!v.length || 'Campo obrigatório']"
                 item-text="name"
                 item-value="id"
                 attach
@@ -46,7 +46,7 @@
             </v-flex>
 
             <v-flex sm12>
-              <v-textarea v-model="record.description"
+              <v-textarea v-model="record.GrCt_DescrGrupo"
                 :rules="[v => !!v || 'A descrição é obrigatória']"
                 label="Descrição"
                 clearable
@@ -77,67 +77,55 @@
 </template>
 
 <script>
-import { get, create, update } from '@/services'
-import { mapGetters } from 'vuex'
+import { getAccountsGroup, createAccountsGroup, updateAccountsGroup } from '@/services'
+import { mapState, mapGetters } from 'vuex'
 import FormActions from '@/utils/mixins/formActions'
 
 export default {
   mixins: [FormActions],
   data () {
     return {
-      mixinContext: 'renegociação',
+      mixinContext: 'grupo de contas',
       loading: false,
       record: {
         id: null,
-        requireds: [],
-        supplierId: null,
-        contactId: null,
-        accountId: null,
-        newValue: null,
-        newDate: null,
-        subject: null,
-        message: null,
-        status: null
-      },
-      accountCombo: {
-        id: null,
-        name: null,
-        value: null,
-        fee: null,
-        interest: null,
-        emitedAt: null,
-        dueDateAt: null
-      },
-      supplierCombo: {
-        id: null,
-        name: null
-      },
-      contactCombo: {
-        id: null,
-        name: null
-      },
-      options: {
-        suppliers: [],
-        contacts: [],
-        accounts: []
+        GrCt_idGrupo: null,
+        GrCt_NomeGrupo: null,
+        GrCt_DescrGrupo: null,
+        GrCt_idRisco: null,
+        requireds: []
       }
     }
   },
   created () {
-    if (this.currentId) {
+    if (this.$route.name.includes('edit') && this.currentId) {
       this.record.id = this.currentId
       this.fetchRecord()
     }
+    if (this.$route.name.includes('edit') && !this.currentId) {
+      this.$router.push({ name: this.$route.name.replace('.edit', '')})
+    }
   },
   computed: {
-    ...mapGetters({
-      currentId: 'getRenegociationForm'
-    })
+    ...mapState([ 'risks', 'requireds' ]),
+    ...mapGetters(['getFormReference']),
+    currentId () {
+      return this.getFormReference('accountsGroup')
+    }
   },
   methods: {
-    create: payload => create(payload),
-    update: payload => update(payload),
-    get: id => get(id),
+    fetchRecord () {
+      this.loading = true
+      this.get(this.record.id)
+        .then(({ data }) => {
+          data.requireds = data.requireds.map(r => r.Rq_idRequeridos)
+          this.record = { ...data, id: data.GrCt_idGrupo }
+        })
+        .then(() => { this.loading = false })
+    },
+    create: payload => createAccountsGroup(payload),
+    update: payload => updateAccountsGroup(payload),
+    get: id => getAccountsGroup(id),
     doFilter () {
       if (this.$refs.form.validate()) {
         this.save()

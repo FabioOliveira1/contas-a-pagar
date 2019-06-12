@@ -1,3 +1,33 @@
+import http from '@/utils/http'
+
+export const initStore = () => http.get('/api/init')
+
+export const getAllAccountsGroup = (params = {}) => http.get('/api/billsGroup', { params })
+
+export const getAccountsGroup = id => http.get(`/api/billsGroup/${id}`)
+
+export const createAccountsGroup = (params = {}) => http.post('/api/billsGroup', params)
+
+export const updateAccountsGroup = (params = {}) => http.put(`/api/billsGroup/${params.id}`, params)
+
+export const deleteAccountsGroup = id => http.delete(`/api/billsGroup/${id}`)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export const get = () => {
   return new Promise((resolve, reject) => {
     setTimeout(() => resolve('get'), 1000)

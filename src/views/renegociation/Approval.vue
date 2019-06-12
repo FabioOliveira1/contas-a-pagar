@@ -8,6 +8,11 @@
           <v-card-text class="p-t-0">{{ record.message }}</v-card-text>
           <v-card-text class="p-t-0">Atualmente, o valor e data de vencimento correspondem a <b>R$ {{ record.oldValue }}</b> e <b>{{ record.oldDueDateAt }}</b>.</v-card-text>
           <v-card-text class="p-t-0">Caso aceite, o valor e data de vencimento passarão a ser <b>R$ {{ record.newValue }}</b> e <b>{{ record.newDueDateAt }}</b>.</v-card-text>
+          
+          <v-card-text>
+            Se necessário, salve os novos documentos:
+            <m2-multi-file-input class="m-t-5" v-model="record.files" label="Anexos" />
+          </v-card-text>
           <v-btn dark color="error" :loading="loadingDeny" @click="deny">Recusar</v-btn>
           <v-spacer/>
           <v-btn dark color="success" :loading="loadingAccept" @click="accept">Aceitar</v-btn>

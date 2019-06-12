@@ -1,3 +1,4 @@
 export default {
-  getRenegociationForm: ({ form }) => form.renegociation
+  getRenegociationForm: ({ form }) => form.renegociation,
+  getFormReference: ({ form }) => key => form[key]
 }
