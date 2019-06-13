@@ -112,106 +112,272 @@ export default {
           name: 'Decrescente'
         }
       ],
-      bySupplier: [
-        [
-          { text: 'Fornecedor' },
-          { text: 'Risco' },
-          { text: 'Quantitativo' },
-          { text: 'Valor (R$)' }
-        ],
-        [
-          { text: 'Papeis Silva' },
-          { text: 'Alto' },
-          { text: '50' },
-          { text: 'R$ 250.000,00' }
-        ],
-        [
-          { text: 'Chapas Andrade' },
-          { text: 'Alto' },
-          { text: '20' },
-          { text: 'R$ 150.000,00' }
-        ],
-        [
-          { text: 'Chico Tintas' },
-          { text: 'Alto' },
-          { text: '60' },
-          { text: 'R$ 125.000,00' }
-        ],
-        [
-          { text: 'Logística Lins' },
-          { text: 'Alto' },
-          { text: '230' },
-          { text: 'R$ 75.000,00' }
-        ],
-        [
-          { text: 'New Man Computadores e Eletrônicos' },
-          { text: 'Médio' },
-          { text: '10' },
-          { text: 'R$ 43.000,00' }
-        ],
-        [
-          { text: 'Lunga Cá' },
-          { text: 'Baixo' },
-          { text: '82' },
-          { text: 'R$ 20.000,00' }
-        ],
-        [
-          { text: 'Carlos Refrigerações' },
-          { text: 'Baixo' },
-          { text: '3' },
-          { text: 'R$ 10.000,00' }
-        ],
-        [
-          { text: 'Francis Móveis e Estofados' },
-          { text: 'Baixo' },
-          { text: '1' },
-          { text: 'R$ 3.000,00' }
-        ],
-        [
-          { text: 'Almeida Cadeiras' },
-          { text: 'Baixo' },
-          { text: '1' },
-          { text: 'R$ 2.500,00' }
-        ],
-        [
-          { text: 'Total Geral', bold: true, colSpan: 3 },
-          {},
-          {},
-          { text: 'R$ 678.500,00' }
-        ]
-      ],
-      byAccountsGroup: [
-        [
-          { text: 'Grupo de contas' },
-          { text: 'Risco' },
-          { text: 'Quantitativo' },
-          { text: 'Valor (R$)' }
-        ],
-        [
-          { text: 'Insumos' },
-          { text: 'Alto' },
-          { text: '130' },
-          { text: 'R$ 250.000,00' }
-        ],
-        [
-          { text: 'Despezas recorrentes' },
-          { text: 'Médio' },
-          { text: '10' },
-          { text: 'R$ 150.000,00' }
-        ],
-        [
-          { text: 'Eventos' },
-          { text: 'baixo' },
-          { text: '30' },
-          { text: 'R$ 60.000,00' }
-        ],
-        [
-          { text: 'Total Geral', bold: true, colSpan: 3 },
-          {},
-          {},
-          { text: 'R$ 460.000,00' }
-        ]
-      ]
+    bySupplier: [
+    [
+            {
+                text: 'Fornecedor'
+            },
+            {
+                text: 'Risco'
+            },
+            {
+                text: 'N° de contas'
+            },
+            {
+                text: 'Valor (R$)'
+            }
+    ],
+    [
+            {
+                text: 'Papeis Silva'
+            },
+            {
+                text: 'Alto'
+            },
+            {
+                text: '50'
+            },
+            {
+                text: 'R$ 250.000,00'
+            }
+    ],
+    [
+            {
+                text: 'Chapas Andrade'
+            },
+            {
+                text: 'Alto'
+            },
+            {
+                text: '20'
+            },
+            {
+                text: 'R$ 150.000,00'
+            }
+    ],
+    [
+            {
+                text: 'Chico Tintas'
+            },
+            {
+                text: 'Alto'
+            },
+            {
+                text: '60'
+            },
+            {
+                text: 'R$ 125.000,00'
+            }
+    ],
+    [
+            {
+                text: 'Logística Lins'
+            },
+            {
+                text: 'Médio'
+            },
+            {
+                text: '230'
+            },
+            {
+                text: 'R$ 75.000,00'
+            }
+    ],
+    [
+            {
+                text: 'New Man Computadores e Eletrônicos'
+            },
+            {
+                text: 'Médio'
+            },
+            {
+                text: '10'
+            },
+            {
+                text: 'R$ 43.000,00'
+            }
+    ],
+    [
+            {
+                text: 'Lunga Cá'
+            },
+            {
+                text: 'Baixo'
+            },
+            {
+                text: '82'
+            },
+            {
+                text: 'R$ 20.000,00'
+            }
+    ],
+    [
+            {
+                text: 'Carlos Refrigerações'
+            },
+            {
+                text: 'Baixo'
+            },
+            {
+                text: '3'
+            },
+            {
+                text: 'R$ 10.000,00'
+            }
+    ],
+    [
+            {
+                text: 'Francis Móveis e Estofados'
+            },
+            {
+                text: 'Baixo'
+            },
+            {
+                text: '1'
+            },
+            {
+                text: 'R$ 3.000,00'
+            }
+    ],
+    [
+            {
+                text: 'Almeida Cadeiras'
+            },
+            {
+                text: 'Baixo'
+            },
+            {
+                text: '1'
+            },
+            {
+                text: 'R$ 2.500,00'
+            }
+    ],
+    [
+            {
+                text: 'IPTU'
+            },
+            {
+                text: 'Médio'
+            },
+            {
+                text: '1'
+            },
+            {
+                text: 'R$ 1.250,00'
+            }
+    ],
+    [
+            {
+                text: 'Total Geral',
+                bold: true,
+                colSpan: 3
+            },
+            {},
+            {},
+            {
+                text: 'R$ 679.750,00'
+            }
+    ]
+  ],
+    byAccountsGroup: [
+    [
+            {
+                text: 'Grupo de contas'
+            },
+            {
+                text: 'Risco'
+            },
+            {
+                text: 'N° de contas'
+            },
+            {
+                text: 'Valor (R$)'
+            }
+    ],
+    [
+            {
+                text: 'Contas Essenciais'
+            },
+            {
+                text: 'Alto'
+            },
+            {
+                text: '130'
+            },
+            {
+                text: 'R$ 525.000,00'
+            }
+    ],
+    [
+            {
+                text: 'Despesas Regulares'
+            },
+            {
+                text: 'Médio'
+            },
+            {
+                text: '240'
+            },
+            {
+                text: 'R$ 118.000,00'
+            }
+    ],
+    [
+            {
+                text: 'Contas Secundarias'
+            },
+            {
+                text: 'baixo'
+            },
+            {
+                text: '86'
+            },
+            {
+                text: 'R$ 33.000,00'
+            }
+    ],
+    [
+            {
+                text: 'Transferência bancária'
+            },
+            {
+                text: 'baixo'
+            },
+            {
+                text: '1'
+            },
+            {
+                text: 'R$ 2.500,00'
+            }
+    ],
+    [
+            {
+                text: 'Tributos Municipais'
+            },
+            {
+                text: 'Médio'
+            },
+            {
+                text: '1'
+            },
+            {
+                text: 'R$ 1.250,00'
+            }
+    ],
+    [
+            {
+                text: 'Total Geral',
+                bold: true,
+                colSpan: 3
+            },
+            {},
+            {},
+            {
+                text: 'R$ 679.750,00'
+            }
+    ]
+  ]
     }
   },
   created () {
@@ -243,7 +409,7 @@ export default {
                           image: 'logo',
                           fit: [100, 200]
                         },
-                        { text: `Relatório de Contas a Pagar por ${this.filters.type === 'supplier' ? 'Fornecedor' : 'Grupo de Contas'}`, style: { alignment: 'center', fontSize: 16, bold: true }, margin: [0, 10, 0, 0] },
+                        { text: `Resumo de Contas a pagas por ${this.filters.type === 'supplier' ? 'Fornecedor' : 'Grupo de Contas'}`, style: { alignment: 'center', fontSize: 16, bold: true }, margin: [0, 10, 0, 0] },
                         { text: `Data: ${this.getDateTime()}\nUsuário: Carlos da Silva`, style: { alignment: 'right' }, margin: [0, 12, 10, 0] }
                       ]
                     ]
