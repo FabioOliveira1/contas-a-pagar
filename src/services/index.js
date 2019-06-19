@@ -2,6 +2,15 @@ import http from '@/utils/http'
 
 export const initStore = () => http.get('/api/init')
 
+// banks
+export const getAllBank = (params = {}) => http.get('/api/bank', { params })
+
+// agencies
+export const getAllAgency = (params = {}) => http.get('/api/agencyBank', { params })
+
+// bank accounts
+export const getAllBankAccount = (params = {}) => http.get('/api/accountBank', { params })
+
 // suppliers
 export const getAllSupplier = (params = {}) => http.get('/api/supplier', { params })
 
@@ -30,7 +39,7 @@ export const updateAccountsPayable = (params = {}) => http.put(`/api/bill/${para
 
 export const deleteAccountsPayable = id => http.delete(`/api/bill/${id}`)
 
-// accounts payable
+// renegociation
 export const getAllRenegociation = (params = {}) => http.get('/api/renegotiation', { params })
 
 export const getRenegociation = id => http.get(`/api/renegotiation/${id}`)
@@ -42,6 +51,19 @@ export const updateRenegociation = (params = {}) => http.put(`/api/renegotiation
 export const endRenegociation = (params = {}) => http.put(`/api/renegotiation/${params.id}/end`, params)
 
 export const deleteRenegociation = id => http.delete(`/api/renegotiation/${id}`)
+
+// simulation
+export const getAllSimulation = (params = {}) => http.get('/api/simulation', { params })
+
+export const getSimulation = id => http.get(`/api/simulation/${id}`)
+
+export const createSimulation = (params = {}) => http.post('/api/simulation', params)
+
+export const updateSimulation = (params = {}) => http.put(`/api/simulation/${params.id}`, params)
+
+export const endSimulation = (params = {}) => http.put(`/api/simulation/${params.id}/end`, params)
+
+export const deleteSimulation = id => http.delete(`/api/simulation/${id}`)
 
 
 

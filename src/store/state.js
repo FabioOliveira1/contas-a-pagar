@@ -3,7 +3,8 @@ export default {
   form: {
     renegociation: null,
     accountsGroup: null,
-    accountsPayable: null
+    accountsPayable: null,
+    simulation: null
   },
   requireds: [],
   risks: []

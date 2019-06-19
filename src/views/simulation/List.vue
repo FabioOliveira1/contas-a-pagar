@@ -48,22 +48,22 @@
     <!-- List -->
     <v-card class="m-t-10 f-size-16 list__item">
       <v-layout wrap>
-          <v-data-table class="w-100" :headers="headers" :items="records" item-key="id">
+          <v-data-table class="w-100" :headers="headers" :items="records" item-key="Sim_idSimulacao">
             <template v-slot:items="props">
               <tr>
-                <td>{{ props.item.status }}</td>
-                <td>{{ props.item.bankAccount }}</td>
-                <td>{{ props.item.accountAmount }}</td>
-                <td>{{ props.item.allAmount }}</td>
-                <td>{{ props.item.simAmount }}</td>
-                <td>{{ props.item.createdAt }}</td>
-                <td>{{ props.item.simDate }}</td>
+                <td>{{ props.item.Sim_status }}</td>
+                <td>{{ props.item.bankAccountNumber }}</td>
+                <td>{{ props.item.bankAccountAmount }}</td>
+                <td>{{ props.item.Sim_valTotal }}</td>
+                <td>{{ props.item.Sim_valSimulacao }}</td>
+                <td>{{ props.item.created_at | dateFormat }}</td>
+                <td>{{ props.item.Sim_dataPagtoSimulacao | dateFormat }}</td>
                 <td>
                   <v-layout>
-                    <v-btn small icon color="primary" @click.prevent="handlePreview('thisId')">
+                    <v-btn small icon color="primary" @click.prevent="handlePreview(props.item.Sim_idSimulacao)">
                       <span class="fa fa-eye"></span>
                     </v-btn>
-                    <v-btn small icon color="error" class="m-l-10" @click.prevent="handleDelete('thisId')">
+                    <v-btn small icon color="error" class="m-l-10" @click.prevent="handleDelete(props.item.Sim_idSimulacao)">
                       <span class="fa fa-times"></span>
                     </v-btn>
                   </v-layout>
@@ -78,7 +78,8 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { getAllSimulation, deleteSimulation } from '@/services'
+import { mapMutations } from 'vuex'
 import Notify from '@/utils/notify'
 export default {
   data () {
@@ -117,79 +118,86 @@ export default {
         {
           text: 'Status',
           sortable: false,
-          value: 'status'
+          value: 'Sim_status'
         },
         {
           text: 'C/C',
           align: 'left',
           sortable: false,
-          value: 'bankAccount'
+          value: 'bankAccountNumber'
         },
         {
           text: 'Saldo Atual',
           sortable: false,
-          value: 'accountAmount'
+          value: 'bankAccountAmount'
         },
         {
           text: 'Total Geral',
           sortable: false,
-          value: 'allAmount'
+          value: 'Sim_valTotal'
         },
         {
           text: 'Total Simulado',
           sortable: false,
-          value: 'simAmount'
+          value: 'simAmoSim_valSimulacaount'
         },
         {
           text: 'Criado em',
           sortable: false,
-          value: 'createdAt'
+          value: 'created_at'
         },
         {
           text: 'Data simulada',
           sortable: false,
-          value: 'simDate'
+          value: 'Sim_dataPagtoSimulacao'
         },
         {
           text: 'Ações',
           sortable: false
         }
       ],
-      records: [
-        {
-          id: '4ad2fa42fa4af2af2443f4',
-          status: 'Pendente',
-          bankAccount: '631787',
-          accountAmount: 5000,
-          allAmount: 5383.31,
-          simAmount: 3630.55,
-          createdAt: '2019-03-14 15:30:32',
-          simDate: '22/03/2019'
-        },
-      ]
+      records: []
     }
   },
-  watch: {
-    page (val) {
-      console.log(val)
-    }
+  created() {
+    this.doFilter()
   },
   methods: {
-    ...mapActions(['setRenegociationForm']),
+    ...mapMutations({ setFormReference: 'SET_FORM_REFERENCE' }),
     doFilter () {
-      console.log('Essa é uma ação irreversível')
+      this.loading = false
+
+      getAllSimulation()
+        .then(({ data }) => {
+          this.records = data.map(s => {
+            s.bankAccountNumber = s.bank_account.CtBc_numContaBancaria
+            s.bankAccountAmount = s.bank_account.CtBc_Saldo
+            return s
+          })
+        })
+        .catch(e => console.log(e))
+        .then(() => { this.loading = false })
     },
     handleCreate () {
-      this.setRenegociationForm(null)
+      this.setFormReference({field: 'simulation', value: null })
       this.$router.push({ name: 'simulation.create' })
     },
     handlePreview (id) {
-      this.setRenegociationForm(id)
+      this.setFormReference({field: 'simulation', value: id })
       this.$router.push({ name: 'simulation.preview' })
     },
     handleDelete (id) {
       Notify.confirm('Essa é uma ação irreversível')
-        .then(val => console.log(val))
+        .then(response => {
+          if (response.value) {
+            deleteSimulation(id)
+              .then(() => {
+                Notify.success('Registro removido')
+                this.doFilter()
+              })
+              .catch(() => { Notify.error('Não foi possível remover o registro') })
+          }
+        })
     }
   }
 }
