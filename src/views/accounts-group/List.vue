@@ -12,14 +12,14 @@
           <v-layout wrap>
 
             <v-flex xs12 sm8>
-              <v-text-field v-model="filters.name"
+              <v-text-field v-model="filters.GrCt_NomeGrupo"
                 label="Nome do grupo"
                 clearable
               />
             </v-flex>
 
             <v-flex xs12 sm4>
-              <v-select v-model="filters.risk"
+              <v-select v-model="filters.GrCt_idRisco"
                 :items="risks"
                 item-value="id"
                 item-text="name"
@@ -89,9 +89,8 @@ export default {
     return {
       loading: false,
       filters: {
-        status: null,
-        name: null,
-        cnpj: null,
+        GrCt_NomeGrupo: null,
+        GrCt_idRisco: null,
         createdRange: {
           from: null,
           to: null

@@ -12,14 +12,14 @@
           <v-layout wrap>
 
             <v-flex sm12 md6 lg4>
-              <v-text-field v-model="filters.name"
+              <v-text-field v-model="filters.Forn_NomeFantasia"
                 label="Nome do fornecedor"
                 clearable
               />
             </v-flex>
 
             <v-flex sm12 md6 lg4>
-              <v-text-field v-model="filters.cnpj"
+              <v-text-field v-model="filters.Forn_CNPJ"
                 label="CNPJ do fornecedor"
                 mask="##.###.###/####-##"
                 clearable
@@ -27,7 +27,7 @@
             </v-flex>
 
             <v-flex sm12 md6 lg4>
-              <v-select v-model="filters.risk"
+              <v-select v-model="filters.Forn_idRisco"
                 :items="options.risk"
                 item-value="id"
                 item-text="nome"
@@ -111,9 +111,9 @@ export default {
     return {
       reference: null,
       filters: {
-        risk: null,
-        name: null,
-        cnpj: null
+        Forn_idRisco: null,
+        Forn_NomeFantasia: null,
+        Forn_CNPJ: null
       },
       options: {
         status: []

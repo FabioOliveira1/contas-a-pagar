@@ -12,7 +12,7 @@
           <v-layout wrap>
 
             <v-flex sm12 md6 lg4>
-              <v-select v-model="filters.status"
+              <v-select v-model="filters.Sim_status"
                 :items="options.status"
                 item-value="id"
                 item-text="name"
@@ -21,7 +21,7 @@
             </v-flex>
 
             <v-flex sm12 md6 lg8>
-              <m2-date-range v-model="filters.createdRange"
+              <m2-date-range v-model="filters.created_at"
                 label="Criado entre"
               />
             </v-flex>
@@ -85,9 +85,7 @@ export default {
   data () {
     return {
       filters: {
-        status: null,
-        name: null,
-        cnpj: null,
+        Sim_status: null,
         createdRange: {
           from: null,
           to: null

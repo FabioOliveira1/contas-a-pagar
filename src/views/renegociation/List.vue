@@ -11,12 +11,15 @@
         <v-form @submit.prevent="doFilter" ref="form">
           <v-layout wrap>
             <v-flex sm12 md6 lg4>
-              <v-text-field v-model="filters.name" label="Nome do fornecedor" clearable/>
+              <v-text-field v-model="filters.Forn_NomeFantasia" 
+                label="Nome do fornecedor" 
+                clearable
+              />
             </v-flex>
 
             <v-flex sm12 md6 lg4>
               <v-text-field
-                v-model="filters.cnpj"
+                v-model="filters.Forn_CNPJ"
                 label="CNPJ do fornecedor"
                 mask="##.###.###/####-##"
                 clearable
@@ -25,7 +28,7 @@
 
             <v-flex sm12 md6 lg4>
               <v-select
-                v-model="filters.status"
+                v-model="filters.Rng_Status"
                 :items="options.status"
                 item-value="id"
                 item-text="nome"
@@ -101,9 +104,9 @@ export default {
   data () {
     return {
       filters: {
-        status: null,
-        name: null,
-        cnpj: null,
+        Rng_Status: null,
+        Forn_NomeFantasia: null,
+        Forn_CNPJ: null,
         createdRange: {
           from: null,
           to: null

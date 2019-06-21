@@ -12,14 +12,14 @@
           <v-layout wrap>
 
             <v-flex sm12 md6 lg5>
-              <v-text-field v-model="filters.description"
+              <v-text-field v-model="filters.Cta_descrConta"
                 label="Descrição da conta"
                 clearable
               />
             </v-flex>
 
             <v-flex sm12 md6 lg3>
-              <v-select v-model="filters.status"
+              <v-select v-model="filters.Cta_Status"
                 :items="options.status"
                 item-value="id"
                 item-text="nome"
@@ -28,7 +28,7 @@
             </v-flex>
 
             <v-flex sm12 md6 lg4>
-              <v-combobox v-model="filters.supplier"
+              <v-combobox v-model="filters.Cta_idFornecedor"
                 :items="options.supplier"
                 item-value="id"
                 item-text="nome"
@@ -37,7 +37,7 @@
             </v-flex>
 
             <v-flex sm12 md6 lg4>
-              <v-combobox v-model="filters.group"
+              <v-combobox v-model="filters.Cta_idGrupo"
                 :items="options.group"
                 item-value="id"
                 item-text="nome"
@@ -46,7 +46,7 @@
             </v-flex>
 
             <v-flex sm12 md6>
-              <m2-date-range v-model="filters.createdRange"
+              <m2-date-range v-model="filters.Cta_dataVencimento"
                 label="Data de vencimento"
               />
             </v-flex>
@@ -133,9 +133,11 @@ export default {
       loading: false,
       reference: null,
       filters: {
-        status: null,
-        name: null,
-        cnpj: null,
+        Cta_descrConta: null,
+        Cta_Status: null,
+        Cta_idFornecedor: null,
+        Cta_idGrupo: null,
+        Cta_dataVencimento: null,
         createdRange: {
           from: null,
           to: null
