@@ -46,8 +46,6 @@ export const getRenegociation = id => http.get(`/api/renegotiation/${id}`)
 
 export const createRenegociation = (params = {}) => http.post('/api/renegotiation', params)
 
-export const updateRenegociation = (params = {}) => http.put(`/api/renegotiation/${params.id}`, params)
-
 export const endRenegociation = (params = {}) => http.put(`/api/renegotiation/${params.id}/end`, params)
 
 export const deleteRenegociation = id => http.delete(`/api/renegotiation/${id}`)
@@ -59,12 +57,14 @@ export const getSimulation = id => http.get(`/api/simulation/${id}`)
 
 export const createSimulation = (params = {}) => http.post('/api/simulation', params)
 
-export const updateSimulation = (params = {}) => http.put(`/api/simulation/${params.id}`, params)
-
 export const endSimulation = (params = {}) => http.put(`/api/simulation/${params.id}/end`, params)
 
 export const deleteSimulation = id => http.delete(`/api/simulation/${id}`)
 
+// attachments
+export const getAllAttachment = (params = {}) => http.get('/api/attachment', { params })
+
+export const manageAttachment = (id, params = {}) => http.post(`/api/attachment/${id}`, params, { 'Content-Type': 'multipart/form-data' })
 
 
 

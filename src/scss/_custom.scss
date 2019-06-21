@@ -594,6 +594,7 @@ header.header {
     border: solid 1px #dfdfdf;
   }
   &__card {
+    min-width: 100px;
     max-width: 100px;
     margin: 5px;
 

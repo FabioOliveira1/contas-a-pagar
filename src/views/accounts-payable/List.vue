@@ -84,7 +84,7 @@
                 <td>{{ props.item.Cta_Status }}</td>
                 <td>
                   <v-layout>
-                  <v-btn alt="Adicionar anexos" class="m-5" small icon color="primary" @click.prevent.stop="reference = 'thisId'">
+                  <v-btn alt="Adicionar anexos" class="m-5" small icon color="primary" @click.prevent.stop="handleAttachments(props.item)">
                     <span class="fa fa-file-text"></span>
                   </v-btn>
                   <v-btn alt="Editar conta" class="m-5" small icon color="warning" @click.prevent.stop="handleEdit(props.item.Cta_idConta)">
@@ -115,7 +115,7 @@
           </v-data-table>
       </v-layout>
     </v-card>
-    <AddFiles v-if="reference" @close="reference = null" />
+    <AddFiles :reference="reference" @close="reference = null" />
 
   </section>
 </template>
@@ -210,6 +210,9 @@ export default {
     handleCreate () {
       this.setFormReference({field: 'accountsPayable', value: null })
       this.$router.push({ name: 'accounts-payable.create' })
+    },
+    handleAttachments (item) {
+      this.reference = { id: item.Cta_idConta, name: item.Cta_descrConta}
     },
     handleEdit (id) {
       this.setFormReference({field: 'accountsPayable', value: id })

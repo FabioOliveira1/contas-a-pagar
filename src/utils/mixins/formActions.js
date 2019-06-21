@@ -4,6 +4,7 @@ export default {
   data () {
     return {
       loading: false,
+      errors: [],
       mixinmixinContext: '',
       record: {
         id: null
@@ -21,6 +22,7 @@ export default {
           Notify.success(`O registro de ${this.mixinContext} foi salvo!`)
           this.$router.go(-1)
         })
+        .catch(e => { this.errors = e.response })
         .then(() => { this.loading = false })
     }
   }

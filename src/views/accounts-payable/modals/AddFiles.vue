@@ -1,80 +1,87 @@
 <template>
-  <m2-modal @close="$emit('close')">
-    <h3 slot="header">Gerenciar anexos</h3>
+  <m2-modal @close="$emit('close')" v-if="reference">
+    <div slot="header" @click="fetchRecord">
+      <h3>Gerenciar anexos</h3>
+      <small>Referente a conta a pagar: <b>{{ reference.name }}</b></small>
+    </div>
     <m2-multi-file-input slot="body" v-model="record.files" label="Anexos"/>
     <v-layout slot="footer">
       <v-btn @click="$emit('close')" dark>Cancelar</v-btn>
       <v-spacer/>
-      <v-btn color="success" @click="$emit('close')">Salvar</v-btn>
+      <v-btn color="success" @click="uploadFiles">Salvar</v-btn>
     </v-layout>
   </m2-modal>
 </template>
 
 <script>
-import { get, create, update } from '@/services'
-import { mapGetters } from 'vuex'
-import FormActions from '@/utils/mixins/formActions'
+import { getAllAttachment, manageAttachment } from '@/services'
+import Notify from '@/utils/notify';
 
 export default {
-  mixins: [FormActions],
+  props: ['reference'],
   data () {
     return {
-      mixinContext: 'anexos',
       loading: false,
       record: {
         id: null,
-        supplierId: null,
-        contactId: null,
-        accountId: null,
-        newValue: null,
-        newDate: null,
-        subject: null,
-        message: null,
-        status: null
+        files: []
       },
-      accountCombo: {
-        id: null,
-        name: null,
-        value: null,
-        fee: null,
-        interest: null,
-        emitedAt: null,
-        dueDateAt: null
-      },
-      supplierCombo: {
-        id: null,
-        name: null
-      },
-      contactCombo: {
-        id: null,
-        name: null
-      },
-      options: {
-        suppliers: [],
-        contacts: [],
-        accounts: []
+      existentFiles: []
+    }
+  },
+  watch: {
+    reference (val) {
+      this.record.files = []
+      if (val && val.id) {
+        this.fetchRecord()
       }
     }
-  },
-  created () {
-    if (this.currentId) {
-      this.record.id = this.currentId
-      this.fetchRecord()
-    }
-  },
-  computed: {
-    ...mapGetters({
-      currentId: 'getRenegociationForm'
-    })
   },
   methods: {
-    create: payload => create(payload),
-    update: payload => update(payload),
-    get: id => get(id),
-    doFilter () {
-      if (this.$refs.form.validate()) {
-        this.save()
+    fetchRecord () {
+      this.loading = true
+      getAllAttachment({ Anx_idConta: this.reference.id })
+        .then(({ data }) => {
+          this.record.files = data.map(a => {
+            return {
+              id: a.Anx_idAnexo,
+              url: a.Anx_endereco,
+              name: `${a.Anx_nome}.${a.Anx_formato}`,
+            }
+          })
+          this.existentFiles = [...data]
+        })
+        .then(() => { this.loading = false })
+    },
+    uploadFiles () {
+      let id = this.reference.id
+      let keep = this.record.files.filter(f => !!f.id)
+      let files = this.record.files.map(f => {
+        if (f.url && f.url.length > 200) {
+          delete f.url
+        }
+        return f
+      }).filter(f => !!f.file)
+
+      let form = new FormData()
+      form.append('id', id)
+      form.append('keepLength', keep.length)
+      form.append('filesLength', files.length)
+      for (let k in keep) {
+        form.append(`keep.${k}`, keep[k].id)
       }
+      for (let f in files) {
+        form.append(`files.${f}.name`, files[f].name)
+        form.append(`files.${f}.file`, files[f].file)
+      }
+
+      manageAttachment(id, form)
+        .then(response => {
+          Notify.success('Anexos atualizados!')
+          this.$emit('close')
+        })
+        .catch(() => { Notify.error('Algo deu errado. Tente mais tarde.') })
+        .then(() => { this.loading = false })
     }
   }
 }

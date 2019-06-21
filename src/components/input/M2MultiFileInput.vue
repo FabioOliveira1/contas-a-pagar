@@ -7,12 +7,14 @@
     <v-layout wrap class="m-t-10">
       <v-card class="m2-multi-file-input__card cursor-default" v-for="(file, i) in files" :key="i" :title="file.name">
         <v-card-title class="m2-multi-file-input__card__tile">
-          <span class="m2-multi-file-input__card__tile__remover" @click="removeFile(i)">
+          <span class="m2-multi-file-input__card__tile__remover" @click.stop="removeFile(i)">
             <i class="fa fa-times"></i>
           </span>
           {{ file.name.split('.')[1]}}
         </v-card-title>
+        <a :href="file.id ? `http://localhost:8000${file.url}` : $options.filters.base64Header(file.url)" target="_blank" download>
         <v-card-text class="ellipsis">{{ file.name }}</v-card-text>
+        </a>
       </v-card>
     </v-layout>
 
@@ -21,6 +23,7 @@
       style="display: none"
       ref="files"
       @change="onFilePicked"
+      :accept="accept.join(', ')"
       multiple
     />
   </div>
@@ -29,6 +32,14 @@
 <script>
 export default {
   props: {
+    accept: {
+      type: Array,
+      default: () => ['.jpg', '.jpeg', '.png', '.doc', '.docx', '.pdf', '.odt', '.xls', '.xlsx']
+    },
+    value: {
+      type: Array,
+      default: () => []
+    },
     label: {
       type: String,
       required: true
@@ -41,6 +52,14 @@ export default {
   data () {
     return {
       files: []
+    }
+  },
+  watch: {
+    'files.length' () {
+      this.$emit('input', this.files)
+    },
+    'value.length' () {
+      this.files = [...this.value]
     }
   },
   methods: {
@@ -66,8 +85,6 @@ export default {
               url: fr.result,
               file
             })
-
-            this.$emit('input', files)
           })
         }
       }
