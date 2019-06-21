@@ -12,7 +12,7 @@
           <v-layout wrap>
 
             <v-flex xs12 sm6 md4>
-              <v-select v-model="filters.bank"
+              <v-select v-model="filters.Bc_numBanco"
                 :items="options.banks"
                 item-value="id"
                 item-text="name"
@@ -21,7 +21,7 @@
             </v-flex>
 
             <v-flex xs12 sm6 md4>
-              <v-select v-model="filters.agency"
+              <v-select v-model="filters.CtBc_idAgencia"
                 :items="options.agencies"
                 item-value="id"
                 item-text="name"
@@ -30,7 +30,7 @@
             </v-flex>
 
             <v-flex xs12 sm6 md4>
-              <v-text-field v-model="filters.accountNumber"
+              <v-text-field v-model="filters.CtBc_numContaBancaria"
                 label="Número de conta corrente"
                 clearable
               />
@@ -113,9 +113,9 @@ export default {
       show: null,
       accountToModal: null,
       filters: {
-        status: null,
-        name: null,
-        cnpj: null,
+        Bc_numBanco: null,
+        CtBc_idAgencia: null,
+        CtBc_numContaBancaria: null,
         createdRange: {
           from: null,
           to: null
