@@ -66,6 +66,8 @@ export const getAllAttachment = (params = {}) => http.get('/api/attachment', { p
 
 export const manageAttachment = (id, params = {}) => http.post(`/api/attachment/${id}`, params, { 'Content-Type': 'multipart/form-data' })
 
+export const addAttachment = (id, params = {}) => http.post(`/api/attachment/${id}/add`, params, { 'Content-Type': 'multipart/form-data' })
+
 
 
 

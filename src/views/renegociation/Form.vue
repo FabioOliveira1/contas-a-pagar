@@ -119,7 +119,7 @@
 
             <v-spacer></v-spacer>
 
-            <v-btn color="success" dark type="submit">
+            <v-btn :loading="loading" color="success" dark type="submit">
               <span class="f-bold m-r-10">Salvar</span>
               <i class="fa fa-check"></i>
             </v-btn>
@@ -187,7 +187,7 @@ export default {
         })
     },
     getDependantOptions (id) {
-      getAllAccountsPayable({ Cta_idFornecedor: id, Cta_Status: 'A' })
+      getAllAccountsPayable({ Cta_idFornecedor: id, Cta_Status: 'Aberta' })
         .then(({ data }) => {
           this.accountsPayable = data.map(r => ({
             id: r.Cta_idConta,

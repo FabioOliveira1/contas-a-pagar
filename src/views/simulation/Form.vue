@@ -297,7 +297,7 @@ export default {
             number: b.Bc_numBanco
           }))
         })
-      getAllAccountsPayable({ Cta_Status_s: ['A', 'R'] })
+      getAllAccountsPayable({ Cta_Status_s: ['Aberta', 'Renegociada'] })
         .then(({ data }) => {
           this.accountsPayable = data
         })

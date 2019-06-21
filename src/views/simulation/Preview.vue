@@ -131,7 +131,7 @@ export default {
     },
     accept () {
       this.loadingAccept = true
-      endSimulation({ id: this.record.Sim_idSimulacao, Sim_status: 'A' })
+      endSimulation({ id: this.record.Sim_idSimulacao, Sim_status: 'Aprovada' })
         .then(() => {
           Notify.success('As contas a pagar foram atualizadas', 'Simulação aceita')
           this.$router.push({ name: 'home' })
@@ -141,7 +141,7 @@ export default {
     },
     deny () {
       this.loadingDeny = true
-      endSimulation({ id: this.record.Sim_idSimulacao, Sim_status: 'R' })
+      endSimulation({ id: this.record.Sim_idSimulacao, Sim_status: 'Recusada' })
         .then(() => {
           Notify.info('As contas a pagar continuam em aberto', 'Simulação recusada')
           this.$router.push({ name: 'home' })

@@ -127,7 +127,7 @@
 
             <v-spacer></v-spacer>
 
-            <v-btn color="success" dark type="submit">
+            <v-btn :loading="loadingSave" color="success" dark type="submit">
               <span class="f-bold m-r-10">Salvar</span>
               <i class="fa fa-check"></i>
             </v-btn>
@@ -140,16 +140,15 @@
 </template>
 
 <script>
-import { getAccountsPayable, createAccountsPayable, updateAccountsPayable, getAllSupplier, getAllAccountsGroup } from '@/services'
+import { getAccountsPayable, createAccountsPayable, updateAccountsPayable, getAllSupplier, getAllAccountsGroup, manageAttachment } from '@/services'
 import { mapState, mapGetters } from 'vuex'
-import FormActions from '@/utils/mixins/formActions'
+import Notify from '@/utils/notify'
 
 export default {
-  mixins: [FormActions],
   data () {
     return {
-      mixinContext: 'contas a pagar',
       loading: false,
+      loadingSave: false,
       record: {
         id: null,
         Cta_idConta: null,
@@ -215,20 +214,95 @@ export default {
     },
     fetchRecord () {
       this.loading = true
-      this.get(this.record.id)
+      getAccountsPayable(this.currentId)
         .then(({ data }) => {
           this.record = { ...data, id: data.Cta_idConta }
+          if (data.attachments) {
+            this.record.files = data.attachments.map(a => {
+              return {
+                id: a.Anx_idAnexo,
+                url: a.Anx_endereco,
+                name: `${a.Anx_nome}.${a.Anx_formato}`,
+              }
+            })
+          }_
+          delete this.record.attachments
         })
         .then(() => { this.loading = false })
+      
     },
-    create: payload => createAccountsPayable(payload),
-    update: payload => updateAccountsPayable(payload),
-    get: id => getAccountsPayable(id),
     submit () {
       if (this.$refs.form.validate()) {
         this.record['requireds'] = this.requireds
-        this.save()
+        if (!this.currentId) {
+          this.create()
+          return true
+        }
+
+        this.update()
+        return true
       }
+    },
+    create () {
+      let payload = { ...this.record }
+      this.loadingSave = true
+      createAccountsPayable(payload)
+        .then(({ data }) => {
+          this.uploadFiles(data.Cta_idConta)
+        })
+        .catch(() => { Notify.error('Não conseguimos criar a conta a pagar.') })
+    },
+    update () {
+      let payload = { ...this.record }
+      this.loadingSave = true
+      updateAccountsPayable(payload)
+        .then(() => {
+          this.uploadFiles()
+        })
+        .catch(() => { Notify.error('Não conseguimos atualizar a conta a pagar') })
+    },
+    uploadFiles (id = null) {
+      if (id && !this.record.files.length) {
+        Notify.success('Conta a pagar salva!')
+        this.loadingSave = false
+        this.$router.go(-1)
+        return true
+      }
+
+      if (!id) {
+        id = this.currentId
+      }
+
+      let keep = this.record.files.filter(f => !!f.id)
+      let files = this.record.files.map(f => {
+        if (f.url && f.url.length > 200) {
+          delete f.url
+        }
+        return f
+      }).filter(f => !!f.file)
+
+      let form = new FormData()
+      form.append('id', id)
+      form.append('keepLength', keep.length)
+      form.append('filesLength', files.length)
+      for (let k in keep) {
+        form.append(`keep.${k}`, keep[k].id)
+      }
+      for (let f in files) {
+        form.append(`files.${f}.name`, files[f].name)
+        form.append(`files.${f}.file`, files[f].file)
+      }
+
+      manageAttachment(id, form)
+        .then(response => {
+          Notify.success('Conta a pagar salva!')
+          this.$router.go(-1)
+        })
+        .catch(() => {
+          Notify.error('A conta a pagar foi salva, mas não foi possível salvar os anexos.')
+          this.$router.go(-1)
+        })
+        .then(() => { this.loadingSave = false })
     }
   }
 }

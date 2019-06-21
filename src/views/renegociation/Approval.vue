@@ -11,7 +11,7 @@
           
           <v-card-text>
             Se necessário, salve os novos documentos:
-            <m2-multi-file-input class="m-t-5" v-model="record.files" label="Anexos" />
+            <m2-multi-file-input class="m-t-5" v-model="files" label="Anexos" />
           </v-card-text>
           <v-btn dark color="error" :loading="loadingDeny" @click="deny">Recusar</v-btn>
           <v-spacer/>
@@ -24,7 +24,7 @@
 
 <script>
 import Notify from '@/utils/notify'
-import { getRenegociation, endRenegociation } from '@/services'
+import { getRenegociation, endRenegociation, addAttachment } from '@/services'
 
 export default {
   data () {
@@ -32,7 +32,8 @@ export default {
       loading: true,
       loadingAccept: false,
       loadingDeny: false,
-      record: { contact: { supplier: {} }, bill: {} }
+      record: { contact: { supplier: {} }, bill: {} },
+      files: []
     }
   },
   mounted () {
@@ -48,23 +49,53 @@ export default {
   methods: {
     accept () {
       this.loadingAccept = true
-      endRenegociation({ id: this.record.Rng_idProposta, Rng_Status: 'A' })
+      endRenegociation({ id: this.record.Rng_idProposta, Rng_Status: 'Aprovada' })
         .then(() => {
-          Notify.success('Obrigado por aceitar nossa proposta.', 'Boa escolha!')
-          this.$router.push({ name: 'home' })
+          if (this.files.length) {
+            this.uploadFiles()
+          } else {
+            Notify.success('Obrigado por aceitar nossa proposta.', 'Boa escolha!')
+            this.$router.push({ name: 'home' })
+          }
         })
         .catch(() => { Notify.error('Algo deu errado, tente mais tarde.') })
         .then(() => { this.loadingAccept = false })
     },
     deny () {
       this.loadingDeny = true
-      endRenegociation({ id: this.record.Rng_idProposta, Rng_Status: 'R' })
+      endRenegociation({ id: this.record.Rng_idProposta, Rng_Status: 'Recusada' })
         .then(() => {
           Notify.info('Vamos elaborar uma proposta melhor.', 'Que pena!')
           this.$router.push({ name: 'home' })
         })
         .catch(() => { Notify.error('Algo deu errado, tente mais tarde.') })
         .then(() => { this.loadingDeny = false })
+    },
+    uploadFiles () {
+      let id = this.record.Rng_idConta
+      let files = this.files.map(f => {
+        delete f.url
+        return f
+      })
+
+      let form = new FormData()
+      form.append('id', id)
+      form.append('filesLength', files.length)
+      for (let f in files) {
+        form.append(`files.${f}.name`, files[f].name)
+        form.append(`files.${f}.file`, files[f].file)
+      }
+
+      addAttachment(id, form)
+        .then(response => {
+          Notify.success('Obrigado por aceitar nossa proposta.', 'Boa escolha!')
+          this.$router.push({ name: 'home' })
+        })
+        .catch(() => {
+          Notify.error('Não conseguimos salvar os anexos, nos envie por email')
+          this.$router.push({ name: 'home' })
+        })
+        .then(() => { this.loadingAccept = false })
     }
   }
 }
