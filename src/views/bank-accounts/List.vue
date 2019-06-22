@@ -66,22 +66,22 @@
     <!-- List -->
     <v-card class="m-t-10 f-size-16 list__item">
       <v-layout wrap>
-          <v-data-table class="w-100" :headers="headers" :items="records" item-key="id">
+          <v-data-table class="w-100" :headers="headers" :items="records" item-key="CtBc_idContaBancaria">
             <template v-slot:items="props">
               <tr>
-                <td>{{ props.item.bank }}</td>
-                <td>{{ props.item.agency }}</td>
-                <td>{{ props.item.account }}</td>
-                <td>{{ props.item.value }}</td>
+                <td>{{ props.item.CtBc_nomeBanco }}</td>
+                <td>{{ props.item.CtBc_numAgencia }}</td>
+                <td>{{ props.item.CtBc_numContaBancaria }}</td>
+                <td>{{ props.item.CtBc_Saldo }}</td>
                 <td>
                   <v-layout>
-                    <v-btn alt="Gerenciar saldo" class="m-5" small icon color="primary" @click.prevent.stop="handleAmountModal(props.item)">
+                    <v-btn alt="Gerenciar saldo" class="m-5" small icon color="primary" @click.prevent.stop="handleAmount(props.item)">
                       <span class="fa fa-money"></span>
                     </v-btn>
-                    <v-btn alt="Editar conta" class="m-5" small icon color="warning" @click.prevent.stop="handleEdit('thisId')">
+                    <v-btn alt="Editar conta" class="m-5" small icon color="warning" @click.prevent.stop="handleEdit(props.item.CtBc_idContaBancaria)">
                       <span class="fa fa-pencil"></span>
                     </v-btn>
-                    <v-btn alt="Remover conta" class="m-5" small icon color="error" @click.prevent.stop="handleDelete('thisId')">
+                    <v-btn alt="Remover conta" class="m-5" small icon color="error" @click.prevent.stop="handleDelete(props.item.CtBc_idContaBancaria)">
                       <span class="fa fa-times"></span>
                     </v-btn>
                   </v-layout>
@@ -92,7 +92,7 @@
       </v-layout>
     </v-card>
 
-    <ManageAmount v-if="show === 'updateAmount'" :account="accountToModal" @close="show = null" />
+    <ManageAmount v-if="reference" :reference="reference" @close="reference = null" />
     <ManageAgencies v-if="show === 'agencies'" @close="show = null" />
     <ManageBanks v-if="show === 'banks'" @close="show = null" />
 
@@ -100,7 +100,8 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { getAllBankAccount, getAllAgency, deleteBankAccount } from '@/services'
+import { mapState, mapMutations } from 'vuex'
 import Notify from '@/utils/notify'
 import ManageAmount from '@/views/bank-accounts/modals/ManageAmount'
 import ManageAgencies from '@/views/bank-accounts/modals/ManageAgencies'
@@ -111,7 +112,7 @@ export default {
   data () {
     return {
       show: null,
-      accountToModal: null,
+      reference: null,
       filters: {
         Bc_numBanco: null,
         CtBc_idAgencia: null,
@@ -133,78 +134,92 @@ export default {
           text: 'Banco',
           align: 'left',
           sortable: false,
-          value: 'bank'
+          value: 'CtBc_nomeBanco'
         },
         {
           text: 'Agência',
           sortable: false,
-          value: 'agency'
+          value: 'CtBc_numAgencia'
         },
         {
           text: 'Conta Bancária',
           sortable: false,
-          value: 'account'
+          value: 'CtBc_numContaBancaria'
         },
         {
           text: 'Saldo',
           sortable: false,
-          value: 'value'
+          value: 'CtBc_Saldo'
         },
         {
           text: 'Ações',
           sortable: false
         }
       ],
-      records: [
-        {
-          id: Math.random() * Date.now(),
-          bank: 'Itaú SA',
-          agency: '0075',
-          account: '149565',
-          value: 10000
-        },
-        {
-          id: Math.random() * Date.now(),
-          bank: 'Santander SA',
-          agency: '006008',
-          account: '1235475',
-          value: 5500
-        },
-        {
-          id: Math.random() * Date.now(),
-          bank: 'Banco do Brasil SA',
-          agency: '1020',
-          account: '65485',
-          value: 6320
-        }
-      ]
+      records: []
     }
+  },
+  created() {
+    this.doFilter()
   },
   watch: {
-    page (val) {
-      console.log(val)
+    reference (val) {
+      if (!val) {
+        this.doFilter()
+      }
     }
   },
+  computed: {
+    ...mapState([ 'banks' ])
+  },
   methods: {
-    ...mapActions(['setRenegociationForm']),
+    ...mapMutations({ setFormReference: 'SET_FORM_REFERENCE' }),
     doFilter () {
-      console.log('Essa é uma ação irreversível')
-    },
-    handleAmountModal (account) {
-      this.accountToModal = account
-      this.show = 'updateAmount'
+      this.loading = false
+
+      getAllBankAccount()
+        .then(({ data }) => {
+          data = data.map (d => {
+            d['CtBc_numAgencia'] = d.agency_bank.AgBc_numAgencia
+            d['CtBc_nomeBanco'] = this.banks.find(b => b.id === d.agency_bank.AgBc_idBanco).name
+            delete d.agency_bank
+
+            return d
+          })
+          this.records = [...data]
+        })
+        .catch(e => console.log(e))
+        .then(() => { this.loading = false })
     },
     handleCreate () {
-      this.setRenegociationForm(null)
+      this.setFormReference({field: 'bankAccount', value: null })
       this.$router.push({ name: 'bank-accounts.create' })
     },
+    handleAmount (item) {
+      this.reference = {
+        id: item.CtBc_idContaBancaria,
+        account: item.CtBc_numContaBancaria,
+        value: item.CtBc_Saldo,
+        agency: item.CtBc_numAgencia,
+        bank: item.CtBc_nomeBanco
+      }
+    },
     handleEdit (id) {
-      this.setRenegociationForm(id)
+      this.setFormReference({field: 'bankAccount', value: id })
       this.$router.push({ name: 'bank-accounts.edit' })
     },
     handleDelete (id) {
       Notify.confirm('Essa é uma ação irreversível')
-        .then(val => console.log(val))
+        .then(response => {
+          if (response.value) {
+            deleteBankAccount(id)
+              .then(() => {
+                Notify.success('Registro removido')
+                this.doFilter()
+              })
+              .catch(() => { Notify.error('Não foi possível remover o registro') })
+          }
+        })
     }
   }
 }

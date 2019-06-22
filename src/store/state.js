@@ -4,7 +4,8 @@ export default {
     renegociation: null,
     accountsGroup: null,
     accountsPayable: null,
-    simulation: null
+    simulation: null,
+    bankAccount: null
   },
   requireds: [],
   risks: [],

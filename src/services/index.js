@@ -98,6 +98,8 @@ export const createBankAccount = (params = {}) => http.post('/api/accountBank', 
 
 export const updateBankAccount = (params = {}) => http.put(`/api/accountBank/${params.id}`, params)
 
+export const changeBankAccountAmount = (params = {}) => http.put(`/api/accountBank/${params.id}/amount`, params)
+
 export const deleteBankAccount = id => http.delete(`/api/accountBank/${id}`)
 
 
