@@ -94,6 +94,8 @@ export const deleteAgency = id => http.delete(`/api/agencyBank/${id}`)
 // bank accounts
 export const getAllBankAccount = (params = {}) => http.get('/api/accountBank', { params })
 
+export const getBankAccount = id => http.get(`/api/accountBank/${id}`)
+
 export const createBankAccount = (params = {}) => http.post('/api/accountBank', params)
 
 export const updateBankAccount = (params = {}) => http.put(`/api/accountBank/${params.id}`, params)

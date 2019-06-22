@@ -14,25 +14,29 @@
           <v-layout wrap>
 
             <v-flex sm12 md6 lg4>
-              <v-combobox v-model="bankCombo"
-                :rules="[v => !!v && v.id || 'Selecione o banco']"
-                :items="options.banks"
+              <v-select v-model="bank"
+                :rules="[v => !!v || 'Selecione o banco']"
+                :items="banks"
+                item-value="id"
                 item-text="name"
                 label="Bancos"
               />
             </v-flex>
 
             <v-flex sm12 md6 lg4>
-              <v-combobox v-model="agencyCombo"
-                :rules="[v => !!v && v.id || 'Selecione a agência bancária']"
-                :items="options.agencies"
-                item-text="name"
+              <v-select v-model="record.CtBc_idAgencia"
+                :disabled="!bank"
+                :loading="loadingAgencies"
+                :rules="[v => !!v || 'Selecione a agência bancária']"
+                :items="agencies"
+                item-value="id"
+                item-text="number"
                 label="Agências"
               />
             </v-flex>
 
             <v-flex sm12 md4>
-              <v-text-field v-model="record.accountNumber"
+              <v-text-field v-model="record.CtBc_numContaBancaria"
                 :rules="[v => !!v || 'Digite o número da conta corrente']"
                 label="Conta corrente"
                 clearable
@@ -40,7 +44,7 @@
             </v-flex>
 
             <v-flex sm12 md4>
-              <v-text-field v-model="record.value"
+              <v-text-field v-model="record.CtBc_Saldo"
                 :rules="[v => !!v || 'Digite o saldo']"
                 label="Saldo"
                 clearable
@@ -71,66 +75,75 @@
 </template>
 
 <script>
-import { get, create, update } from '@/services'
-import { mapGetters } from 'vuex'
+import { getAllAgency, getBankAccount, createBankAccount, updateBankAccount } from '@/services'
+import { mapGetters, mapState } from 'vuex'
 import FormActions from '@/utils/mixins/formActions'
 
 export default {
   mixins: [FormActions],
   data () {
     return {
-      mixinContext: 'renegociação',
+      mixinContext: 'conta bancária',
       loading: false,
+      loadingAgencies: false,
       record: {
         id: null,
-        supplierId: null,
-        contactId: null,
-        accountId: null,
-        newValue: null,
-        newDate: null,
-        subject: null,
-        message: null,
-        status: null
+        CtBc_idAgencia: null,
+        CtBc_numContaBancaria: null,
+        CtBc_Saldo: null
       },
-      accountCombo: {
-        id: null,
-        name: null,
-        value: null,
-        fee: null,
-        interest: null,
-        emitedAt: null,
-        dueDateAt: null
-      },
-      supplierCombo: {
-        id: null,
-        name: null
-      },
-      contactCombo: {
-        id: null,
-        name: null
-      },
-      options: {
-        suppliers: [],
-        contacts: [],
-        accounts: []
-      }
+      bank: null,
+      agencies: []
     }
   },
   created () {
-    if (this.currentId) {
+    if (this.$route.name.includes('edit') && this.currentId) {
       this.record.id = this.currentId
       this.fetchRecord()
     }
+    if (this.$route.name.includes('edit') && !this.currentId) {
+      this.$router.push({ name: this.$route.name.replace('.edit', '')})
+    }
   },
   computed: {
-    ...mapGetters({
-      currentId: 'getRenegociationForm'
-    })
+    ...mapGetters(['getFormReference']),
+    ...mapState([ 'banks' ]),
+    currentId () {
+      return this.getFormReference('bankAccount')
+    }
+  },
+  watch: {
+    bank (val) {
+      this.record.CtBc_idAgencia = null
+      if (val) {
+        this.loadingAgencies = true
+        getAllAgency({ AgBc_idBanco: this.bank })
+          .then(({ data }) => {
+            this.agencies = data.map(d => {
+              return {
+                id: d.AgBc_idAgencia,
+                number: d.AgBc_numAgencia
+              }
+            })
+          })
+          .then(() => { this.loadingAgencies = false })
+      }
+    }
   },
   methods: {
-    create: payload => create(payload),
-    update: payload => update(payload),
-    get: id => get(id),
+    fetchRecord () {
+      this.loading = true
+      this.get(this.record.id)
+        .then(({ data }) => {
+          this.bank = data.agency_bank.AgBc_idBanco
+          delete data.agency_bank;
+          this.record = { ...data, id: data.CtBc_idContaBancaria }
+        })
+        .then(() => { this.loading = false })
+    },
+    create: payload => createBankAccount(payload),
+    update: payload => updateBankAccount(payload),
+    get: id => getBankAccount(id),
     doFilter () {
       if (this.$refs.form.validate()) {
         this.save()
