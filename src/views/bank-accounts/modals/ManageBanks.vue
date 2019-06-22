@@ -59,6 +59,7 @@
 
 <script>
 import { getAllBank, createBank, updateBank, deleteBank } from '@/services'
+import { mapMutations } from 'vuex'
 import Notify from '@/utils/notify'
 
 export default {
@@ -76,12 +77,17 @@ export default {
     this.fetchRecord()
   },
   methods: {
+    ...mapMutations({
+      setBanks: 'SET_BANKS'
+    }),
     fetchRecord () {
       this.loading = false
 
       getAllBank()
         .then(({ data }) => {
           this.banks = [...data]
+          const banks = data.map(b => ({id: b.Bc_idBanco, num: b.Bc_numBanco, name: b.Bc_nomeBanco}))
+          this.setBanks(banks)
         })
         .catch(e => console.log(e))
         .then(() => { this.loading = false })
@@ -125,6 +131,8 @@ export default {
       deleteBank(id)
         .then(() => {
           this.banks.splice(i, 1)
+          const banks = this.banks.map(b => ({id: b.Bc_idBanco, num: b.Bc_numBanco, name: b.Bc_nomeBanco}))
+          this.setBanks(banks)
           Notify.success('Banco removido')
         })
         .catch(() => {
