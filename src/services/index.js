@@ -2,16 +2,6 @@ import http from '@/utils/http'
 
 export const initStore = () => http.get('/api/init')
 
-// banks
-export const getAllBank = (params = {}) => http.get('/api/bank', { params })
-
-// agencies
-export const getAllAgency = (params = {}) => http.get('/api/agencyBank', { params })
-
-// bank accounts
-export const getAllBankAccount = (params = {}) => http.get('/api/accountBank', { params })
-
-
 // accounts group
 export const getAllAccountsGroup = (params = {}) => http.get('/api/billsGroup', { params })
 
@@ -83,8 +73,32 @@ export const updateContact = (params = {}) => http.put(`/api/contacts/${params.i
 
 export const deleteContact = id => http.delete(`/api/contacts/${id}`)
 
+// banks
+export const getAllBank = (params = {}) => http.get('/api/bank', { params })
 
+export const createBank = (params = {}) => http.post('/api/bank', params)
 
+export const updateBank = (params = {}) => http.put(`/api/bank/${params.id}`, params)
+
+export const deleteBank = id => http.delete(`/api/bank/${id}`)
+
+// agencies
+export const getAllAgency = (params = {}) => http.get('/api/agencyBank', { params })
+
+export const createAgency = (params = {}) => http.post('/api/agencyBank', params)
+
+export const updateAgency = (params = {}) => http.put(`/api/agencyBank/${params.id}`, params)
+
+export const deleteAgency = id => http.delete(`/api/agencyBank/${id}`)
+
+// bank accounts
+export const getAllBankAccount = (params = {}) => http.get('/api/accountBank', { params })
+
+export const createBankAccount = (params = {}) => http.post('/api/accountBank', params)
+
+export const updateBankAccount = (params = {}) => http.put(`/api/accountBank/${params.id}`, params)
+
+export const deleteBankAccount = id => http.delete(`/api/accountBank/${id}`)
 
 
 
@@ -110,16 +124,6 @@ export const create = () => {
 export const update = () => {
   return new Promise((resolve, reject) => {
     setTimeout(() => resolve('update'), 1000)
-  })
-}
-export const deleteBank = () => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => resolve('deleteBank'), 1000)
-  })
-}
-export const deleteAgency = () => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => resolve('deleteAgency'), 1000)
   })
 }
 

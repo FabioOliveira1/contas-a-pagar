@@ -3,10 +3,10 @@
     <h3 slot="header">Gerenciar bancos</h3>
 
     <section slot="body">
-      <v-form @submit.prevent="addContact" ref="form">
+      <v-form @submit.prevent="save" ref="form">
         <v-layout wrap>
           <v-flex xs12 sm6>
-            <v-text-field v-model="record.number"
+            <v-text-field v-model="record.Bc_numBanco"
               type="number"
               :rules="[v => !!v || 'Campo obrigatório']"
               label="Número"
@@ -14,7 +14,7 @@
             />
           </v-flex>
           <v-flex xs12 sm6>
-            <v-text-field v-model="record.name"
+            <v-text-field v-model="record.Bc_nomeBanco"
               :rules="[v => !!v || 'Campo obrigatório']"
               label="Nome"
               clearable
@@ -22,9 +22,9 @@
           </v-flex>
           <v-flex xs12 class="text-center m-t-10">
             <v-layout>
-              <v-btn dark v-if="editingId" @click="clear">Cancelar<i class="fa fa-times m-l-10"></i></v-btn>
+              <v-btn dark v-if="record.id" @click="clear">Cancelar<i class="fa fa-times m-l-10"></i></v-btn>
               <v-spacer></v-spacer>
-              <v-btn color="success" type="submit">{{ editingId ? 'Salvar' : 'Adicionar' }}<i class="fa fa-check m-l-10"></i></v-btn>
+              <v-btn color="success" type="submit">{{ record.id ? 'Salvar' : 'Adicionar' }}<i class="fa fa-check m-l-10"></i></v-btn>
             </v-layout>
           </v-flex>
         </v-layout>
@@ -32,19 +32,19 @@
 
       <v-flex xs12 class="m-t-20">
         <h3 class="m-b-5">Bancos: </h3>
-        <v-card color="grey lighten-2" class="p-10 m-t-10" style="position: relative;" v-for="(b, i) in banks" :key="b.id">
+        <v-card color="grey lighten-2" class="p-10 m-t-10" style="position: relative;" v-for="(b, i) in banks" :key="b.Bc_idBanco">
           <transition name="fade">
-            <div class="loading-inline" v-if="editingId === b.id">
+            <div class="loading-inline" v-if="record.id === b.Bc_idBanco">
               <span class="message">Editando</span>
             </div>
           </transition>
           <v-layout>
             <div class="f-size-15 p-t-5">
-                <b>{{ b.number }}</b> - {{ b.name }}
+                <b>{{ b.Bc_numBanco }}</b> - {{ b.Bc_nomeBanco }}
             </div>
             <v-spacer/>
             <v-btn small color="warning" class="m-r-10" @click="handleEdit(b, i)"><i class="fa fa-edit"></i></v-btn>
-            <v-btn small color="error" @click="askToRemove(b.id, i)"><i class="fa fa-times"></i></v-btn>
+            <v-btn small color="error" @click="askToRemove(b.Bc_idBanco, i)"><i class="fa fa-times"></i></v-btn>
           </v-layout>
         </v-card>
         <p v-if="!banks.length">Nenhum banco adicionado</p>
@@ -58,49 +58,60 @@
 </template>
 
 <script>
-import { get, create, update, deleteBank } from '@/services'
-import { mapGetters } from 'vuex'
+import { getAllBank, createBank, updateBank, deleteBank } from '@/services'
 import Notify from '@/utils/notify'
 
 export default {
   data () {
     return {
       loading: false,
-      editingId: null,
       record: {
-        name: null,
-        number: null
+        Bc_nomeBanco: null,
+        Bc_numBanco: null
       },
-      banks: [
-        {
-          id: 1,
-          number: '042',
-          name: 'Itaú SA'
-        },
-        {
-          id: 2,
-          number: '341',
-          name: 'Bradesco SA'
-        }
-      ]
+      banks: []
     }
   },
   created () {
-    if (this.currentId) {
-      this.record.id = this.currentId
-      this.fetchRecord()
-    }
-  },
-  computed: {
-    ...mapGetters({
-      currentId: 'getRenegociationForm'
-    })
+    this.fetchRecord()
   },
   methods: {
+    fetchRecord () {
+      this.loading = false
+
+      getAllBank()
+        .then(({ data }) => {
+          this.banks = [...data]
+        })
+        .catch(e => console.log(e))
+        .then(() => { this.loading = false })
+    },
     handleEdit (bank, index) {
-      this.editingId = bank.id
-      this.record.number = bank.number
-      this.record.name = bank.name
+      this.record.id = bank.Bc_idBanco
+      this.record.Bc_numBanco = bank.Bc_numBanco
+      this.record.Bc_nomeBanco = bank.Bc_nomeBanco
+    },
+    save () {
+      if(this.record.id) {
+        updateBank(this.record)
+          .then(() => {
+            Notify.success('Banco atualizado')
+            this.clear()
+          })
+          .catch(() => {
+            Notify.error('Não foi possível atualizar o banco')
+          })
+
+      } else {
+        createBank(this.record)
+          .then(() => {
+            Notify.success('Banco salvo')
+            this.clear()
+          })
+          .catch(() => {
+            Notify.error('Não foi possível salvar o banco')
+          })
+      }
     },
     askToRemove (id, i) {
       Notify.confirm('Tem certeza que deseja apagar o banco?')
@@ -120,28 +131,13 @@ export default {
           Notify.error('Não foi possível remover o banco')
         })
     },
-    save () {
-
-    },
-    addContact () {
-      if (this.$refs.form.validate()) {
-        this.banks.push({
-          id: Date.now().toString(16),
-          name: this.record.name,
-          number: this.record.number
-        })
-        this.clear()
-      }
-    },
     clear () {
-      this.editingId = null
-      this.record.name = null
-      this.record.number = null
+      this.record.id = null
+      this.record.Bc_nomeBanco = null
+      this.record.Bc_numBanco = null
       this.$refs.form.resetValidation()
+      this.fetchRecord()
     },
-    create: payload => create(payload),
-    update: payload => update(payload),
-    get: id => get(id)
   }
 }
 </script>
