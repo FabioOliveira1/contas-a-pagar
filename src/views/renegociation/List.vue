@@ -165,7 +165,6 @@ export default {
 
       getAllRenegociation()
         .then(({ data }) => {
-          console.log(data)
           this.records = data.map(r => {
             r.contactName = r.contact.Cnt_nomeContato
             r.contactEmail = r.contact.Cnt_emailContato

@@ -187,7 +187,7 @@ export default {
   mixins: [FormActions],
   data () {
     return {
-      mixinContext: 'renegociação',
+      mixinContext: 'simulação',
       loading: false,
       record: {
         Sim_idContaBancaria: null,

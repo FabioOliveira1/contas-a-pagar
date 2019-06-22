@@ -11,6 +11,12 @@ export default {
   SET_RISKS: (state, value) => {
     state.risks = value
   },
+  SET_BANKS: (state, value) => {
+    state.banks = value
+  },
+  SET_PAYMENT_WAYS: (state, value) => {
+    state.paymentWays = value
+  },
   SET_INIT: (state, value) => {
     state.init = value
   }

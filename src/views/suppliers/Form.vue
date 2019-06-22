@@ -14,7 +14,7 @@
           <v-layout wrap>
 
             <v-flex sm12 md5>
-              <v-text-field v-model="record.name"
+              <v-text-field v-model="record.Forn_NomeFantasia"
                 :rules="[v => !!v || 'Campo obirgatório']"
                 label="Nome Fantasia"
                 clearable
@@ -22,7 +22,7 @@
             </v-flex>
 
             <v-flex sm12 md5>
-              <v-text-field v-model="record.rsocial"
+              <v-text-field v-model="record.Forn_RazaoSocial"
                 :rules="[v => !!v || 'Campo obirgatório']"
                 label="Razão Social"
                 clearable
@@ -30,9 +30,9 @@
             </v-flex>
 
             <v-flex sm12 md2>
-              <v-select v-model="record.riskType"
+              <v-select v-model="record.Forn_idRisco"
                 :rules="[v => !!v || 'O tipo de risco é obrigatório']"
-                :items="options.risks"
+                :items="risks"
                 item-text="name"
                 item-value="id"
                 label="Tipo de risco"
@@ -40,7 +40,7 @@
             </v-flex>
 
             <v-flex sm12 md5>
-              <v-text-field v-model="record.cnpj"
+              <v-text-field v-model="record.Forn_CNPJ"
                 :rules="[v => !!v || 'Campo obirgatório']"
                 label="CNPJ"
                 clearable
@@ -48,7 +48,7 @@
             </v-flex>
 
             <v-flex sm12 md5>
-              <v-text-field v-model="record.inscEstadual"
+              <v-text-field v-model="record.Forn_InscrEstadual"
                 :rules="[v => !!v || 'Campo obirgatório']"
                 label="Inscrição Estadual"
                 clearable
@@ -56,7 +56,7 @@
             </v-flex>
 
             <v-flex sm12 md2>
-              <v-text-field v-model="record.cep"
+              <v-text-field v-model="record.Forn_CEP"
                 :rules="[v => !!v || 'Campo obirgatório']"
                 label="CEP"
                 clearable
@@ -64,7 +64,7 @@
             </v-flex>
 
             <v-flex sm12 md6>
-              <v-text-field v-model="record.address"
+              <v-text-field v-model="record.Forn_Endereco"
                 :rules="[v => !!v || 'Campo obirgatório']"
                 label="Logradouro"
                 clearable
@@ -72,7 +72,7 @@
             </v-flex>
 
             <v-flex sm12 md3>
-              <v-text-field v-model="record.neighborhood"
+              <v-text-field v-model="record.Forn_Bairro"
                 :rules="[v => !!v || 'Campo obirgatório']"
                 label="Bairro"
                 clearable
@@ -80,7 +80,7 @@
             </v-flex>
 
             <v-flex sm12 md3>
-              <v-text-field v-model="record.city"
+              <v-text-field v-model="record.Forn_Cidade"
                 :rules="[v => !!v || 'Campo obirgatório']"
                 label="Cidade"
                 clearable
@@ -88,23 +88,27 @@
             </v-flex>
 
             <v-flex xs12 sm6 md3>
-              <v-select v-model="record.state"
+              <v-select v-model="record.Forn_UF"
                 :rules="[v => !!v || 'Campo Obrigatório']"
-                :items="['SP', 'TO']"
+                :items="states"
+                item-text="name"
+                item-value="id"
                 label="UF"
               />
             </v-flex>
 
             <v-flex xs12 sm6 md3>
-              <v-select v-model="record.bank"
+              <v-select v-model="record.Forn_Banco"
                 :rules="[v => !!v || 'Campo Obrigatório']"
-                :items="['Itau SA', 'Banco do Brasil SA']"
+                item-text="name"
+                item-value="number"
+                :items="banks"
                 label="Banco"
               />
             </v-flex>
 
             <v-flex xs12 sm6 md3>
-              <v-text-field v-model="record.agency"
+              <v-text-field v-model="record.Forn_Agencia"
                 :rules="[v => !!v || 'Campo obirgatório']"
                 label="Agência"
                 clearable
@@ -112,7 +116,7 @@
             </v-flex>
 
             <v-flex xs12 sm6 md3>
-              <v-text-field v-model="record.bankAccount"
+              <v-text-field v-model="record.Forn_ContaBancaria"
                 :rules="[v => !!v || 'Campo obirgatório']"
                 label="Conta corrente"
                 clearable
@@ -120,9 +124,9 @@
             </v-flex>
             <v-flex sm12 md6>
               <v-select
-                v-model="record.payment"
-                :items="[{ id: 1, name: 'Depósito' },{ id: 2, name: 'Boleto' }]"
-                :rules="[v => v && v.length || 'Campo obrigatório']"
+                v-model="record.payment_ways"
+                :items="paymentWays"
+                :rules="[v => v && !!v.length || 'Campo obrigatório']"
                 item-text="name"
                 item-value="id"
                 attach
@@ -155,66 +159,64 @@
 </template>
 
 <script>
-import { get, create, update } from '@/services'
-import { mapGetters } from 'vuex'
+import { getSupplier, createSupplier, updateSupplier } from '@/services'
+import { mapGetters, mapState } from 'vuex'
 import FormActions from '@/utils/mixins/formActions'
 
 export default {
   mixins: [FormActions],
   data () {
     return {
-      mixinContext: 'renegociação',
+      mixinContext: 'fornecedor',
       loading: false,
       record: {
         id: null,
-        supplierId: null,
-        contactId: null,
-        accountId: null,
-        newValue: null,
-        newDate: null,
-        subject: null,
-        message: null,
-        status: null
-      },
-      accountCombo: {
-        id: null,
-        name: null,
-        value: null,
-        fee: null,
-        interest: null,
-        emitedAt: null,
-        dueDateAt: null
-      },
-      supplierCombo: {
-        id: null,
-        name: null
-      },
-      contactCombo: {
-        id: null,
-        name: null
-      },
-      options: {
-        suppliers: [],
-        contacts: [],
-        accounts: []
+        Forn_NomeFantasia: null,
+        Forn_RazaoSocial: null,
+        Forn_idRisco: null,
+        Forn_CNPJ: null,
+        Forn_InscrEstadual: null,
+        Forn_CEP: null,
+        Forn_Endereco: null,
+        Forn_Bairro: null,
+        Forn_Cidade: null,
+        Forn_UF: null,
+        Forn_Banco: null,
+        Forn_Agencia: null,
+        Forn_ContaBancaria: null,
+        payment_ways: [],
       }
     }
   },
   created () {
-    if (this.currentId) {
+    if (this.$route.name.includes('edit') && this.currentId) {
       this.record.id = this.currentId
       this.fetchRecord()
     }
+    if (this.$route.name.includes('edit') && !this.currentId) {
+      this.$router.push({ name: this.$route.name.replace('.edit', '')})
+    }
   },
   computed: {
-    ...mapGetters({
-      currentId: 'getRenegociationForm'
-    })
+    ...mapState([ 'risks', 'banks', 'paymentWays', 'states' ]),
+    ...mapGetters(['getFormReference']),
+    currentId () {
+      return this.getFormReference('supplier')
+    }
   },
   methods: {
-    create: payload => create(payload),
-    update: payload => update(payload),
-    get: id => get(id),
+    fetchRecord () {
+      this.loading = true
+      this.get(this.record.id)
+        .then(({ data }) => {
+          data.payment_ways = data.payment_ways.map(p => p.FrPg_idFormaPgto)
+          this.record = { ...data, id: data.Forn_idFornecedor }
+        })
+        .then(() => { this.loading = false })
+    },
+    create: payload => createSupplier(payload),
+    update: payload => updateSupplier(payload),
+    get: id => getSupplier(id),
     doFilter () {
       if (this.$refs.form.validate()) {
         this.save()

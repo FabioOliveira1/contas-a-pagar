@@ -11,9 +11,6 @@ export const getAllAgency = (params = {}) => http.get('/api/agencyBank', { param
 // bank accounts
 export const getAllBankAccount = (params = {}) => http.get('/api/accountBank', { params })
 
-// suppliers
-export const getAllSupplier = (params = {}) => http.get('/api/supplier', { params })
-
 // contacts
 export const getAllContact = (params = {}) => http.get('/api/contacts', { params })
 
@@ -68,7 +65,16 @@ export const manageAttachment = (id, params = {}) => http.post(`/api/attachment/
 
 export const addAttachment = (id, params = {}) => http.post(`/api/attachment/${id}/add`, params, { 'Content-Type': 'multipart/form-data' })
 
+// suppliers
+export const getAllSupplier = (params = {}) => http.get('/api/supplier', { params })
 
+export const getSupplier = id => http.get(`/api/supplier/${id}`)
+
+export const createSupplier = (params = {}) => http.post('/api/supplier', params)
+
+export const updateSupplier = (params = {}) => http.put(`/api/supplier/${params.id}`, params)
+
+export const deleteSupplier = id => http.delete(`/api/supplier/${id}`)
 
 
 

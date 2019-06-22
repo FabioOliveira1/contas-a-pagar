@@ -391,7 +391,6 @@ export default {
     },
     generateReport () {
       if (this.$refs.form.validate()) {
-        console.log(this.filters)
         this.loading = true
         generateReport()
           .then(({ data }) => {

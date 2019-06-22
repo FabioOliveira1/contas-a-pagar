@@ -158,7 +158,6 @@ export default {
 
     },
     addAgency () {
-      console.log(this.$refs.form.validate())
       if (this.$refs.form.validate()) {
         this.banks.push({
           id: Date.now().toString(16),

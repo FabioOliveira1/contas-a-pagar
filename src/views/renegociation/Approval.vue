@@ -40,7 +40,6 @@ export default {
     this.loading = true
     getRenegociation(this.$route.params.token)
       .then(({ data }) => {
-        console.log(data)
         this.record = { ...data }
       })
       // .catch

@@ -80,7 +80,6 @@ export default {
       this.contacts.splice(i, 1)
     },
     addContact () {
-      console.log(this.$refs.contactForm.validate())
       if (this.$refs.contactForm.validate()) {
         this.contacts.push({
           name: this.record.name,

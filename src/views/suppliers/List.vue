@@ -56,22 +56,22 @@
     <!-- List -->
     <v-card class="m-t-10 f-size-16 list__item">
       <v-layout wrap>
-          <v-data-table class="w-100" :headers="headers" :items="records" item-key="id">
+          <v-data-table class="w-100" :headers="headers" :items="records" item-key="Forn_idFornecedor">
             <template v-slot:items="props">
               <tr class="pointer" @click="props.expanded = !props.expanded">
-                <td>{{ props.item.fantasyName }}</td>
-                <td>{{ props.item.cnpj }}</td>
-                <td>{{ props.item.companyName }}</td>
-                <td>{{ props.item.risk }}</td>
+                <td>{{ props.item.Forn_NomeFantasia }}</td>
+                <td>{{ props.item.Forn_CNPJ }}</td>
+                <td>{{ props.item.Forn_RazaoSocial }}</td>
+                <td>{{ props.item.Forn_idRisco }}</td>
                 <td>
                   <v-layout>
-                  <v-btn alt="Adicionar contatos" class="m-5" small icon color="primary" @click.prevent.stop="reference = 'thisId'">
+                  <v-btn alt="Adicionar contatos" class="m-5" small icon color="primary" @click.prevent.stop="handleContacts(props.item)">
                     <span class="fa fa-phone"></span>
                   </v-btn>
-                  <v-btn alt="Editar fornecedor" class="m-5" small icon color="warning" @click.prevent.stop="handleEdit('thisId')">
+                  <v-btn alt="Editar fornecedor" class="m-5" small icon color="warning" @click.prevent.stop="handleEdit(props.item.Forn_idFornecedor)">
                     <span class="fa fa-pencil"></span>
                   </v-btn>
-                  <v-btn alt="Remover fornecedor" class="m-5" small icon color="error" @click.prevent.stop="handleDelete('thisId')">
+                  <v-btn alt="Remover fornecedor" class="m-5" small icon color="error" @click.prevent.stop="handleDelete(props.item.Forn_idFornecedor)">
                     <span class="fa fa-times"></span>
                   </v-btn>
                   </v-layout>
@@ -81,28 +81,29 @@
             <template v-slot:expand="props">
               <v-card flat class="expand__content">
                 <v-card-title><b>Outras informações </b></v-card-title>
-                <v-card-text><b>Inscrição Estadual:</b> {{ props.item.stateNumber }} </v-card-text>
-                <v-card-text><b>CEP:</b> {{ props.item.cep }} </v-card-text>
-                <v-card-text><b>Logradouro:</b> {{ props.item.address }} </v-card-text>
-                <v-card-text><b>Bairro:</b> {{ props.item.neighborhood }} </v-card-text>
-                <v-card-text><b>Cidade:</b> {{ props.item.city }} </v-card-text>
-                <v-card-text><b>Estado:</b> {{ props.item.state }}</v-card-text>
-                <v-card-text><b>Banco:</b> {{ props.item.bank }}</v-card-text>
-                <v-card-text><b>Agência:</b> {{ props.item.agency }} </v-card-text>
-                <v-card-text><b>Conta corrente:</b> {{ props.item.bankAccount }} </v-card-text>
+                <v-card-text><b>Inscrição Estadual:</b> {{ props.item.Forn_InscrEstadual }} </v-card-text>
+                <v-card-text><b>CEP:</b> {{ props.item.Forn_CEP }} </v-card-text>
+                <v-card-text><b>Logradouro:</b> {{ props.item.Forn_Endereco }} </v-card-text>
+                <v-card-text><b>Bairro:</b> {{ props.item.Forn_Bairro }} </v-card-text>
+                <v-card-text><b>Cidade:</b> {{ props.item.Forn_Cidade }} </v-card-text>
+                <v-card-text><b>Estado:</b> {{ props.item.Forn_UF }}</v-card-text>
+                <v-card-text><b>Banco:</b> {{ props.item.Forn_Banco }}</v-card-text>
+                <v-card-text><b>Agência:</b> {{ props.item.Forn_Agencia }} </v-card-text>
+                <v-card-text><b>Conta corrente:</b> {{ props.item.Forn_ContaBancaria }} </v-card-text>
               </v-card>
             </template>
           </v-data-table>
       </v-layout>
     </v-card>
-    <AddContacts v-if="reference" @close="reference = null" />
+    <AddContacts v-if="reference" :reference="reference" @close="reference = null" />
 
   </section>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapMutations } from 'vuex'
 import Notify from '@/utils/notify'
+import { getAllSupplier, deleteSupplier } from '@/services'
 import AddContacts from '@/views/suppliers/modals/AddContacts'
 
 export default {
@@ -124,69 +125,69 @@ export default {
           text: 'Fornecedor',
           align: 'left',
           sortable: false,
-          value: 'fantasyName'
+          value: 'Forn_NomeFantasia'
         },
         {
           text: 'CNPJ',
           sortable: false,
-          value: 'cnpj'
+          value: 'Forn_CNPJ'
         },
         {
           text: 'Razão Social',
           sortable: false,
-          value: 'companyName'
+          value: 'Forn_RazaoSocial'
         },
         {
           text: 'Risco',
           sortable: false,
-          value: 'risk'
+          value: 'Forn_idRisco'
         },
         {
           text: 'Ações',
           sortable: false
         }
       ],
-      records: [
-        {
-          id: Math.random() * Date.now(),
-          fantasyName: 'Papéis Silva',
-          companyName: 'José Magno da Silva ME',
-          cnpj: '23199252000115',
-          risk: 'Alto',
-          stateNumber: '123123123123',
-          cep: '18078470',
-          address: 'R. Genésio Machado, 24',
-          neighborhood: 'Vila Alberta',
-          city: 'Sorocaba',
-          state: 'SP',
-          bank: 'Itau SA',
-          agency: '1650',
-          bankAccount: '123456'
-        }
-      ]
+      records: []
     }
   },
-  watch: {
-    page (val) {
-      console.log(val)
-    }
+  created() {
+    this.doFilter()
   },
   methods: {
-    ...mapActions(['setRenegociationForm']),
+    ...mapMutations({ setFormReference: 'SET_FORM_REFERENCE' }),
     doFilter () {
-      console.log('Essa é uma ação irreversível')
+      this.loading = false
+
+      getAllSupplier()
+        .then(({ data }) => {
+          this.records = [...data]
+        })
+        .catch(e => console.log(e))
+        .then(() => { this.loading = false })
     },
     handleCreate () {
-      this.setRenegociationForm(null)
+      this.setFormReference({field: 'supplier', value: null })
       this.$router.push({ name: 'suppliers.create' })
     },
+    handleContacts (item) {
+      this.reference = { id: item.Forn_idFornecedor, name: item.Forn_NomeFantasia}
+    },
     handleEdit (id) {
-      this.setRenegociationForm(id)
+      this.setFormReference({field: 'supplier', value: id })
       this.$router.push({ name: 'suppliers.edit' })
     },
     handleDelete (id) {
       Notify.confirm('Essa é uma ação irreversível')
-        .then(val => console.log(val))
+        .then(response => {
+          if (response.value) {
+            deleteSupplier(id)
+              .then(() => {
+                Notify.success('Registro removido')
+                this.doFilter()
+              })
+              .catch(() => { Notify.error('Não foi possível remover o registro') })
+          }
+        })
     }
   }
 }
