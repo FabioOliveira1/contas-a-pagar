@@ -11,8 +11,6 @@ export const getAllAgency = (params = {}) => http.get('/api/agencyBank', { param
 // bank accounts
 export const getAllBankAccount = (params = {}) => http.get('/api/accountBank', { params })
 
-// contacts
-export const getAllContact = (params = {}) => http.get('/api/contacts', { params })
 
 // accounts group
 export const getAllAccountsGroup = (params = {}) => http.get('/api/billsGroup', { params })
@@ -75,6 +73,16 @@ export const createSupplier = (params = {}) => http.post('/api/supplier', params
 export const updateSupplier = (params = {}) => http.put(`/api/supplier/${params.id}`, params)
 
 export const deleteSupplier = id => http.delete(`/api/supplier/${id}`)
+
+// contacts
+export const getAllContact = (params = {}) => http.get('/api/contacts', { params })
+
+export const createContact = (params = {}) => http.post('/api/contacts', params)
+
+export const updateContact = (params = {}) => http.put(`/api/contacts/${params.id}`, params)
+
+export const deleteContact = id => http.delete(`/api/contacts/${id}`)
+
 
 
 
