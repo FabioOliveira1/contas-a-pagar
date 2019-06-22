@@ -1,5 +1,8 @@
 import http from '@/utils/http'
 
+// init controller
+export const getDashboard = () => http.get('/api/init/dashboard')
+
 export const initStore = () => http.get('/api/init')
 
 // accounts group
