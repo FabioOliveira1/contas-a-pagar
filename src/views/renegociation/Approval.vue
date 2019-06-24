@@ -24,7 +24,7 @@
 
 <script>
 import Notify from '@/utils/notify'
-import { getRenegociation, endRenegociation, addAttachment } from '@/services'
+import { getRenegociationFromToken, endRenegociation, addAttachment } from '@/services'
 
 export default {
   data () {
@@ -38,11 +38,10 @@ export default {
   },
   mounted () {
     this.loading = true
-    getRenegociation(this.$route.params.token)
+    getRenegociationFromToken(this.$route.params.token)
       .then(({ data }) => {
         this.record = { ...data }
       })
-      // .catch
     this.loading = false
   },
   methods: {

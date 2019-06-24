@@ -37,6 +37,8 @@ export const getAllRenegociation = (params = {}) => http.get('/api/renegotiation
 
 export const getRenegociation = id => http.get(`/api/renegotiation/${id}`)
 
+export const getRenegociationFromToken = id => http.get(`/api/renegotiation/${id}/token`)
+
 export const createRenegociation = (params = {}) => http.post('/api/renegotiation', params)
 
 export const endRenegociation = (params = {}) => http.put(`/api/renegotiation/${params.id}/end`, params)
