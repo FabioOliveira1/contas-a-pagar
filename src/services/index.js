@@ -5,6 +5,8 @@ export const getDashboard = () => http.get('/api/init/dashboard')
 
 export const initStore = () => http.get('/api/init')
 
+export const getReport = (params = {}) => http.get('/api/report', { params })
+
 // accounts group
 export const getAllAccountsGroup = (params = {}) => http.get('/api/billsGroup', { params })
 
