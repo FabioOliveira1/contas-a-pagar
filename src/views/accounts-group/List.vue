@@ -24,6 +24,7 @@
                 item-value="id"
                 item-text="name"
                 label="Riscos"
+                clearable
               />
             </v-flex>
 
@@ -90,15 +91,7 @@ export default {
       loading: false,
       filters: {
         GrCt_NomeGrupo: null,
-        GrCt_idRisco: null,
-        createdRange: {
-          from: null,
-          to: null
-        },
-        answeredRange: {
-          from: null,
-          to: null
-        }
+        GrCt_idRisco: null
       },
       headers: [
         {
@@ -140,7 +133,7 @@ export default {
     doFilter () {
       this.loading = false
 
-      getAllAccountsGroup()
+      getAllAccountsGroup(this.filters)
         .then(({ data }) => {
           this.records = data.map(r => {
             r.requireds = r.requireds.map(i => i.Rq_idRequeridos)
