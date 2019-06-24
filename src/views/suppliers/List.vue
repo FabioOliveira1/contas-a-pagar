@@ -28,10 +28,11 @@
 
             <v-flex sm12 md6 lg4>
               <v-select v-model="filters.Forn_idRisco"
-                :items="options.risk"
+                :items="risks"
                 item-value="id"
-                item-text="nome"
+                item-text="name"
                 label="Risco"
+                clearable
               />
             </v-flex>
           </v-layout>
@@ -101,7 +102,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 import Notify from '@/utils/notify'
 import { getAllSupplier, deleteSupplier } from '@/services'
 import AddContacts from '@/views/suppliers/modals/AddContacts'
@@ -115,9 +116,6 @@ export default {
         Forn_idRisco: null,
         Forn_NomeFantasia: null,
         Forn_CNPJ: null
-      },
-      options: {
-        status: []
       },
       page: 1,
       headers: [
@@ -153,12 +151,15 @@ export default {
   created() {
     this.doFilter()
   },
+  computed: {
+    ...mapState(['risks'])
+  },
   methods: {
     ...mapMutations({ setFormReference: 'SET_FORM_REFERENCE' }),
     doFilter () {
       this.loading = false
 
-      getAllSupplier()
+      getAllSupplier(this.filters)
         .then(({ data }) => {
           this.records = [...data]
         })
