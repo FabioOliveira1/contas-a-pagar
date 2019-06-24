@@ -72,6 +72,17 @@ export const updateSupplier = (params = {}) => http.put(`/api/supplier/${params.
 
 export const deleteSupplier = id => http.delete(`/api/supplier/${id}`)
 
+// users
+export const getAllUser = (params = {}) => http.get('/api/user', { params })
+
+export const getUser = id => http.get(`/api/user/${id}`)
+
+export const createUser = (params = {}) => http.post('/api/user', params)
+
+export const updateUser = (params = {}) => http.put(`/api/user/${params.id}`, params)
+
+export const deleteUser = id => http.delete(`/api/user/${id}`)
+
 // contacts
 export const getAllContact = (params = {}) => http.get('/api/contacts', { params })
 

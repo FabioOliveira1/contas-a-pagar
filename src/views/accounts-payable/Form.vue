@@ -250,7 +250,8 @@ export default {
         .then(({ data }) => {
           this.uploadFiles(data.Cta_idConta)
         })
-        .catch(() => { Notify.error('Não conseguimos criar a conta a pagar.') })
+        .catch((e) => { console.log(e)
+        Notify.error('Não conseguimos criar a conta a pagar.') })
     },
     update () {
       let payload = { ...this.record }
@@ -262,7 +263,7 @@ export default {
         .catch(() => { Notify.error('Não conseguimos atualizar a conta a pagar') })
     },
     uploadFiles (id = null) {
-      if (id && !this.record.files.length) {
+      if (id && (!this.record.files || !this.record.files.length)) {
         Notify.success('Conta a pagar salva!')
         this.loadingSave = false
         this.$router.go(-1)

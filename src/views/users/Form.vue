@@ -14,15 +14,15 @@
           <v-layout wrap>
 
             <v-flex sm12 md4>
-              <v-text-field v-model="record.workNumber"
-                :rules="[v => !!v || 'Digite a matrícula']"
-                label="Número de matrícula"
-                clearable
+              <v-select v-model="record.User_nivelAcesso"
+                :rules="[v => !!v || 'Campo obrigatório']"
+                :items="roles"
+                label="Nível de acesso"
               />
             </v-flex>
 
             <v-flex sm12 md4>
-              <v-text-field v-model="record.name"
+              <v-text-field v-model="record.User_nome"
                 :rules="[v => !!v || 'Digite um nome']"
                 label="Nome"
                 clearable
@@ -30,16 +30,25 @@
             </v-flex>
 
             <v-flex sm12 md4>
-              <v-text-field v-model="record.email"
-                :rules="[v => !!v || 'Digite um email']"
+              <v-text-field v-model="record.User_email"
+              :rules="emailRules"
                 label="E-mail"
                 clearable
               />
             </v-flex>
 
             <v-flex sm12 md4>
-              <v-text-field v-model="record.password"
-                :rules="[v => !!v || 'Digite uma senha']"
+              <v-text-field v-model="record.User_matricula"
+                :rules="[v => !!v || 'Digite a matrícula']"
+                label="Número de matrícula"
+                type="number"
+                clearable
+              />
+            </v-flex>
+
+            <v-flex sm12 md4>
+              <v-text-field v-model="record.User_senha"
+                :rules="[v => !conf || v === conf  || 'Deve ser igual a confirmação de senha', v => !currentId && !!v || currentId || 'Campo obrigatório']"
                 type="password"
                 label="Senha"
                 clearable
@@ -47,21 +56,12 @@
             </v-flex>
 
             <v-flex sm12 md4>
-              <v-text-field v-model="record.passwordConfirmation"
-                :rules="[v => !!v || 'Confirme a senha']"
+              <v-text-field v-model="conf"
+                :rules="[v => !record.User_senha || v === record.User_senha  || 'Deve ser igual a ao campo de senha', v => !currentId && !!v || currentId || 'Campo obrigatório']"
+                
                 type="password"
                 label="Confirmação de senha"
                 clearable
-              />
-            </v-flex>
-
-            <v-flex sm12 md4>
-              <v-select v-model="record.role"
-                :rules="[v => !!v || 'É preciso selecionar um nível de acesso']"
-                :items="options.roles"
-                item-text="name"
-                item-value="id"
-                label="Nível de acesso"
               />
             </v-flex>
 
@@ -89,66 +89,59 @@
 </template>
 
 <script>
-import { get, create, update } from '@/services'
-import { mapGetters } from 'vuex'
+import { getUser, createUser, updateUser } from '@/services'
+import { mapGetters, mapState } from 'vuex'
 import FormActions from '@/utils/mixins/formActions'
 
 export default {
   mixins: [FormActions],
   data () {
     return {
-      mixinContext: 'renegociação',
+      mixinContext: 'usuário',
       loading: false,
       record: {
         id: null,
-        supplierId: null,
-        contactId: null,
-        accountId: null,
-        newValue: null,
-        newDate: null,
-        subject: null,
-        message: null,
-        status: null
+        User_email: null,
+        User_matricula: null,
+        User_nivelAcesso: null,
+        User_nome: null,
+        User_senha: null
       },
-      accountCombo: {
-        id: null,
-        name: null,
-        value: null,
-        fee: null,
-        interest: null,
-        emitedAt: null,
-        dueDateAt: null
-      },
-      supplierCombo: {
-        id: null,
-        name: null
-      },
-      contactCombo: {
-        id: null,
-        name: null
-      },
-      options: {
-        suppliers: [],
-        contacts: [],
-        accounts: []
-      }
+      conf: null,
+      emailRules: [
+        v => !!v || 'Campo Obrigatório',
+        v => /.+@.+\.+./.test(v) || 'Não é uma email válido'
+      ]
     }
   },
   created () {
-    if (this.currentId) {
+    if (this.$route.name.includes('edit') && this.currentId) {
       this.record.id = this.currentId
       this.fetchRecord()
     }
+    if (this.$route.name.includes('edit') && !this.currentId) {
+      this.$router.push({ name: this.$route.name.replace('.edit', '')})
+    }
   },
   computed: {
-    ...mapGetters({
-      currentId: 'getRenegociationForm'
-    })
+    ...mapState([ 'roles' ]),
+    ...mapGetters(['getFormReference']),
+    currentId () {
+      return this.getFormReference('user')
+    }
   },
   methods: {
-    create: payload => create(payload),
-    update: payload => update(payload),
-    get: id => get(id),
+    fetchRecord () {
+      this.loading = true
+      this.get(this.record.id)
+        .then(({ data }) => {
+          this.record = { ...data, id: data.User_idUsuario }
+        })
+        .then(() => { this.loading = false })
+    },
+    create: payload => createUser(payload),
+    update: payload => updateUser(payload),
+    get: id => getUser(id),
     doFilter () {
       if (this.$refs.form.validate()) {
         this.save()

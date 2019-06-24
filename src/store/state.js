@@ -17,6 +17,7 @@ export default {
   risks: [],
   banks: [],
   paymentWays: [],
+  roles: ['Administrador', 'Gerente', 'Analista'],
   states: [
     {
       name: 'Acre',

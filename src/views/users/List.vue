@@ -1,7 +1,7 @@
 <template>
   <section>
     <!-- Filter -->
-    <v-card>
+    <v-card v-if="auth.role !== 'Analista'">
       <v-card-title>
         <h1 class="f-size-20 w-100">Filtros</h1>
         <p>Use os filtros para carregar os dados</p>
@@ -12,14 +12,14 @@
           <v-layout wrap>
 
             <v-flex sm12 md6>
-              <v-text-field v-model="filters.name"
+              <v-text-field v-model="filters.search"
                 label="Nome ou email do usuário"
                 clearable
               />
             </v-flex>
 
             <v-flex sm12 md3>
-              <v-text-field v-model="filters.workNumber"
+              <v-text-field v-model="filters.User_matricula"
                 label="Número de Matrícula"
                 clearable
               />
@@ -56,19 +56,19 @@
     <!-- List -->
     <v-card class="m-t-10 f-size-16 list__item">
       <v-layout wrap>
-          <v-data-table class="w-100" :headers="headers" :items="records" item-key="id">
+          <v-data-table class="w-100" :headers="headers" :items="records" item-key="User_idUsuario">
             <template v-slot:items="props">
-              <tr>
-                <td>{{ props.item.workNumber }}</td>
-                <td>{{ props.item.accessLevel }}</td>
-                <td>{{ props.item.name }}</td>
-                <td>{{ props.item.email }}</td>
+              <tr :class="auth.email === props.item.User_email ? 'blue lighten-4' : ''">
+                <td>{{ props.item.User_matricula }}</td>
+                <td>{{ props.item.User_nivelAcesso }}</td>
+                <td>{{ props.item.User_nome }}</td>
+                <td>{{ props.item.User_email }}</td>
                 <td>
                   <v-layout>
-                    <v-btn alt="Editar conta" class="m-5" small icon color="warning" @click.prevent.stop="handleEdit('thisId')">
+                    <v-btn alt="Editar conta" class="m-5" small icon color="warning" @click.prevent.stop="handleEdit(props.item.User_idUsuario)">
                       <span class="fa fa-pencil"></span>
                     </v-btn>
-                    <v-btn alt="Remover conta" class="m-5" small icon color="error" @click.prevent.stop="handleDelete('thisId')">
+                    <v-btn v-if="auth.email !== props.item.User_email" alt="Remover conta" class="m-5" small icon color="error" @click.prevent.stop="handleDelete(props.item.User_idUsuario)">
                       <span class="fa fa-times"></span>
                     </v-btn>
                   </v-layout>
@@ -83,8 +83,10 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 import Notify from '@/utils/notify'
+import { getAllUser, deleteUser } from '@/services'
+
 export default {
   data () {
     return {
@@ -109,74 +111,69 @@ export default {
           text: 'Matrícula',
           align: 'left',
           sortable: false,
-          value: 'workNumber'
+          value: 'User_matricula'
         },
         {
           text: 'Nível de acesso',
           sortable: false,
-          value: 'accessLevel'
+          value: 'User_nivelAcesso'
         },
         {
           text: 'Nome',
           sortable: false,
-          value: 'name'
+          value: 'User_nome'
         },
         {
           text: 'E-mail',
           sortable: false,
-          value: 'email'
+          value: 'User_email'
         },
         {
           text: 'Ações',
           sortable: false
         }
       ],
-      records: [
-        {
-          id: Math.random() * Date.now(),
-          workNumber: '021324',
-          accessLevel: 'Admin',
-          name: 'Marco da Silva Sauro',
-          email: 'marco.sauro@m2print.com'
-        },
-        {
-          id: Math.random() * Date.now(),
-          workNumber: '6646542',
-          accessLevel: 'Gerente',
-          name: 'Adilson Ferreira dos Santos',
-          email: 'adilson.santos@m2print.com'
-        },
-        {
-          id: Math.random() * Date.now(),
-          workNumber: '895413',
-          accessLevel: 'Analista',
-          name: 'Bruno Araújo Hoyama',
-          email: 'bruno.hoyama@m2print.com'
-        }
-      ]
+      records: []
     }
   },
-  watch: {
-    page (val) {
-      console.log(val)
-    }
+  created() {
+    this.doFilter()
+  },
+  computed: {
+    ...mapState(['auth'])
   },
   methods: {
-    ...mapActions(['setRenegociationForm']),
+    ...mapMutations({ setFormReference: 'SET_FORM_REFERENCE' }),
     doFilter () {
-      console.log('Essa é uma ação irreversível')
+      this.loading = false
+
+      getAllUser()
+        .then(({ data }) => {
+          this.records = [...data]
+        })
+        .catch(e => console.log(e))
+        .then(() => { this.loading = false })
     },
     handleCreate () {
-      this.setRenegociationForm(null)
+      this.setFormReference({field: 'user', value: null })
       this.$router.push({ name: 'users.create' })
     },
     handleEdit (id) {
-      this.setRenegociationForm(id)
+      this.setFormReference({field: 'user', value: id })
       this.$router.push({ name: 'users.edit' })
     },
     handleDelete (id) {
       Notify.confirm('Essa é uma ação irreversível')
-        .then(val => console.log(val))
+        .then(response => {
+          if (response.value) {
+            deleteUser(id)
+              .then(() => {
+                Notify.success('Registro removido')
+                this.doFilter()
+              })
+              .catch(() => { Notify.error('Não foi possível remover o registro') })
+          }
+        })
     }
   }
 }

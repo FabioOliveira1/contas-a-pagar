@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { login } from '@/services'
+import { login, initStore } from '@/services'
 import Notify from '@/utils/notify'
 import { mapMutations } from 'vuex'
 
@@ -64,8 +64,11 @@ export default {
                 this.$router.push({ name: 'home' })
               })
           })
-          .catch(e => Notify.error(e.response.data))
-          .catch(() => Notify.error('Algo deu errado, tente novamente mais tarde'))
+          .catch(e => {
+            console.log(e)
+            Notify.error(e.response.data)
+          })
+          .catch((e) => Notify.error('Algo deu errado, tente novamente mais tarde'))
           .then(() => { this.loading = false })
       }
     }

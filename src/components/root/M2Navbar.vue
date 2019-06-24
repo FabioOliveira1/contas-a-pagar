@@ -18,7 +18,7 @@
             <v-icon right class="f-size-18">arrow_drop_down</v-icon>
           </v-btn>
           <v-list>
-            <v-list-tile :to="{ name: 'bank-accounts' }">
+            <v-list-tile :to="{ name: 'bank-accounts' }" v-if="auth.role !== 'Analista'">
               <v-list-tile-title>
                 <v-icon left class="f-size-20 m-r-10">credit_card</v-icon>
                 <span class="f-size-14">Informações bancárias</span>
@@ -44,7 +44,11 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
-  props: ['isMenuOpen']
+  props: ['isMenuOpen'],
+  computed: {
+    ...mapState(['auth'])
+  }
 }
 </script>

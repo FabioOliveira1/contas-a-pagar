@@ -52,7 +52,7 @@
             </v-layout>
           </v-flex>
         </v-layout>
-          <v-layout class="p-10">
+          <v-layout class="p-10" v-if="auth.role === 'Gerente'">
             <v-btn dark color="error" @click.prevent="deny">
               <span class="f-bold m-r-10">Recusar</span>
               <i class="fa fa-times"></i>
@@ -74,7 +74,7 @@
 
 <script>
 import { getSimulation, endSimulation } from '@/services'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import moment from 'moment'
 import Notify from '@/utils/notify'
 
@@ -115,6 +115,7 @@ export default {
   },
   computed: {
     ...mapGetters(['getFormReference']),
+    ...mapState(['auth']),
     currentId () {
       return this.getFormReference('simulation')
     }
