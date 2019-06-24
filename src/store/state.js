@@ -19,7 +19,7 @@ export default {
   paymentWays: [],
   roles: ['Administrador', 'Gerente', 'Analista'],
   billStatus: ['Aberta', 'Renegociada', 'Paga'],
-  otherStatus: ['Pendente', 'Aceita', 'Recusada'],
+  otherStatus: ['Pendente', 'Aprovada', 'Recusada'],
   states: [
     {
       name: 'Acre',

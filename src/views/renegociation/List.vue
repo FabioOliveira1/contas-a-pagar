@@ -29,19 +29,20 @@
             <v-flex sm12 md6 lg4>
               <v-select
                 v-model="filters.Rng_Status"
-                :items="options.status"
+                :items="otherStatus"
                 item-value="id"
-                item-text="nome"
+                item-text="name"
                 label="Status"
+                clearable
               />
             </v-flex>
 
             <v-flex sm12 md6>
-              <m2-date-range v-model="filters.createdRange" label="Data de emissão"/>
+              <m2-date-range v-model="filters.created_at" label="Data de emissão"/>
             </v-flex>
 
             <v-flex sm12 md6>
-              <m2-date-range v-model="filters.answeredRange" label="Data de resposta"/>
+              <m2-date-range v-model="filters.updated_at" label="Data de resposta"/>
             </v-flex>
           </v-layout>
 
@@ -98,7 +99,7 @@
 
 <script>
 import { getAllRenegociation, deleteRenegociation } from '@/services'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 import Notify from '@/utils/notify'
 export default {
   data () {
@@ -107,19 +108,15 @@ export default {
         Rng_Status: null,
         Forn_NomeFantasia: null,
         Forn_CNPJ: null,
-        createdRange: {
+        created_at: {
           from: null,
           to: null
         },
-        answeredRange: {
+        updated_at: {
           from: null,
           to: null
         }
       },
-      options: {
-        status: []
-      },
-      page: 1,
       headers: [
         {
           text: 'Fornecedor',
@@ -158,12 +155,15 @@ export default {
   created() {
     this.doFilter()
   },
+  computed: {
+    ...mapState(['otherStatus'])
+  },
   methods: {
     ...mapMutations({ setFormReference: 'SET_FORM_REFERENCE' }),
     doFilter () {
       this.loading = false
 
-      getAllRenegociation()
+      getAllRenegociation(this.filters)
         .then(({ data }) => {
           this.records = data.map(r => {
             r.contactName = r.contact.Cnt_nomeContato
