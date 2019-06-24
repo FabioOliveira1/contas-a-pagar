@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import createPersistedState from 'vuex-persistedstate'
 
 import actions from '@/store/actions'
 import getters from '@/store/getters'
@@ -12,5 +13,10 @@ export default new Vuex.Store({
   state,
   mutations,
   actions,
-  getters
+  getters,
+  plugins: [createPersistedState({
+    key: 'auth',
+    paths: ['auth']
+  })]
+
 })

@@ -16,15 +16,20 @@
         required
       />
 
-      <v-btn type="submit" color="primary">Login</v-btn>
+      <v-btn :loading="loading" class="m-t-10" type="submit" color="primary">Login</v-btn>
     </v-form>
   </minimal-layout>
 </template>
 
 <script>
+import { login } from '@/services'
+import Notify from '@/utils/notify'
+import { mapMutations } from 'vuex'
+
 export default {
   data () {
     return {
+      loading: false,
       record: {
         email: null,
         password: null
@@ -32,9 +37,36 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      setAuth: 'SET_AUTH',
+      setRequireds: 'SET_REQUIREDS',
+      setRisks: 'SET_RISKS',
+      setBanks: 'SET_BANKS',
+      setPaymentWays: 'SET_PAYMENT_WAYS',
+    }),
     doLogin () {
       if (this.$refs.login.validate()) {
-        this.$router.push({ name: 'home' })
+        this.loading = true
+        login(this.record)
+          .then(({ data }) => {
+            this.setAuth(data)
+            initStore()
+              .then(({ data }) => {
+                const risks = data.risks.map(r => ({id: r.Rsc_idRisco, name: r.Rsc_descrRisco}))
+                const requireds = data.requireds.map(r => ({id: r.Rq_idRequeridos, name: r.Rq_DescrRequeridos}))
+                const banks = data.banks.map(b => ({id: b.Bc_idBanco, num: b.Bc_numBanco, name: b.Bc_nomeBanco}))
+                const paymentWays = data.paymentWays.map(p => ({id: p.FrPg_idFormaPgto, name: p.FrPg_descrFormaPgto}))
+                this.setRequireds(requireds)
+                this.setRisks(risks)
+                this.setBanks(banks)
+                this.setPaymentWays(paymentWays)
+
+                this.$router.push({ name: 'home' })
+              })
+          })
+          .catch(e => Notify.error(e.response.data))
+          .catch(() => Notify.error('Algo deu errado, tente novamente mais tarde'))
+          .then(() => { this.loading = false })
       }
     }
   }

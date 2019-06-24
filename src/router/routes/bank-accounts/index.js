@@ -1,3 +1,5 @@
+import { authenticated } from '@/router/middlewares'
+
 import Main from '@/views/Main.vue'
 import List from '@/views/bank-accounts/List.vue'
 import Form from '@/views/bank-accounts/Form.vue'
@@ -6,6 +8,7 @@ export default [
   {
     path: '/informacoes-bancarias',
     component: Main,
+    beforeEnter: authenticated,
     children: [
       {
         path: '',

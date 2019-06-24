@@ -1,5 +1,11 @@
 export default {
   init: false,
+  auth: {
+    name: null,
+    email: null,
+    role: null,
+    token: null
+  },
   form: {
     renegociation: null,
     accountsGroup: null,

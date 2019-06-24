@@ -1,3 +1,5 @@
+import { authenticated } from '@/router/middlewares'
+
 import Main from '@/views/Main.vue'
 import List from '@/views/reports/List.vue'
 
@@ -5,6 +7,7 @@ export default [
   {
     path: '/relatorios',
     component: Main,
+    beforeEnter: authenticated,
     children: [
       {
         path: '',

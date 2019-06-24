@@ -1,3 +1,5 @@
+import { authenticated } from '@/router/middlewares'
+
 import Main from '@/views/Main.vue'
 import List from '@/views/accounts-group/List.vue'
 import Form from '@/views/accounts-group/Form.vue'
@@ -6,6 +8,7 @@ export default [
   {
     path: '/grupo-de-contas',
     component: Main,
+    beforeEnter: authenticated,
     children: [
       {
         path: '',

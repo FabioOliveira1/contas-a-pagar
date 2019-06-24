@@ -1,5 +1,8 @@
 import http from '@/utils/http'
 
+// auth controller
+export const login = (params = {}) => http.post('/auth/login', params)
+
 // init controller
 export const getDashboard = () => http.get('/api/init/dashboard')
 

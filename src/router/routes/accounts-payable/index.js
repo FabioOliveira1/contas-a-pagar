@@ -1,3 +1,5 @@
+import { authenticated } from '@/router/middlewares'
+
 import Main from '@/views/Main.vue'
 import List from '@/views/accounts-payable/List.vue'
 import Form from '@/views/accounts-payable/Form.vue'
@@ -6,6 +8,7 @@ export default [
   {
     path: '/contas-a-pagar',
     component: Main,
+    beforeEnter: authenticated,
     children: [
       {
         path: '',

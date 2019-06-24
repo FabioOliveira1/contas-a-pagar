@@ -1,3 +1,5 @@
+import { authenticated } from '@/router/middlewares'
+
 import Main from '@/views/Main.vue'
 import List from '@/views/simulation/List.vue'
 import Form from '@/views/simulation/Form.vue'
@@ -7,6 +9,7 @@ export default [
   {
     path: '/simulacao',
     component: Main,
+    beforeEnter: authenticated,
     children: [
       {
         path: '',

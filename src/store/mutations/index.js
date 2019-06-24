@@ -19,5 +19,11 @@ export default {
   },
   SET_INIT: (state, value) => {
     state.init = value
+  },
+  SET_AUTH: (state, obj) => {
+    state.auth.email = obj.email
+    state.auth.name = obj.name
+    state.auth.role = obj.role
+    state.auth.token = obj.token
   }
 }

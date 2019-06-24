@@ -11,7 +11,7 @@
 
 <script>
 // import { mapActions } from 'vuex'
-import { mapState } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 
 export default {
   data () {
@@ -24,9 +24,14 @@ export default {
     ...mapState([ 'init'])
   },
   methods: {
-    // ...mapActions([ 'logout' ]),
+    ...mapMutations({ setAuth: 'SET_AUTH' }),
     logout () {
-      console.log('logout')
+      this.setAuth({
+        name: null,
+        email: null,
+        role: null,
+        token: null
+      })
       this.$router.push({ name: 'login' })
     }
   }

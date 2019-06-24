@@ -1,3 +1,5 @@
+import { authenticated } from '@/router/middlewares'
+
 import Main from '@/views/Main.vue'
 import Approval from '@/views/renegociation/Approval.vue'
 import List from '@/views/renegociation/List.vue'
@@ -7,6 +9,7 @@ export default [
   {
     path: '/renegociacao',
     component: Main,
+    beforeEnter: authenticated,
     children: [
       {
         path: '',

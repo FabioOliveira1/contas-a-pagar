@@ -1,3 +1,5 @@
+import { authenticated } from '@/router/middlewares'
+
 import Main from '@/views/Main.vue'
 import List from '@/views/users/List.vue'
 import Form from '@/views/users/Form.vue'
@@ -6,6 +8,7 @@ export default [
   {
     path: '/usuarios',
     component: Main,
+    beforeEnter: authenticated,
     children: [
       {
         path: '',
