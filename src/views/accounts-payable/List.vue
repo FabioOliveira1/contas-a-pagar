@@ -20,28 +20,29 @@
 
             <v-flex sm12 md6 lg3>
               <v-select v-model="filters.Cta_Status"
-                :items="options.status"
-                item-value="id"
-                item-text="nome"
+                :items="billStatus"
                 label="Status"
+                clearable
               />
             </v-flex>
 
             <v-flex sm12 md6 lg4>
-              <v-combobox v-model="filters.Cta_idFornecedor"
-                :items="options.supplier"
+              <v-select v-model="filters.Cta_idFornecedor"
+                :items="suppliers"
                 item-value="id"
-                item-text="nome"
+                item-text="name"
                 label="Fornecedor"
+                clearable
               />
             </v-flex>
 
             <v-flex sm12 md6 lg4>
-              <v-combobox v-model="filters.Cta_idGrupo"
-                :items="options.group"
+              <v-select v-model="filters.Cta_idGrupo"
+                :items="groups"
                 item-value="id"
-                item-text="nome"
+                item-text="name"
                 label="Grupo de contas"
+                clearable
               />
             </v-flex>
 
@@ -121,8 +122,8 @@
 </template>
 
 <script>
-import { getAllAccountsPayable, deleteAccountsPayable } from '@/services'
-import { mapMutations } from 'vuex'
+import { getAllAccountsPayable, getAllSupplier, getAllAccountsGroup, deleteAccountsPayable } from '@/services'
+import { mapMutations, mapState } from 'vuex'
 import Notify from '@/utils/notify'
 import AddFiles from '@/views/accounts-payable/modals/AddFiles'
 
@@ -137,18 +138,10 @@ export default {
         Cta_Status: null,
         Cta_idFornecedor: null,
         Cta_idGrupo: null,
-        Cta_dataVencimento: null,
-        createdRange: {
-          from: null,
-          to: null
-        },
-        answeredRange: {
+        Cta_dataVencimento: {
           from: null,
           to: null
         }
-      },
-      options: {
-        status: []
       },
       headers: [
         {
@@ -187,18 +180,34 @@ export default {
           sortable: false
         }
       ],
+      suppliers: [],
+      groups: [],
       records: []
     }
   },
   created() {
     this.doFilter()
+    this.getOptions()
+  },
+  computed: {
+    ...mapState(['billStatus'])
   },
   methods: {
     ...mapMutations({ setFormReference: 'SET_FORM_REFERENCE' }),
+    getOptions () {
+      getAllSupplier()
+        .then(({ data }) => {
+          this.suppliers = data.map(d => ({ id: d.Forn_idFornecedor, name: d.Forn_NomeFantasia }))
+        })
+      getAllAccountsGroup()
+        .then(({ data }) => {
+          this.groups = data.map(d => ({ id: d.GrCt_idGrupo, name: d.GrCt_NomeGrupo }))
+        })
+    },
     doFilter () {
       this.loading = false
 
-      getAllAccountsPayable()
+      getAllAccountsPayable(this.filters)
         .then(({ data }) => {
           this.records = data.map(r => {
             r.supplierName = r.supplier.Forn_NomeFantasia

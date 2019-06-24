@@ -18,6 +18,8 @@ export default {
   banks: [],
   paymentWays: [],
   roles: ['Administrador', 'Gerente', 'Analista'],
+  billStatus: ['Aberta', 'Renegociada', 'Paga'],
+  otherStatus: ['Pendente', 'Aceita', 'Recusada'],
   states: [
     {
       name: 'Acre',
