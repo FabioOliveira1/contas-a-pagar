@@ -13,10 +13,11 @@
 
             <v-flex sm12 md6 lg4>
               <v-select v-model="filters.Sim_status"
-                :items="options.status"
+                :items="otherStatus"
                 item-value="id"
                 item-text="name"
                 label="Status"
+                clearable
               />
             </v-flex>
 
@@ -79,39 +80,18 @@
 
 <script>
 import { getAllSimulation, deleteSimulation } from '@/services'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 import Notify from '@/utils/notify'
 export default {
   data () {
     return {
       filters: {
         Sim_status: null,
-        createdRange: {
-          from: null,
-          to: null
-        },
-        answeredRange: {
+        created_at: {
           from: null,
           to: null
         }
       },
-      options: {
-        status: [
-          {
-            id: 'pendente',
-            name: 'Pendente'
-          },
-          {
-            id: 'aprovada',
-            name: 'Aprovada'
-          },
-          {
-            id: 'recusada',
-            name: 'Recusada'
-          }
-        ]
-      },
-      page: 1,
       headers: [
         {
           text: 'Status',
@@ -160,12 +140,15 @@ export default {
   created() {
     this.doFilter()
   },
+  computed: {
+    ...mapState(['otherStatus'])
+  },
   methods: {
     ...mapMutations({ setFormReference: 'SET_FORM_REFERENCE' }),
     doFilter () {
       this.loading = false
 
-      getAllSimulation()
+      getAllSimulation(this.filters)
         .then(({ data }) => {
           this.records = data.map(s => {
             s.bankAccountNumber = s.bank_account.CtBc_numContaBancaria
