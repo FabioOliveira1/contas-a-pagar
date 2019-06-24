@@ -42,6 +42,7 @@
 
             <v-flex sm6 md3>
               <v-text-field v-model="record.Cta_Multa"
+                suffix="%"
                 label="Multa"
                 :disabled="!requireds.find(r => r === 'Cta_Multa')"
                 :rules="[v => !requireds.find(r => r === 'Cta_Multa') || !!v || 'Campo obrigatório']"
@@ -50,6 +51,7 @@
 
             <v-flex sm6 md3>
               <v-text-field v-model="record.Cta_Juros"
+                suffix="%"
                 label="Juros"
                 :disabled="!requireds.find(r => r === 'Cta_Juros')"
                 :rules="[v => !requireds.find(r => r === 'Cta_Juros') || !!v || 'Campo obrigatório']"
@@ -60,6 +62,7 @@
               <v-text-field v-model="record.Cta_valConta"
                 :rules="[v => !!v || 'Campo obrigatório']"
                 label="Valor original"
+                prefix="R$"
               />
             </v-flex>
 
@@ -73,6 +76,7 @@
 
             <v-flex sm12 md3>
               <v-text-field v-model="record.Cta_valProtesto"
+                prefix="R$"
                 label="Valor do protesto"
                 :disabled="!requireds.find(r => r === 'Cta_valProtesto')"
                 :rules="[v => !requireds.find(r => r === 'Cta_valProtesto') || !!v || 'Campo obrigatório']"

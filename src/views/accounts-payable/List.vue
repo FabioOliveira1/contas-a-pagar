@@ -80,8 +80,8 @@
                 <td>{{ props.item.Cta_descrConta }}</td>
                 <td>{{ props.item.supplierName }}</td>
                 <td>{{ props.item.accountsGroupName }}</td>
-                <td>{{ props.item.Cta_valConta }}</td>
-                <td>{{ props.item.Cta_dataVencimento }}</td>
+                <td>{{ props.item.Cta_valConta | currency }}</td>
+                <td>{{ props.item.Cta_dataVencimento | dateFormat}}</td>
                 <td>{{ props.item.Cta_Status }}</td>
                 <td>
                   <v-layout>
@@ -102,15 +102,15 @@
               <v-card flat class="expand__content">
                 <v-card-title><b>Outras informações </b></v-card-title>
                 <v-card-text><b>Nosso número:</b> {{ props.item.Cta_numConta }} </v-card-text>
-                <v-card-text><b>Emitido em:</b> {{ props.item.Cta_dataEmissao }} </v-card-text>
-                <v-card-text><b>Paga em:</b> {{ props.item.Cta_dataPagto }} </v-card-text>
-                <v-card-text><b>Finalizada em:</b> {{ props.item.Cta_dataBaixa }} </v-card-text>
+                <v-card-text><b>Emitido em:</b> {{ props.item.Cta_dataEmissao | dateFormat }} </v-card-text>
+                <v-card-text><b>Paga em:</b> {{ props.item.Cta_dataPagto | dateFormat }} </v-card-text>
+                <v-card-text><b>Finalizada em:</b> {{ props.item.Cta_dataBaixa | dateFormat }} </v-card-text>
                 <v-card-text><b>Código de barras:</b> {{ props.item.Cta_codBarra }} </v-card-text>
-                <v-card-text><b>Valor pago:</b> {{ props.item.Cta_totalConta }} </v-card-text>
+                <v-card-text><b>Valor pago:</b> {{ props.item.Cta_totalConta | currency }} </v-card-text>
                 <v-card-text><b>Tempo para protesto:</b> {{ props.item.Cta_tempoProtesto }}</v-card-text>
-                <v-card-text><b>Valor de protesto:</b> {{ props.item.Cta_valProtesto }}</v-card-text>
-                <v-card-text><b>Multa:</b> {{ props.item.Cta_Multa }} </v-card-text>
-                <v-card-text><b>Juros:</b> {{ props.item.Cta_Juros }} </v-card-text>
+                <v-card-text><b>Valor de protesto:</b> {{ props.item.Cta_valProtesto | currency }}</v-card-text>
+                <v-card-text><b>Multa:</b> {{ props.item.Cta_Multa | percentage }} </v-card-text>
+                <v-card-text><b>Juros:</b> {{ props.item.Cta_Juros | percentage }} </v-card-text>
               </v-card>
             </template>
           </v-data-table>

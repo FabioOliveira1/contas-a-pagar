@@ -161,7 +161,7 @@ export default {
             body.push(this.filters.type === 'supplier' ? this.supplierHeader : this.accountsGroupHeader)
 
             for (let d of data) {
-              body.push([ { text: d.name }, { text: this.risks.find(r => r.id === d.risk).name }, { text: d.count }, { text: d.amount } ])
+              body.push([ { text: d.name }, { text: this.risks.find(r => r.id === d.risk).name }, { text: d.count }, { text: this.$options.filters.currency(d.amount) } ])
             }
 
             let dd = {

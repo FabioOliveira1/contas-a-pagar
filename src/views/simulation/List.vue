@@ -54,9 +54,9 @@
               <tr>
                 <td>{{ props.item.Sim_status }}</td>
                 <td>{{ props.item.bankAccountNumber }}</td>
-                <td>{{ props.item.bankAccountAmount }}</td>
-                <td>{{ props.item.Sim_valTotal }}</td>
-                <td>{{ props.item.Sim_valSimulacao }}</td>
+                <td>{{ props.item.bankAccountAmount | currency }}</td>
+                <td>{{ props.item.Sim_valTotal | currency }}</td>
+                <td>{{ props.item.Sim_valSimulacao | currency }}</td>
                 <td>{{ props.item.created_at | dateFormat }}</td>
                 <td>{{ props.item.Sim_dataPagtoSimulacao | dateFormat }}</td>
                 <td>

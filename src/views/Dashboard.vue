@@ -64,7 +64,7 @@
                 <td>{{ props.item.Cta_descrConta }}</td>
                 <td>{{ props.item.supplier.Forn_NomeFantasia }}</td>
                 <td>{{ props.item.bills_group.GrCt_NomeGrupo }}</td>
-                <td>{{ props.item.Cta_valConta }}</td>
+                <td>{{ props.item.Cta_valConta | currency }}</td>
                 <td>{{ props.item.Cta_dataVencimento | dateFormat }}</td>
               </tr>
             </template>

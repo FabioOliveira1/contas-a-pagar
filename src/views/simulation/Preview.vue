@@ -14,11 +14,11 @@
           <span class="m-r-10"><b>Banco</b> <br/>{{ record.bank_account.agency_bank.bank.Bc_nomeBanco }}</span>
           <span class="m-r-10"><b>Agência</b> <br/>{{ record.bank_account.agency_bank.AgBc_numAgencia }}</span>
           <span class="m-r-10"><b>Conta</b> <br/>{{ record.bank_account.CtBc_numContaBancaria }}</span>
-          <span class="m-r-10"><b>Saldo</b> <br/>{{ record.bank_account.CtBc_Saldo }}</span>
+          <span class="m-r-10"><b>Saldo</b> <br/>{{ record.bank_account.CtBc_Saldo | currency }}</span>
         </v-layout>
         <v-layout class="m-b-20 p-r-5 p-l-5 f-size-16">
-          <span class="m-r-10"><b>Total geral</b> <br/>{{ record.Sim_valTotal }}</span>
-          <span class="m-r-10"><b>Total Simulado</b> <br/>{{ record.Sim_valSimulacao }}</span>
+          <span class="m-r-10"><b>Total geral</b> <br/>{{ record.Sim_valTotal | currency }}</span>
+          <span class="m-r-10"><b>Total Simulado</b> <br/>{{ record.Sim_valSimulacao | currency }}</span>
           <span class="m-r-10"><b>Saldo após simulação</b> <br/>{{ (record.bank_account.CtBc_Saldo - record.Sim_valSimulacao) | currency }}</span>
         </v-layout>
         <v-layout wrap class="simulation-accounts-available">
@@ -33,8 +33,8 @@
                   <p class="m-b-5"><b>{{ ap.Cta_descrConta }}</b></p>
                   <p class="m-b-5">{{ ap.supplier.Forn_NomeFantasia }}</p>
                   <p class="m-b-5">{{ ap.bills_group.GrCt_NomeGrupo }}</p>
-                  <p class="m-b-5">R$ {{ ap.Cta_valConta | currency }} - {{ ap.Cta_dataVencimento | dateFormat }}</p>
-                  <p class="m-b-5">Total R$ {{ ap.simValue || 0 | currency }}</p>
+                  <p class="m-b-5">{{ ap.Cta_valConta | currency }} - {{ ap.Cta_dataVencimento | dateFormat }}</p>
+                  <p class="m-b-5">Total {{ ap.simValue || 0 | currency }}</p>
 
                   <span title="Risco do fornecedor" class="white risk-indicator p-5 f-size-16">
                     <i :class="`${riskColors[ap.supplier.Forn_idRisco - 1]} fa fa-truck`"></i>

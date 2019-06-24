@@ -43,6 +43,7 @@
               <v-text-field v-model="record.Forn_CNPJ"
                 :rules="[v => !!v || 'Campo obirgatório']"
                 label="CNPJ"
+                mask="##.###.###/####-##"
                 clearable
               />
             </v-flex>
@@ -59,6 +60,7 @@
               <v-text-field v-model="record.Forn_CEP"
                 :rules="[v => !!v || 'Campo obirgatório']"
                 label="CEP"
+                mask="#####-###"
                 clearable
               />
             </v-flex>

@@ -45,6 +45,7 @@
 
             <v-flex xs12 sm6 md4>
               <v-text-field v-model="selectedBankAccount.amount"
+                mask="R$ ####,##"
                 label="Saldo atual"
                 disabled
               />
@@ -59,6 +60,7 @@
 
             <v-flex xs12 sm6 md4>
               <v-text-field v-model="record.Sim_valSimulacao"
+                mask="R$ ####,##"
                 label="Total da simulação"
                 disabled
               />
@@ -66,6 +68,7 @@
 
             <v-flex xs12 sm6 md4>
               <v-text-field v-model="record.Sim_valTotal"
+                mask="R$ ####,##"
                 label="Total geral"
                 disabled
               />
@@ -107,8 +110,8 @@
                     <p class="m-b-5"><b>{{ ap.Cta_descrConta }}</b></p>
                     <p class="m-b-5">{{ ap.supplier.Forn_nomeFantasia }}</p>
                     <p class="m-b-5">{{ ap.bills_group.GrCt_nomeGrupo }}</p>
-                    <p class="m-b-5">R$ {{ ap.Cta_valConta | currency }} - {{ ap.Cta_dataVencimento }}</p>
-                    <p class="m-b-5">Total R$ {{ ap.simValue || 0 | currency }}</p>
+                    <p class="m-b-5">{{ ap.Cta_valConta | currency }} - {{ ap.Cta_dataVencimento | dateFormat }}</p>
+                    <p class="m-b-5">Total {{ ap.simValue || 0 | currency }}</p>
 
                     <span title="Risco do fornecedor" class="Forn_idRiscoite risk-indicator p-5 f-size-16">
                       <i :class="`${riskColors[ap.supplier.Forn_idRisco - 1]} fa fa-truck`"></i>
@@ -137,8 +140,8 @@
                     <p class="m-b-5"><b>{{ ap.Cta_descrConta }}</b></p>
                     <p class="m-b-5">{{ ap.supplier.Forn_nomeFantasia }}</p>
                     <p class="m-b-5">{{ ap.bills_group.GrCt_nomeGrupo }}</p>
-                    <p class="m-b-5">R$ {{ ap.Cta_valConta | currency }} - {{ ap.Cta_dataVencimento }}</p>
-                    <p class="m-b-5">Total R$ {{ ap.simValue || 0 | currency }}</p>
+                    <p class="m-b-5">{{ ap.Cta_valConta | currency }} - {{ ap.Cta_dataVencimento | dateFormat }}</p>
+                    <p class="m-b-5">Total {{ ap.simValue || 0 | currency }}</p>
                     <span title="Risco do fornecedor" class="white risk-indicator p-5 f-size-16">
                       <i :class="`${riskColors[ap.supplier.Forn_idRisco - 1]} fa fa-truck`"></i>
                     </span>
@@ -342,8 +345,8 @@ export default {
       Sim_valTotal = this.accountsPayable.reduce((Sim_valTotal, b) => Sim_valTotal + b.simValue, 0)
       let Sim_valSimulacao = 0
       Sim_valSimulacao = this.simAccounts.reduce((Sim_valSimulacao, b) => Sim_valSimulacao + b.simValue, 0)
-      this.record.Sim_valTotal = this.$options.filters.currency(Sim_valTotal + Sim_valSimulacao)
-      this.record.Sim_valSimulacao = this.$options.filters.currency(Sim_valSimulacao)
+      this.record.Sim_valTotal = Sim_valTotal + Sim_valSimulacao
+      this.record.Sim_valSimulacao = Sim_valSimulacao
     },
     addAccount (i) {
       this.simAccounts.push(this.accountsPayable[i])

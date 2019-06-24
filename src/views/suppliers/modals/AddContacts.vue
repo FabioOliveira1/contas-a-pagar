@@ -25,6 +25,7 @@
               type="number"
               :rules="[v => !!v || 'Campo obrigatório']"
               label="Telefone"
+              mask="(##) ########"
               clearable
             />
           </v-flex>
@@ -48,7 +49,7 @@
           </transition>
           <v-layout>
             <div class="f-size-15 p-t-5">
-                <p><b>{{ c.Cnt_nomeContato }}</b> - {{ c.Cnt_phoneContato }}</p>
+                <p><b>{{ c.Cnt_nomeContato }}</b> - {{ c.Cnt_phoneContato | asPhoneFormat }}</p>
                 <p>{{ c.Cnt_emailContato }}</p>
             </div>
             <v-spacer/>

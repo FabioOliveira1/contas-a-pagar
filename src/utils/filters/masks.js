@@ -73,6 +73,48 @@ Vue.filter('asDocumentFormat', (doc) => {
   return 'Documento inválido'
 })
 
-Vue.filter('currency', value => parseFloat(Math.round(value * 100) / 100).toFixed(2))
+Vue.filter('currency', value => {
+  if (!value) {
+    return 'R$ 0,00'
+  }
 
-Vue.filter('dateFormat', value => moment(value).format('DD[/]MM[/]YYYY'))
+  let val = parseFloat(Math.round(value * 100) / 100).toFixed(2)
+
+  val = val.toString().split('.')
+  if (val[1].length === 1) {
+    val[1] = val[1] + '0'
+  }
+  if (val[1].length === 0) {
+    val[1] = '00'
+  }
+
+  return `R$ ${val.join(',')}`
+})
+
+Vue.filter('percentage', value => {
+  if (!value) {
+    return '0%'
+  }
+
+  if (value >= 1) {
+    return value + '%'
+  }
+
+  return value*100 + '%'
+})
+
+Vue.filter('dateFormat', value => {
+  if (!value) {
+    return ''
+  }
+
+  return moment(value).format('DD[/]MM[/]YYYY')
+})
+
+Vue.filter('dateTimeFormat', value => {
+  if (!value) {
+    return ''
+  }
+
+  return moment(value).format('DD[/]MM[/]YYYY HH:mm:ss')
+})

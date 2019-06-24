@@ -61,9 +61,9 @@
             <template v-slot:items="props">
               <tr class="pointer" @click="props.expanded = !props.expanded">
                 <td>{{ props.item.Forn_NomeFantasia }}</td>
-                <td>{{ props.item.Forn_CNPJ }}</td>
+                <td>{{ props.item.Forn_CNPJ | asDocumentFormat }}</td>
                 <td>{{ props.item.Forn_RazaoSocial }}</td>
-                <td>{{ props.item.Forn_idRisco }}</td>
+                <td>{{ risks.find(r => r.id === props.item.Forn_idRisco).name }}</td>
                 <td>
                   <v-layout>
                   <v-btn alt="Adicionar contatos" class="m-5" small icon color="primary" @click.prevent.stop="handleContacts(props.item)">
