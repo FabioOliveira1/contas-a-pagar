@@ -45,7 +45,7 @@
 
             <v-flex xs12 sm6 md4>
               <v-text-field v-model="selectedBankAccount.amount"
-                mask="R$ ####,##"
+                prefix="R$"
                 label="Saldo atual"
                 disabled
               />
@@ -60,7 +60,7 @@
 
             <v-flex xs12 sm6 md4>
               <v-text-field v-model="record.Sim_valSimulacao"
-                mask="R$ ####,##"
+                prefix="R$"
                 label="Total da simulação"
                 disabled
               />
@@ -68,7 +68,7 @@
 
             <v-flex xs12 sm6 md4>
               <v-text-field v-model="record.Sim_valTotal"
-                mask="R$ ####,##"
+                prefix="R$"
                 label="Total geral"
                 disabled
               />
